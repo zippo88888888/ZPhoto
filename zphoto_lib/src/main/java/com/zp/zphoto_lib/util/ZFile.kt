@@ -20,7 +20,7 @@ object ZFile {
     const val SIZETYPE_GB = 4
 
     /** 根目录 */
-    private const val ROOT_NAME = "zphoto"
+    private const val ROOT_DIR = "zphoto"
 
     /** 照片目录 */
     const val PHOTO = "/photo/"
@@ -31,7 +31,7 @@ object ZFile {
     /**
      * 得到具体的路径
      */
-    @JvmStatic fun getPathForPath(path: String): String {
+    fun getPathForPath(path: String): String {
         val url = getPath() + path
         val file = File(url)
         if (!file.exists()) {
@@ -40,9 +40,10 @@ object ZFile {
         return url
     }
 
+
     private fun getPath(context: Context = getAppContext()): String? {
         if (storagePath == null) {
-            storagePath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).path + "/" + ROOT_NAME
+            storagePath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).path + "/" + ROOT_DIR
             val file = File(storagePath)
             if (!file.exists()) {
                 if (!file.mkdirs()) {
@@ -56,7 +57,7 @@ object ZFile {
     private fun getPathInPackage(context: Context, grantPermissions: Boolean): String? {
         if (packageFilesDirectory != null) return packageFilesDirectory
         // 手机不存在sdcard, 需要使用 data/data/name.of.package/files 目录
-        val path = "${context.filesDir}/$ROOT_NAME"
+        val path = "${context.filesDir}/$ROOT_DIR"
         val file = File(path)
         if (!file.exists()) {
             if (!file.mkdirs()) {
@@ -78,7 +79,6 @@ object ZFile {
      * @param suffix 后缀
      * @param index  下标
      */
-    @JvmStatic
     fun getFileName(suffix: String, index: Int = -1): String {
         val simpleDateFormat = SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.CHINA)
         val timeStamp = simpleDateFormat.format(Date())
@@ -90,7 +90,7 @@ object ZFile {
      * @param filePath 文件或文件夹路径
      * @param sizeType 获取大小的类型1为B、2为KB、3为MB、4为GB
      */
-    @JvmStatic fun getFileOrFilesSize(filePath: String, sizeType: Int): Double {
+    fun getFileOrFilesSize(filePath: String, sizeType: Int): Double {
         val file = File(filePath)
         var blockSize: Long = 0
         try {
