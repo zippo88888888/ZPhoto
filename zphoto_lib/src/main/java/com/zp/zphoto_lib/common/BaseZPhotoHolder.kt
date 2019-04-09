@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.TextView
 import com.zp.zphoto_lib.content.getTextValue
 
+@Suppress("UNCHECKED_CAST")
 class BaseZPhotoHolder(itemView: View)  : RecyclerView.ViewHolder(itemView) {
 
     private var arrayView = SparseArray<View>()

@@ -28,29 +28,34 @@ const val GIF = "gif"
 // Context 相关 ===========================================================
 fun Context.jumpActivity(clazz: Class<*>, map: ArrayMap<String, Any>? = null) {
     startActivity(Intent(this, clazz).apply {
-        if (map != null && map.isNotEmpty()) {
-            putExtras(Bundle().apply {
-//                map.forEach { k, v ->
-                map.forEachNoIterable { k, v ->
-                    when (v) {
-                        is Int -> putInt(k, v)
-                        is Double -> putDouble(k, v)
-                        is Float -> putFloat(k, v)
-                        is Long -> putLong(k, v)
-                        is Boolean -> putBoolean(k, v)
-                        is Char -> putChar(k, v)
-                        is String -> putString(k, v)
-                        is Serializable -> putSerializable(k, v)
-                        is Parcelable -> putParcelable(k, v)
-                        else -> ZLog.e("Unsupported format")
-                    }
-                }
-            })
+        if (!map.isNullOrEmpty()) {
+            putExtras(getBundleFormMapKV(map))
         }
     })
 }
 
-/** 获取ApplicationContext */
+/**
+ * 根据Map 获取 Bundle
+ */
+fun getBundleFormMapKV(map: ArrayMap<String, Any>) = Bundle().apply {
+//                map.forEach { k, v ->
+    map.forEachNoIterable { k, v ->
+        when (v) {
+            is Int -> putInt(k, v)
+            is Double -> putDouble(k, v)
+            is Float -> putFloat(k, v)
+            is Long -> putLong(k, v)
+            is Boolean -> putBoolean(k, v)
+            is Char -> putChar(k, v)
+            is String -> putString(k, v)
+            is Serializable -> putSerializable(k, v)
+            is Parcelable -> putParcelable(k, v)
+            else -> ZLog.e("Unsupported format")
+        }
+    }
+}
+
+/** 获取全局的ApplicationContext */
 fun getAppContext() = ZPhotoManager.getInstance().getApplicationContext()
 
 /** 返回ToolBar的高度 */
@@ -77,10 +82,9 @@ fun Activity.setStatusBarTransparent() {
 }
 
 /** 获取状态栏高度 */
-fun Context.getStatusBarHeight(): Int {
-    val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-    return resources.getDimensionPixelSize(resourceId)
-}
+fun Context.getStatusBarHeight() = resources.getDimensionPixelSize(
+    resources.getIdentifier("status_bar_height", "dimen", "android")
+)
 
 /** 获取屏幕的宽，高 */
 fun Context.getDisplay() = IntArray(2).apply {
@@ -95,7 +99,7 @@ fun Context.getDisplay() = IntArray(2).apply {
 fun Context.getAppVersionName() = packageManager.getPackageInfo(packageName, 0).versionName
 
 /** 返回当前程序版本号 */
-fun Context.getAppCode() = packageManager.getPackageInfo(packageName, 0).versionCode
+fun Context.getAppCode() = packageManager.getPackageInfo(packageName, 0).longVersionCode
 
 /** 复制到剪贴板管理器 */
 fun Context.copy(content: String) {

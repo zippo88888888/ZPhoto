@@ -35,12 +35,10 @@ abstract class BaseZPhotoActivity : AppCompatActivity() {
 
     abstract fun init(savedInstanceState: Bundle?)
 
-    private fun createDialog(): Dialog {
-        val dialog = ProgressDialog(this)
-        dialog.setMessage("Loading...")
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
-        dialog.window!!.setWindowAnimations(android.R.style.Animation_Translucent)
-        return dialog
+    private fun createDialog() = ProgressDialog(this).apply {
+        setMessage("Loading...")
+        setProgressStyle(ProgressDialog.STYLE_SPINNER)
+        window!!.setWindowAnimations(android.R.style.Animation_Translucent)
     }
 
     fun showDialog(cancelable: Boolean?) {

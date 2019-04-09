@@ -42,8 +42,16 @@ class ZToaster(con: Context) : Toast(con) {
          * @param location      位置
          * @param duration      显示时间
          * @param bgColor       背景颜色
+         * @param textColor     文字颜色
+         *
          */
-        fun makeText(str: Any, location: Int = T, duration: Int = SHORT, bgColor: Int = R.color.red) {
+        fun makeText(
+            str: Any,
+            location: Int = T,
+            duration: Int = SHORT,
+            bgColor: Int = R.color.red,
+            textColor: Int = R.color.white
+        ) {
             checkToast()
             toast = Toast(getAppContext())
             toast?.duration = duration
@@ -58,6 +66,7 @@ class ZToaster(con: Context) : Toast(con) {
                 animate().translationY(0f).duration = 300
                 findViewById<TextView>(R.id.toast_msg).apply {
                     text = getTextValue(str)
+                    setTextColor(getColorById(textColor))
                     setBackgroundColor(getColorById(bgColor))
                     layoutParams =
                         LinearLayout.LayoutParams(getAppContext().getDisplay()[0], ViewGroup.LayoutParams.WRAP_CONTENT)
