@@ -128,7 +128,7 @@ object ZFile {
     /**
      * 转换文件大小,指定转换的类型
      */
-    private fun formetFileSize(fileS: Long, sizeType: Int): Double {
+    fun formetFileSize(fileS: Long, sizeType: Int): Double {
         val df = DecimalFormat("#.00")
         return when (sizeType) {
             SIZETYPE_B -> java.lang.Double.valueOf(df.format(fileS.toDouble()))

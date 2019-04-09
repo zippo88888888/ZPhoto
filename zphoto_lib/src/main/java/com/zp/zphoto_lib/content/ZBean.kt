@@ -22,6 +22,7 @@ data class ImageFolder(
 /**
  * 二级图片实体类
  * @param path          图片路径
+ * @param name          图片名称
  * @param size          图片大小
  * @param isGif         是否是Gif
  * @param parentPath    父类路径
@@ -29,11 +30,12 @@ data class ImageFolder(
  */
 data class ImageDetail(
         var path: String,
+        var name: String,
         var size: Double,
         var isGif: Boolean,
         var parentPath: String,
         var time: Long
 ) : Serializable {
-        constructor() : this("", 0.0, false, "", 0L)
+        constructor() : this("", "", 0.0, false, "", 0L)
 
 }

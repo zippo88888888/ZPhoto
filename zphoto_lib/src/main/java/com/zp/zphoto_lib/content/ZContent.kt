@@ -25,6 +25,10 @@ const val JPG = "jpg"
 const val PNG = "png"
 const val GIF = "gif"
 
+const val DEFAULT_COUNT = 6
+const val DELAY = 150
+const val DURATION = 1500
+
 // Context 相关 ===========================================================
 fun Context.jumpActivity(clazz: Class<*>, map: ArrayMap<String, Any>? = null) {
     startActivity(Intent(this, clazz).apply {
