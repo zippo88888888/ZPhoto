@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- RecyclerView或其他控件默认边距 -->
+    <dimen name="default_divider_padding">10dp</dimen>
+    <!-- 状态栏高度 -->
+    <dimen name="statusBarHeight">20dp</dimen>
+    <!-- ToolBar的高度 -->
+    <dimen name="toolBarHeight">50dp</dimen>
+    <!-- dialog圆角 3 -->
+    <dimen name="dialogRadius">10dp</dimen>
+</resources>

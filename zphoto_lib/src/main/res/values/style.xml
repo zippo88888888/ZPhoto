@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!-- 修改点击水波纹效果的颜色 -->
+        <!--<item name="colorControlHighlight">@color/baseColor</item>-->
+        <!-- 修改单选，多选的水波纹颜色点击效果 -->
+        <item name="colorAccent">@color/baseColor</item>
+        <!-- 设置状态栏的颜色 -->
+        <item name="colorPrimaryDark">@color/baseColor</item>
+        <!-- 标题栏颜色 -->
+        <item name="colorPrimary">@color/baseColor</item>
+        <!-- ActionBar上Menu的字体颜色 -->
+        <item name="actionMenuTextColor">@color/white</item>
+    </style>
+
+    <style name="AppTheme_Lib" parent="BaseTheme">
+        <!-- 状态栏透明 -->
+        <item name="android:windowTranslucentStatus" tools:ignore="NewApi">false</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
+    </style>
+
+    <!-- toolbar 白色菜单样式 -->
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <!-- 控制menu (设置ifRoom or always)在toobar上的字体颜色 -->
+        <item name="actionMenuTextColor">@color/white</item>
+        <!-- 控制返回，点点点，以及menu里面的item字体颜色 -->
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+
+    <style name="ToolbarBlackTheme" parent="ToolbarTheme">
+        <!-- 控制返回，点点点，以及menu里面的item字体颜色 -->
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
+    <style name="ToolbarPopupTheme" parent="@style/ThemeOverlay.AppCompat.Light">
+        <!--新增一个item，用于控制menu-->
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+    </style>
+    <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <!-- 把该属性改为false即可使menu位置位于toolbar之下 -->
+        <item name="overlapAnchor">true</item>
+    </style>
+
+</resources>

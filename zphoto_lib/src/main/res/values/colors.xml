@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="leftColor">#ff8932 </color>
+    <color name="rightColor">#dd3021 </color>
+
+    <!--主题色-->
+    <color name="baseColor">@color/red</color>
+
+    <color name="red">#dd2f21</color>
+    <color name="pink">#ff4081</color>
+    <color name="violet">#912699</color>
+    <!--<color name="yellow">#ffd01e</color>-->
+    <color name="yellow">#ffe747</color>
+    <color name="blue">#007aff</color>
+    <color name="green">#4bae4f</color>
+    <color name="black">#000000</color>
+    <color name="gray">#666666</color>
+    <color name="white">#ffffff</color>
+    <color name="transparent">@android:color/transparent</color>
+
+    <color name="rv_divider_color">#eeeeee</color>
+    <color name="rv_divider_color2">#dadada</color>
+    <color name="bg_color">#f6f6f6</color>
+
+    <color name="card_color">#dedede</color>
+
+    <color name="tool_bar_txt_color">@color/white</color>
+
+
+</resources>
