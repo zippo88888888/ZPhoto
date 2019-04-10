@@ -5,7 +5,7 @@
     android:id="@+id/tool_app_barLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/baseColor"
+    android:background="@color/zphoto_baseColor"
     android:orientation="vertical">
 
     <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
@@ -13,10 +13,10 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolBarHeight"
+        android:layout_height="@dimen/zphoto_toolBarHeight"
         app:layout_scrollFlags="scroll|enterAlways"
-        app:popupTheme="@style/ToolbarPopupTheme"
-        app:theme="@style/ToolbarTheme">
+        app:popupTheme="@style/ZPhoto_ToolbarPopupTheme"
+        app:theme="@style/ZPhoto_ToolbarTheme">
 
         <TextView
             style="@style/Base.DialogWindowTitle.AppCompat"
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/tool_bar_txt_color"
+            android:textColor="@color/zphoto_tool_bar_txt_color"
             android:textSize="18sp"
             tools:text="I am Title" />
 

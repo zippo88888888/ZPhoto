@@ -2,11 +2,11 @@
 <resources>
 
     <!-- RecyclerView或其他控件默认边距 -->
-    <dimen name="default_divider_padding">10dp</dimen>
+    <dimen name="zphoto_default_divider_padding">10dp</dimen>
     <!-- 状态栏高度 -->
-    <dimen name="statusBarHeight">20dp</dimen>
+    <dimen name="zphoto_statusBarHeight">20dp</dimen>
     <!-- ToolBar的高度 -->
-    <dimen name="toolBarHeight">50dp</dimen>
+    <dimen name="zphoto_toolBarHeight">50dp</dimen>
     <!-- dialog圆角 3 -->
-    <dimen name="dialogRadius">10dp</dimen>
+    <dimen name="zphoto_dialogRadius">10dp</dimen>
 </resources>

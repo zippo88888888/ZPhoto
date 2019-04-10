@@ -59,12 +59,13 @@ class ZPhotoTask(context: Context, private var listener: (HashMap<String, ArrayL
             MediaStore.Images.Media.DISPLAY_NAME
         )
 
-        // 指定格式
-        val showGif = ZPhotoHelp.getInstance().getShowGif()
 
+        val showGif = ZPhotoHelp.getInstance().getShowGif()
+        // 查询条件  指定格式
         val whereArgs = if (showGif) arrayOf("image/$JPEG", "image/$PNG", "image/$JPG", "image/$GIF")
         else arrayOf("image/$JPEG", "image/$PNG", "image/$JPG")
 
+        // 查询条件 取值
         val where = if (showGif) (MediaStore.Images.Media.MIME_TYPE + "=? or "
                 + MediaStore.Images.Media.MIME_TYPE + "=? or "
                 + MediaStore.Images.Media.MIME_TYPE + "=? or "
@@ -76,13 +77,7 @@ class ZPhotoTask(context: Context, private var listener: (HashMap<String, ArrayL
         // 排序方式
         val sortOrder = MediaStore.Images.Media.DATE_MODIFIED + " desc"
 
-        val cursor = softReference.get()!!.contentResolver.query(
-            imageUri,
-            projImage,
-            where,
-            whereArgs,
-            sortOrder
-        )
+        val cursor = softReference.get()!!.contentResolver.query(imageUri, projImage, where, whereArgs, sortOrder)
 
         val list = ArrayList<ImageDetail>()
 
@@ -96,7 +91,7 @@ class ZPhotoTask(context: Context, private var listener: (HashMap<String, ArrayL
                 var displayName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME))
 
                 if (displayName.isNullOrEmpty()) {
-                    displayName = path.substring(path.indexOf("."), path.length)
+                    displayName = path.substring(path.lastIndexOf("/") + 1, path.length)
                 }
 
                 list.add(
@@ -145,101 +140,6 @@ class ZPhotoTask(context: Context, private var listener: (HashMap<String, ArrayL
             cursor.close()
         }
 
-    }
-
-    /**
-     * 读取手机中所有图片信息
-     */
-    private fun getAllPhotoInfo() {
-        val list = ArrayList<ImageDetail>()
-        val allPhotosMap = HashMap<String, ArrayList<ImageDetail>>() // 所有照片
-
-        // 指定uri
-        val imageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-
-        // 查询指定的列
-        val projImage = arrayOf(
-            MediaStore.Images.Media._ID,
-            MediaStore.Images.Media.DATA,
-            MediaStore.Images.Media.SIZE,
-            MediaStore.Images.Media.DISPLAY_NAME
-        )
-
-        // 指定格式
-        val showGif = ZPhotoHelp.getInstance().getShowGif()
-
-        val whereArgs = if (showGif) arrayOf("image/$JPEG", "image/$PNG", "image/$JPG", "image/$GIF")
-        else arrayOf("image/$JPEG", "image/$PNG", "image/$JPG")
-
-        val where = if (showGif) (MediaStore.Images.Media.MIME_TYPE + "=? or "
-                + MediaStore.Images.Media.MIME_TYPE + "=? or "
-                + MediaStore.Images.Media.MIME_TYPE + "=? or "
-                + MediaStore.Images.Media.MIME_TYPE + "=?")
-        else (MediaStore.Images.Media.MIME_TYPE + "=? or "
-                + MediaStore.Images.Media.MIME_TYPE + "=? or "
-                + MediaStore.Images.Media.MIME_TYPE + "=?")
-
-        // 排序方式
-        val sortOrder = MediaStore.Images.Media.DATE_MODIFIED + " desc"
-
-        val cursor = softReference.get()!!.contentResolver.query(
-            imageUri,
-            projImage,
-            where,
-            whereArgs,
-            sortOrder
-        ) ?: return
-
-        while (cursor.moveToNext()) {
-            // 获取图片的路径
-            val path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
-            val size = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.Media.SIZE)).toLong()
-            val displayName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME))
-            // 用于展示相册初始化界面
-            list.add(
-                ImageDetail(
-                    path,
-                    displayName,
-                    ZFile.formetFileSize(size, ZFile.SIZETYPE_MB),
-                    checkGif(path),
-                    "",
-                    0L
-                )
-            )
-
-            // 获取该图片的父路径名
-            val dirPath = File(path).parentFile.absolutePath
-            // 存储对应关系
-            if (allPhotosMap.containsKey(dirPath)) {
-                // 取出相对应的 List
-                val data = allPhotosMap[dirPath]
-                data?.add(
-                    ImageDetail(
-                        path,
-                        displayName,
-                        ZFile.formetFileSize(size, ZFile.SIZETYPE_MB),
-                        checkGif(path),
-                        "",
-                        0L
-                    )
-                )
-                continue
-            } else {
-                val data = ArrayList<ImageDetail>()
-                data.add(
-                    ImageDetail(
-                        path,
-                        displayName,
-                        ZFile.formetFileSize(size, ZFile.SIZETYPE_MB),
-                        checkGif(path),
-                        "",
-                        0L
-                    )
-                )
-                allPhotosMap[dirPath] = data
-            }
-        }
-        cursor.close()
     }
 
 }

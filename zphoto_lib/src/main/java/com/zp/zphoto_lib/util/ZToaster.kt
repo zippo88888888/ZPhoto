@@ -49,7 +49,7 @@ class ZToaster(con: Context) : Toast(con) {
             str: Any,
             location: Int = T,
             duration: Int = SHORT,
-            bgColor: Int = R.color.red,
+            bgColor: Int = R.color.zphoto_red,
             textColor: Int = R.color.white
         ) {
             checkToast()

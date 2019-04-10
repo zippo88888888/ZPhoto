@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">zphoto_lib</string>
-    <string name="down">确定</string>
+    <string name="zphoto_app_name">zphoto_lib</string>
+    <string name="zphoto_down">确定</string>
 </resources>

@@ -25,10 +25,6 @@ const val JPG = "jpg"
 const val PNG = "png"
 const val GIF = "gif"
 
-const val DEFAULT_COUNT = 6
-const val DELAY = 150
-const val DURATION = 1500
-
 // Context 相关 ===========================================================
 fun Context.jumpActivity(clazz: Class<*>, map: ArrayMap<String, Any>? = null) {
     startActivity(Intent(this, clazz).apply {
@@ -63,7 +59,7 @@ fun getBundleFormMapKV(map: ArrayMap<String, Any>) = Bundle().apply {
 fun getAppContext() = ZPhotoManager.getInstance().getApplicationContext()
 
 /** 返回ToolBar的高度 */
-fun getToolBarHeight() = getAppContext().resources.getDimension(R.dimen.toolBarHeight).toInt()
+fun getToolBarHeight() = getAppContext().resources.getDimension(R.dimen.zphoto_toolBarHeight).toInt()
 
 /**
  * 设置状态栏 显示状态
