@@ -12,7 +12,7 @@ import java.util.ArrayList
  */
 interface ZImageResultListener {
 
-    fun selectSuccess(list: ArrayList<ImageDetail>?)
+    fun selectSuccess(list: ArrayList<ZPhotoDetail>?)
     fun selectFailure()
     fun selectCancel()
 
@@ -34,7 +34,7 @@ open class ZImageCompressListener {
     /**
      * 压缩方法 如果有需要请自己实现
      */
-    open fun getCompressList(arrayList: ArrayList<ImageDetail>?, context: Context?) = arrayList
+    open fun getCompressList(arrayList: ArrayList<ZPhotoDetail>?, context: Context?) = arrayList
 }
 
 class ZPhotoFilenameFilter : FilenameFilter {

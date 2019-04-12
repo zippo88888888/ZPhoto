@@ -40,17 +40,16 @@ class ZToaster(con: Context) : Toast(con) {
          * 自定义 消息提醒
          * @param str           消息内容
          * @param location      位置
-         * @param duration      显示时间
          * @param bgColor       背景颜色
          * @param textColor     文字颜色
-         *
+         * @param duration      显示时间
          */
         fun makeText(
             str: Any,
             location: Int = T,
-            duration: Int = SHORT,
             bgColor: Int = R.color.zphoto_red,
-            textColor: Int = R.color.white
+            textColor: Int = R.color.white,
+            duration: Int = SHORT
         ) {
             checkToast()
             toast = Toast(getAppContext())
@@ -60,7 +59,7 @@ class ZToaster(con: Context) : Toast(con) {
             }
             if (location == T) toast?.setGravity(location, 0, getToolBarHeight() - getAppContext().getStatusBarHeight())
             else toast?.setGravity(location, 0, 0)
-            toast?.view = LayoutInflater.from(getAppContext()).inflate(R.layout.layout_toast, null).apply {
+            toast?.view = LayoutInflater.from(getAppContext()).inflate(R.layout.layout_zphoto_toast, null).apply {
                 alpha = 0.8f
                 translationY = -300f
                 animate().translationY(0f).duration = 300

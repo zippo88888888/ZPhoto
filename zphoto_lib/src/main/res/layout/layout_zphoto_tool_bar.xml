@@ -10,6 +10,11 @@
 
     <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
 
+    <View
+        android:id="@+id/tool_bar_status"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
@@ -25,7 +30,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="@color/zphoto_tool_bar_txt_color"
-            android:textSize="18sp"
             tools:text="I am Title" />
 
     </android.support.v7.widget.Toolbar>

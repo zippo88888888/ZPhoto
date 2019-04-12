@@ -18,7 +18,7 @@
 
     <style name="ZPhoto_AppTheme_Lib" parent="ZPhoto_BaseTheme">
         <!-- 状态栏透明 -->
-        <item name="android:windowTranslucentStatus" tools:ignore="NewApi">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowSoftInputMode">adjustPan</item>
     </style>
 

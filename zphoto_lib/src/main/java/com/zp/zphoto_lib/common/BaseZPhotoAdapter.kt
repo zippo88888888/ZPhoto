@@ -3,6 +3,7 @@ package com.zp.zphoto_lib.common
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import java.util.ArrayList
 
@@ -12,17 +13,22 @@ abstract class BaseZPhotoAdapter<T>(protected var context: Context) : RecyclerVi
         this.layoutID = layoutID
     }
 
+    var onItemClickListener: ((View, Int) -> Unit)? = null
+
     private var layoutID = -1
     private var datas: ArrayList<T> = ArrayList()
 
     /**
      * 设置值
      */
-    open fun setDatas(list: List<T>) {
-        datas.clear()
-        if (datas.addAll(list)) {
-            notifyDataSetChanged()
+    open fun setDatas(list: List<T>?) {
+        clear()
+        if (!list.isNullOrEmpty()) {
+            if (datas.addAll(list)) {
+                notifyDataSetChanged()
+            }
         }
+
     }
 
     open fun addAll(list: List<T>) {
@@ -56,7 +62,7 @@ abstract class BaseZPhotoAdapter<T>(protected var context: Context) : RecyclerVi
     open fun clear(changeDataNow: Boolean = true) {
         datas.clear()
         if (changeDataNow) {
-            notifyDataSetChanged()
+            notifyItemRangeRemoved(0, itemCount)
         }
     }
 
@@ -71,15 +77,18 @@ abstract class BaseZPhotoAdapter<T>(protected var context: Context) : RecyclerVi
     }
 
     override fun onBindViewHolder(holder: BaseZPhotoHolder, position: Int) {
-        bindView(holder, position)
+        holder.setOnItemClickListener(position) { view, i ->
+            onItemClickListener?.invoke(view, i)
+        }
+        bindView(holder, getItem(position), position)
     }
 
     override fun getItemCount() = datas.size
 
     fun getItem(position: Int) = datas[position]
 
-    fun getLayoutID(viewType: Int) = layoutID
+    open fun getLayoutID(viewType: Int) = layoutID
 
-    protected abstract fun bindView(holder: BaseZPhotoHolder, position: Int)
+    protected abstract fun bindView(holder: BaseZPhotoHolder, item: T, position: Int)
 
 }

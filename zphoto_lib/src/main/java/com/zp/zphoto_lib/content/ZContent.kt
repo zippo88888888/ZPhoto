@@ -10,10 +10,10 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.util.ArrayMap
 import android.support.v7.app.AppCompatActivity
 import android.util.SparseArray
+import android.util.SparseBooleanArray
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import com.zp.zphoto_lib.BuildConfig
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.common.ZPhotoManager
 import com.zp.zphoto_lib.util.ZLog
@@ -24,6 +24,19 @@ const val JPEG = "jpeg"
 const val JPG = "jpg"
 const val PNG = "png"
 const val GIF = "gif"
+
+const val Z_ALL_VIDEO_KEY = "ZPhotoAllVideo"
+
+/** 调用相机 */
+const val TO_CAMEAR_REQUEST_CODE = 0x2001
+/** 剪裁 */
+const val CROP_REQUEST_CODE = 0x2020
+/** 剪裁失败 */
+const val CROP_ERROR_CODE = 0x2021
+/** 默认最大选中数量 */
+const val DEFAULT_MAX_SELECT = 9
+
+
 
 // Context 相关 ===========================================================
 fun Context.jumpActivity(clazz: Class<*>, map: ArrayMap<String, Any>? = null) {
@@ -38,8 +51,7 @@ fun Context.jumpActivity(clazz: Class<*>, map: ArrayMap<String, Any>? = null) {
  * 根据Map 获取 Bundle
  */
 fun getBundleFormMapKV(map: ArrayMap<String, Any>) = Bundle().apply {
-//                map.forEach { k, v ->
-    map.forEachNoIterable { k, v ->
+    for ((k, v) in map) {
         when (v) {
             is Int -> putInt(k, v)
             is Double -> putDouble(k, v)
@@ -159,11 +171,11 @@ fun checkGif(url: String) = try {
 
 // 列表、集合 ===============================================
 
-internal inline fun <K, E> ArrayMap<K, E>.forEachNoIterable(block: (K, E) -> Unit) {
+internal inline fun SparseBooleanArray.forEach(block: (Int) -> Unit) {
     var index = 0
-    val size = size
+    val size = size()
     while (index < size) {
-        block(keyAt(index), valueAt(index))
+        block(index)
         index ++
     }
 }

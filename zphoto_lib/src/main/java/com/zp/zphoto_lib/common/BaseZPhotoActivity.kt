@@ -6,10 +6,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.content.getColorById
+import com.zp.zphoto_lib.content.getStatusBarHeight
+import com.zp.zphoto_lib.util.ZLog
 
 abstract class BaseZPhotoActivity : AppCompatActivity() {
 
@@ -23,15 +26,11 @@ abstract class BaseZPhotoActivity : AppCompatActivity() {
         val id = getContentView()
         if (id <= 0) throw NullPointerException("Activity contentView is not null")
         setContentView(id)
-        if (getBarState()) {
-            initBar()
-        }
+        initBar()
         init(savedInstanceState)
     }
 
     abstract fun getContentView(): Int
-
-    open protected fun getBarState() = true
 
     abstract fun init(savedInstanceState: Bundle?)
 
@@ -66,6 +65,16 @@ abstract class BaseZPhotoActivity : AppCompatActivity() {
     private fun initBar() {
         toolbar = findViewById(R.id.tool_bar)
         titleTxt = findViewById(R.id.tool_bar_title)
+        try {
+            val barView = findViewById<View>(R.id.tool_bar_status)
+            if (barView != null) {
+                barView.layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, getStatusBarHeight()
+                )
+            }
+        } catch (e: IllegalStateException) {
+        }
+
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener { back() }
@@ -106,7 +115,7 @@ abstract class BaseZPhotoActivity : AppCompatActivity() {
         toolbar.setOnMenuItemClickListener(listener)
     }
 
-    protected fun back() {
+    open protected fun back() {
         onBackPressed()
     }
 }

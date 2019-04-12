@@ -1,20 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--
+        xml 格式问题 在此记录
+
+        File>Settings>Editor>Code Style>XML>Set from...（右上角）>
+        Predefined Style>Android然后Apply，再Ctrl+Alt+L
+    -->
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".sample.MainActivity">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <TextView
-            android:id="@+id/main_test"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hello World!"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:orientation="horizontal">
 
-</android.support.constraint.ConstraintLayout>
+            <CheckBox
+                android:id="@+id/main_gifBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="显示gif"/>
+
+            <CheckBox
+                android:id="@+id/main_cutBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="剪裁"/>
+
+            <CheckBox
+                android:id="@+id/main_compressBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="压缩图片"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/main_videoBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="显示视频"/>
+
+            <CheckBox
+                android:id="@+id/main_dirBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="显示文件夹"/>
+
+            <CheckBox
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="选中样式"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_margin="5dp"
+            android:textColor="@color/colorPrimary"/>
+
+        <RadioGroup
+            android:id="@+id/main_styleGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/main_styleOneRadio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="样式一"/>
+
+            <RadioButton
+                android:id="@+id/main_styleTwoRadio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="样式二"/>
+
+            <RadioButton
+                android:id="@+id/main_styleThreeRadio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="样式三"/>
+
+        </RadioGroup>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center|start"
+                android:textColor="@color/colorPrimary"
+                android:text="最大选取数量"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="120dp"
+                android:paddingStart="120dp"
+                android:inputType="number"
+                android:maxLength="2"
+                android:maxLines="1"
+                android:imeOptions="actionDone"
+                android:text="9"/>
+
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/main_cameraBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="相机" />
+
+        <Button
+            android:id="@+id/main_photoBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="相册"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/main_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

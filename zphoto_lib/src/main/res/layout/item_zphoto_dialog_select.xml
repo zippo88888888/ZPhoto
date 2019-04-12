@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:background="?selectableItemBackground"
+    android:paddingLeft="10dp"
+    android:paddingRight="@dimen/zphoto_default_divider_padding"
+    android:gravity="center">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginLeft="3dp"
+        android:layout_marginStart="3dp"
+        app:cardCornerRadius="3dp"
+        app:cardElevation="5dp">
+
+        <ImageView
+            android:id="@+id/item_zphoto_dialog_selectPic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_default_all_error" />
+
+    </android.support.v7.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toStartOf="@+id/item_zphoto_dialog_selectCheckPic"
+            android:layout_toLeftOf="@+id/item_zphoto_dialog_selectCheckPic"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:gravity="center|start"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_zphoto_dialog_selectNameTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                tools:text="我是相册名"/>
+
+            <TextView
+                android:id="@+id/item_zphoto_dialog_selectcountTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/zphoto_gray"
+                android:textSize="12sp"
+                android:layout_marginTop="3dp"
+                tools:text="1张"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/item_zphoto_dialog_selectCheckPic"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:src="@drawable/ic_zphoto_selected" />
+
+    </RelativeLayout>
+
+</LinearLayout>

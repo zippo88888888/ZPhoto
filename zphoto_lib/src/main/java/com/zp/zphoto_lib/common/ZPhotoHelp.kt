@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
+import com.zp.zphoto_lib.content.DEFAULT_MAX_SELECT
 import com.zp.zphoto_lib.content.ZImageCompressListener
 import com.zp.zphoto_lib.content.ZImageLoaderListener
 import com.zp.zphoto_lib.content.ZImageResultListener
@@ -26,17 +27,6 @@ class ZPhotoHelp {
     companion object {
         fun getInstance() = BUILDER.builder
 
-        /** 调用相机 */
-        const val TO_CAMEAR_REQUEST_CODE = 0x2001
-        /** 剪裁 */
-//        const val CROP_REQUEST_CODE = ZPCrop.REQUEST_CROP
-        const val CROP_REQUEST_CODE = 0x2020
-        /** 剪裁失败 */
-//        const val CROP_ERROR_CODE = ZPCrop.RESULT_ERROR
-        const val CROP_ERROR_CODE = 0x2021
-
-        /** 默认最大选中数量 */
-        const val DEFAULT_MAX_SELECT = 9
         /** 默认最大可选 size 10M */
         private const val DEFAULT_MAX_SIZE = 10
         /** 默认的压缩比率 */
@@ -160,7 +150,7 @@ class ZPhotoHelp {
     /**
      * 设置是否显示视频
      */
-    private var isShowVideo = false
+    private var isShowVideo = true
     fun getShowVideo() = isShowVideo
     fun setShowVideo(isShowVideo: Boolean): ZPhotoHelp {
         this.isShowVideo = isShowVideo
