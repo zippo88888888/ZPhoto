@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/photo_select_menu"
+        android:id="@+id/menu_zphoto_select_down"
         android:title="@string/zphoto_down"
         android:visible="false"
         app:showAsAction="always" />

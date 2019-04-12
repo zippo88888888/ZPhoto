@@ -4,40 +4,74 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.Toolbar
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.common.BaseZPhotoActivity
+import com.zp.zphoto_lib.common.ZPhotoHelp
 import com.zp.zphoto_lib.content.getDisplay
 import com.zp.zphoto_lib.ui.view.ZPhotoRVDivider
 import com.zp.zphoto_lib.util.ZPhotoImageAnsy
 import com.zp.zphoto_lib.util.ZToaster
 import kotlinx.android.synthetic.main.activity_zphoto_select.*
 
-class ZPhotoSelectActivity : BaseZPhotoActivity() {
+class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListener {
 
     private var zPhotoPicsSelectAdapter: ZPhotoPicsSelectAdapter? = null
     private var zPhotoDirSelectAdapter: ZPhotoDirSelectAdapter? = null
     private var bottomBehavior: BottomSheetBehavior<View>? = null
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.zphoto_select_menu, menu)
+        return true
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.menu_zphoto_select_down) {
+            ZPhotoHelp.getInstance().getZImageResultListener()
+                ?.selectSuccess(zPhotoPicsSelectAdapter?.getSelectedData())
+            finish()
+        }
+        return true
+    }
+
     override fun getContentView() = R.layout.activity_zphoto_select
 
     override fun init(savedInstanceState: Bundle?) {
         setBarTitle("选择")
-        val spanCount = 3
-        zPhotoPicsSelectAdapter = ZPhotoPicsSelectAdapter(this, R.layout.item_zphoto_select_pic, spanCount)
-        zPhotoPicsSelectAdapter?.onItemClickListener = {_, position ->
-            ZToaster.makeText(position, ZToaster.C, R.color.zphoto_violet)
-        }
-        zphoto_select_picRecyclerView.apply {
-            layoutManager = GridLayoutManager(this@ZPhotoSelectActivity, spanCount)
-            adapter = zPhotoPicsSelectAdapter
-        }
+        setOnMenuItemClickListener(this)
+        initSelectLayout()
         initBottomLayout()
 
         ZPhotoImageAnsy(this, { dirs, pics ->
             zPhotoPicsSelectAdapter?.setDatas(pics)
             zPhotoDirSelectAdapter?.setDatas(dirs)
         }, true).start()
+    }
+
+    private fun initSelectLayout() {
+        val spanCount = 3
+        zPhotoPicsSelectAdapter = ZPhotoPicsSelectAdapter(this, R.layout.item_zphoto_select_pic, spanCount)
+        zPhotoPicsSelectAdapter?.onItemClickListener = {_, position ->
+            ZToaster.makeText(position, ZToaster.C, R.color.zphoto_violet)
+        }
+        zPhotoPicsSelectAdapter?.zPhotoSelectListener = object : ZPhotoPicsSelectAdapter.ZPhotoSelectListener {
+            override fun selected(selectedSize: Int) {
+                if (selectedSize <= 0) {
+                    setBarTitle("选择")
+                    getMenu().findItem(R.id.menu_zphoto_select_down).isVisible = false
+                } else {
+                    setBarTitle("$selectedSize 已选")
+                    getMenu().findItem(R.id.menu_zphoto_select_down).isVisible = true
+                }
+            }
+        }
+        zphoto_select_picRecyclerView.apply {
+            layoutManager = GridLayoutManager(this@ZPhotoSelectActivity, spanCount)
+            adapter = zPhotoPicsSelectAdapter
+        }
     }
 
     private fun initBottomLayout() {
@@ -93,6 +127,8 @@ class ZPhotoSelectActivity : BaseZPhotoActivity() {
         if (bottomBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
             bottomBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
         } else {
+            ZPhotoHelp.getInstance().getZImageResultListener()
+                ?.selectCancel()
             super.onBackPressed()
         }
     }

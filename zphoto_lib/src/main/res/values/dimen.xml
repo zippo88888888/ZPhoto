@@ -6,7 +6,7 @@
     <!-- 状态栏高度 -->
     <dimen name="zphoto_statusBarHeight">20dp</dimen>
     <!-- ToolBar的高度 -->
-    <dimen name="zphoto_toolBarHeight">55dp</dimen>
+    <dimen name="zphoto_toolBarHeight">52dp</dimen>
     <!-- dialog圆角 3 -->
     <dimen name="zphoto_dialogRadius">10dp</dimen>
 

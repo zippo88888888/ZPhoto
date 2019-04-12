@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -86,6 +87,8 @@ abstract class BaseZPhotoActivity : AppCompatActivity() {
         titleTxt.text = title
     }
 
+    protected fun getMenu() = toolbar.menu
+
     protected fun setNavigationIcon(icon: Int) {
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
         toolbar.setNavigationIcon(icon)
@@ -102,20 +105,11 @@ abstract class BaseZPhotoActivity : AppCompatActivity() {
         findViewById<LinearLayout>(R.id.tool_app_barLayout).setBackgroundColor(rColor)
     }
 
-    protected fun setBarAlpha(alpha: Int) {
-        findViewById<LinearLayout>(R.id.tool_app_barLayout).background.alpha = alpha
-    }
-
-    protected fun removeBarBgColor() {
-        findViewById<LinearLayout>(R.id.tool_app_barLayout).setBackgroundResource(0)
-    }
-
-
     protected fun setOnMenuItemClickListener(listener: Toolbar.OnMenuItemClickListener) {
         toolbar.setOnMenuItemClickListener(listener)
     }
 
-    open protected fun back() {
+    protected open fun back() {
         onBackPressed()
     }
 }

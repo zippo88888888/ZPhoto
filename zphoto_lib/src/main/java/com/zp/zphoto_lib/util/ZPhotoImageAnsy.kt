@@ -49,7 +49,7 @@ class ZPhotoImageAnsy(
 
             // 源图片数据
             val data = getImagesData()
-            val showVideo = ZPhotoHelp.getInstance().getShowVideo()
+            val showVideo = ZPhotoHelp.getInstance().getConfiguration().showVideo
             if (showVideo) {
                 videoList = getVideoList()
                 allList.addAll(videoList)
@@ -91,7 +91,7 @@ class ZPhotoImageAnsy(
                     MediaStore.Images.Media.DATE_MODIFIED
                 )
 
-                val showGif = ZPhotoHelp.getInstance().getShowGif()
+                val showGif = ZPhotoHelp.getInstance().getConfiguration().showGif
                 // 查询条件  指定格式
                 val whereArgs = if (showGif) arrayOf("image/$JPEG", "image/$PNG", "image/$JPG", "image/$GIF")
                 else arrayOf("image/$JPEG", "image/$PNG", "image/$JPG")

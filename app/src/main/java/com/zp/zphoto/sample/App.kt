@@ -11,7 +11,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        ZPhotoHelp.getInstance().init(this, MyImageLoaderListener(), BuildConfig.isDebug)
+        ZPhotoHelp.getInstance().init(this, MyImageLoaderListener())
     }
 
 }

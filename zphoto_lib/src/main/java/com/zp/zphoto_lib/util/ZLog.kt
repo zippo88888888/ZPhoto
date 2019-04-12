@@ -46,7 +46,7 @@ object ZLog {
 
     private fun log(type: Int, TAG: String, msg: Any) {
         val value = getTextValue(msg)
-        if (ZPhotoHelp.getInstance().isDebug()) {
+        if (ZPhotoHelp.getInstance().getConfiguration().showLog) {
             when (type) {
                 D -> Log.d(TAG, value)
                 E -> Log.e(TAG, value)

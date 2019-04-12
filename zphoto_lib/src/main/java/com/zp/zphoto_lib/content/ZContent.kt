@@ -34,8 +34,17 @@ const val TO_CAMEAR_REQUEST_CODE = 0x2001
 const val CROP_REQUEST_CODE = 0x2020
 /** 剪裁失败 */
 const val CROP_ERROR_CODE = 0x2021
-/** 默认最大选中数量 */
+/** 图片默认最大选中数量 */
 const val DEFAULT_MAX_SELECT = 9
+/** 图片默认最大可选 size 10M */
+const val DEFAULT_MAX_SIZE = 10
+/** 图片默认的压缩比率 */
+const val DEFAULT_COMPACT_RATIO = 0.6f
+/** 视频图片默认最大选中数量 */
+const val DEFAULT_MAX_VIDEO_SELECT = 1
+/** 视频默认最大可选 size 50M */
+const val DEFAULT_MAX_VIDEO_SIZE = 50
+
 
 
 

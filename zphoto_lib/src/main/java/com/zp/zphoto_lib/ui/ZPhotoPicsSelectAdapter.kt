@@ -1,9 +1,11 @@
 package com.zp.zphoto_lib.ui
 
 import android.content.Context
+import android.support.v4.util.ArrayMap
 import android.util.SparseBooleanArray
 import android.view.Gravity
 import android.view.View
+import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -11,15 +13,18 @@ import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.common.BaseZPhotoAdapter
 import com.zp.zphoto_lib.common.BaseZPhotoHolder
 import com.zp.zphoto_lib.common.ZPhotoHelp
-import com.zp.zphoto_lib.content.ZPhotoDetail
-import com.zp.zphoto_lib.content.ZPhotoFolder
-import com.zp.zphoto_lib.content.dip2px
-import com.zp.zphoto_lib.content.getDisplay
+import com.zp.zphoto_lib.content.*
+import com.zp.zphoto_lib.util.ZLog
+import com.zp.zphoto_lib.util.ZPhotoUtil
 import java.io.File
 
 class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) : BaseZPhotoAdapter<ZPhotoDetail>(context, layoutID) {
 
+    private var selectedMap = ArrayMap<String, ZPhotoDetail>()
     private var selectedArray = SparseBooleanArray()
+
+    var zPhotoSelectListener: ZPhotoSelectListener? = null
+
 
     private var wh = 0
 
@@ -30,23 +35,34 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
     override fun bindView(holder: BaseZPhotoHolder, item: ZPhotoDetail, position: Int) {
         holder.apply {
             val durationTxt = getView<TextView>(R.id.item_zphoto_select_videoDurationiTxt)
+            val box = getView<CheckBox>(R.id.item_zphoto_select_box)
+            box.isChecked = selectedArray[position]
+            val pic = getView<ImageView>(R.id.item_zphoto_select_pic)
             if (item.isVideo) {
                 durationTxt.visibility = View.VISIBLE
-                durationTxt.text = item.duration.toString()
+                durationTxt.text = ZPhotoUtil.videoDurationFormat(item.duration)
             } else {
                 durationTxt.visibility = View.GONE
-                if (item.isGif) {
-
-                } else {
-
-                }
             }
 
-            getView<ImageView>(R.id.item_zphoto_select_pic).apply {
+            pic.apply {
                 layoutParams = FrameLayout.LayoutParams(wh, wh).apply {
                     gravity = Gravity.CENTER
                 }
                 ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(this, File(item.path))
+            }
+
+            box.setOnClickListener {
+                if (selectedArray[position]) { // 选中-->>不选中
+                    if (selectedMap.contains(item.path)) { // 包含删除
+                        selectedMap.remove(item.path)
+                    }
+                } else { // 不选中-->>选中
+                    selectedMap[item.path] = item
+                    ZLog.e("选中 ${item.path}  大小：${item.size}M")
+                }
+                selectedArray.put(position, !selectedArray[position])
+                zPhotoSelectListener?.selected(selectedMap.size)
             }
         }
     }
@@ -57,5 +73,15 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
             list.forEachIndexed { i, _ -> selectedArray.put(i, false) }
         }
         super.setDatas(list)
+    }
+
+    fun getSelectedData() = ArrayList<ZPhotoDetail>().apply {
+        for ((_, v) in selectedMap) {
+            add(v)
+        }
+    }
+
+    interface ZPhotoSelectListener {
+        fun selected(selectedSize: Int)
     }
 }

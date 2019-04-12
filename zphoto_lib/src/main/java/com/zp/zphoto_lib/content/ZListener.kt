@@ -15,11 +15,10 @@ interface ZImageResultListener {
     fun selectSuccess(list: ArrayList<ZPhotoDetail>?)
     fun selectFailure()
     fun selectCancel()
-
 }
 
 /**
- * 图片加载
+ * 图片加载 必须实现
  */
 interface ZImageLoaderListener {
     fun loadImg(imageView: ImageView, file: File)
@@ -41,7 +40,7 @@ class ZPhotoFilenameFilter : FilenameFilter {
 
     override fun accept(filename: File, s: String): Boolean {
         val name = s.toLowerCase()
-        val showGif = ZPhotoHelp.getInstance().getShowGif()
+        val showGif = ZPhotoHelp.getInstance().getConfiguration().showGif
         if (showGif) return name.endsWith(JPEG) || name.endsWith(JPG)
                 || name.endsWith(PNG) || name.endsWith(GIF)
         return name.endsWith(JPEG) || name.endsWith(JPG)
