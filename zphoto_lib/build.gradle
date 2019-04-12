@@ -12,6 +12,11 @@ android {
         versionName "1.0"
     }
 
+    // Kotlin Parcelable 支持
+    androidExtensions {
+        experimental = true
+    }
+
     buildTypes {
         release {
             minifyEnabled false

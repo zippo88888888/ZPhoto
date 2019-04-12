@@ -1,6 +1,7 @@
 package com.zp.zphoto_lib.content
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
 
 /**
@@ -10,12 +11,13 @@ import java.io.Serializable
  * @param folderName        文件夹的名称
  * @param childs            该文件夹包含的图片
  */
+@Parcelize
 data class ZPhotoFolder(
         var dirPath: String,
         var firstImagePath: String,
         var folderName: String,
         var childs: ArrayList<ZPhotoDetail>
-) : Serializable
+) : Parcelable
 
 /**
  * 二级图片、视频实体类
@@ -28,6 +30,7 @@ data class ZPhotoFolder(
  * @param parentPath            父类路径
  * @param date_modified         最后修改时间
  */
+@Parcelize
 data class ZPhotoDetail(
         var path: String,
         var name: String,
@@ -37,6 +40,33 @@ data class ZPhotoDetail(
         var duration: Int,
         var parentPath: String,
         var date_modified: Long
-) : Serializable {
-        constructor() : this("", "", 0.0, false, false, 0, "", 0L)
+) : Parcelable {
+
+        /*constructor(parcel: Parcel) : this(
+                parcel.readString(),
+                parcel.readString(),
+                parcel.readDouble(),
+                parcel.readByte() != 0.toByte(),
+                parcel.readByte() != 0.toByte(),
+                parcel.readInt(),
+                parcel.readString(),
+                parcel.readLong()
+        )
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+
+        }
+
+        override fun describeContents() = 0
+
+        companion object CREATOR : Parcelable.Creator<ZPhotoDetail> {
+                override fun createFromParcel(parcel: Parcel): ZPhotoDetail {
+                        return ZPhotoDetail(parcel)
+                }
+
+                override fun newArray(size: Int): Array<ZPhotoDetail?> {
+                        return arrayOfNulls(size)
+                }
+        }*/
+
 }

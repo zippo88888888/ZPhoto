@@ -1,23 +1,19 @@
 package com.zp.zphoto_lib.ui
 
 import android.os.Bundle
+import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.common.BaseZPhotoActivity
-import com.zp.zphoto_lib.content.ZPhotoFolder
-import com.zp.zphoto_lib.util.ZPhotoImageTask
+import com.zp.zphoto_lib.content.getDisplay
+import com.zp.zphoto_lib.ui.view.ZPhotoRVDivider
+import com.zp.zphoto_lib.util.ZPhotoImageAnsy
 import com.zp.zphoto_lib.util.ZToaster
 import kotlinx.android.synthetic.main.activity_zphoto_select.*
-import android.support.design.widget.BottomSheetBehavior
-import android.view.View
-import com.zp.zphoto_lib.content.Z_ALL_VIDEO_KEY
-import com.zp.zphoto_lib.content.getDisplay
-import com.zp.zphoto_lib.util.RecyclerViewDivider
 
 class ZPhotoSelectActivity : BaseZPhotoActivity() {
-
-    private var pics: ArrayList<ZPhotoFolder>? = null
 
     private var zPhotoPicsSelectAdapter: ZPhotoPicsSelectAdapter? = null
     private var zPhotoDirSelectAdapter: ZPhotoDirSelectAdapter? = null
@@ -27,30 +23,21 @@ class ZPhotoSelectActivity : BaseZPhotoActivity() {
 
     override fun init(savedInstanceState: Bundle?) {
         setBarTitle("选择")
-        zPhotoPicsSelectAdapter = ZPhotoPicsSelectAdapter(this, R.layout.item_zphoto_select_pic)
+        val spanCount = 3
+        zPhotoPicsSelectAdapter = ZPhotoPicsSelectAdapter(this, R.layout.item_zphoto_select_pic, spanCount)
         zPhotoPicsSelectAdapter?.onItemClickListener = {_, position ->
             ZToaster.makeText(position, ZToaster.C, R.color.zphoto_violet)
         }
         zphoto_select_picRecyclerView.apply {
-            layoutManager = GridLayoutManager(this@ZPhotoSelectActivity,2)
+            layoutManager = GridLayoutManager(this@ZPhotoSelectActivity, spanCount)
             adapter = zPhotoPicsSelectAdapter
         }
         initBottomLayout()
 
-        ZPhotoImageTask(this, {
-            pics = ArrayList<ZPhotoFolder>().apply {
-                for ((k, v) in it) {
-                    if (k == Z_ALL_VIDEO_KEY) {
-                        add(ZPhotoFolder("videoPath", v[0].path, "所有视频", v))
-                    } else {
-                        add(ZPhotoFolder(k, v[0].path, k.substring(k.lastIndexOf("/") + 1, k.length), v))
-                    }
-                }
-            }
-            pics?.sortByDescending { it.childs[0].date_modified }
+        ZPhotoImageAnsy(this, { dirs, pics ->
             zPhotoPicsSelectAdapter?.setDatas(pics)
-            zPhotoDirSelectAdapter?.setDatas(pics)
-        }).execute()
+            zPhotoDirSelectAdapter?.setDatas(dirs)
+        }, true).start()
     }
 
     private fun initBottomLayout() {
@@ -58,15 +45,17 @@ class ZPhotoSelectActivity : BaseZPhotoActivity() {
         zPhotoDirSelectAdapter?.onItemClickListener = { _, i ->
             // 相同的不做处理
             if (zPhotoDirSelectAdapter?.getSelectedByIndex(i) == false) {
+                val item = zPhotoDirSelectAdapter?.getItem(i)
+                zPhotoPicsSelectAdapter?.setDatas(item?.childs)
                 zPhotoDirSelectAdapter?.setSelectedIndex(i)
                 bottomBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
-                zphoto_select_changePicTxt.text = zPhotoDirSelectAdapter?.getItem(i)?.folderName ?: "全部相册"
+                zphoto_select_changePicTxt.text = zPhotoDirSelectAdapter?.getItem(i)?.folderName ?: "所有图片"
             }
 
         }
         zphoto_select_dirRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@ZPhotoSelectActivity)
-            addItemDecoration(RecyclerViewDivider.getDefaultDivider(this@ZPhotoSelectActivity))
+            addItemDecoration(ZPhotoRVDivider.getDefaultDivider(this@ZPhotoSelectActivity))
             isNestedScrollingEnabled = false
             adapter = zPhotoDirSelectAdapter
         }
@@ -92,7 +81,7 @@ class ZPhotoSelectActivity : BaseZPhotoActivity() {
             }*/
         })
         zphoto_select_changePicTxt.setOnClickListener {
-            if (bottomBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) { // 张开
+            if (bottomBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
                 bottomBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
             } else {
                 bottomBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
@@ -101,7 +90,7 @@ class ZPhotoSelectActivity : BaseZPhotoActivity() {
     }
 
     override fun onBackPressed() {
-        if (bottomBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) { // 张开
+        if (bottomBehavior?.state == BottomSheetBehavior.STATE_EXPANDED) {
             bottomBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
         } else {
             super.onBackPressed()

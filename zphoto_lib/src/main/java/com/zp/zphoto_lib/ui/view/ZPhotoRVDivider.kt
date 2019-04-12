@@ -1,4 +1,4 @@
-package com.zp.zphoto_lib.util
+package com.zp.zphoto_lib.ui.view
 
 import android.content.Context
 import android.graphics.Canvas
@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.zp.zphoto_lib.R
 
-class RecyclerViewDivider : RecyclerView.ItemDecoration {
+class ZPhotoRVDivider : RecyclerView.ItemDecoration {
 
     private var paint: Paint? = null
     private var leftPadding = 0
@@ -26,8 +26,14 @@ class RecyclerViewDivider : RecyclerView.ItemDecoration {
 
         /** 默认 颜色不是很突出的 分割线 */
         fun getDefaultDivider(context: Context) =
-            RecyclerViewDivider(context, HORIZONTAL, R.dimen.zphoto_default_divider_height,
-                R.color.zphoto_rv_divider_color, R.dimen.zphoto_default_divider_padding, R.dimen.zphoto_default_divider_padding)
+            ZPhotoRVDivider(
+                context,
+                HORIZONTAL,
+                R.dimen.zphoto_default_divider_height,
+                R.color.zphoto_rv_divider_color,
+                R.dimen.zphoto_default_divider_padding,
+                R.dimen.zphoto_default_divider_padding
+            )
 
     }
 

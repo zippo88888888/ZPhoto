@@ -30,7 +30,7 @@ class ZPhotoDirSelectAdapter(context: Context, layoutID: Int) : BaseZPhotoAdapte
 
     override fun setDatas(list: List<ZPhotoFolder>?) {
         list?.forEachIndexed { index, _ ->
-            stateArray.put(index, false)
+            stateArray.put(index, index == 0)
         }
         super.setDatas(list)
     }

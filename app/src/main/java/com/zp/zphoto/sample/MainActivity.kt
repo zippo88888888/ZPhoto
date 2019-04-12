@@ -15,16 +15,6 @@ class MainActivity : AppCompatActivity() {
 
         main_photoBtn.setOnClickListener {
             jumpActivity(ZPhotoSelectActivity::class.java)
-//            ZPhotoImageTask(this) {
-//                ZLog.e("包含相册数量：${it.size}")
-//                ZLog.i("======================================================================>>>")
-//
-//                it.forEach { k, v ->
-//                    ZLog.e("路径：$k")
-//                    ZLog.e("包含图片数量：${v.size}")
-//                    ZLog.i("======================================================================")
-//                }
-//            }.execute()
         }
     }
 }

@@ -12,8 +12,14 @@
         android:layout_gravity="center"
         android:scaleType="centerCrop" />
 
+    <CheckBox
+        android:id="@+id/item_zphoto_select_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"/>
+
     <TextView
-        android:id="@+id/item_zphoto_select_nameTxt"
+        android:id="@+id/item_zphoto_select_videoDurationiTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -24,6 +30,6 @@
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
         android:textColor="@color/white"
-        tools:text="文件夹名称" />
+        tools:text="00:10" />
 
 </FrameLayout>
