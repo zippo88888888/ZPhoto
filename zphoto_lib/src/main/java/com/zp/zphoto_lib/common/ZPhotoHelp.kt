@@ -11,9 +11,14 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
 import com.zp.zphoto_lib.content.*
 import com.zp.zphoto_lib.ui.ZPhotoSelectActivity
+import com.zp.zphoto_lib.util.ZFile
+import com.zp.zphoto_lib.util.ZLog
+import com.zp.zphoto_lib.util.ZPermission
 import java.io.File
 
 class ZPhotoHelp {
+
+    private var outUri: String? = null
 
     private object BUILDER {
         val builder = ZPhotoHelp()
@@ -28,6 +33,9 @@ class ZPhotoHelp {
         ZPhotoManager.getInstance().init(application)
     }
 
+    /**
+     * 图片加载方式，必须手动实现
+     */
     private lateinit var imageLoaderListener: ZImageLoaderListener
     fun getImageLoaderListener() = imageLoaderListener
 
@@ -54,10 +62,10 @@ class ZPhotoHelp {
     /**
      * 选择结果回调
      */
-    private var listener: ZImageResultListener? = null
-    fun getZImageResultListener() = listener
-    fun setZImageResultListener(listener: ZImageResultListener) : ZPhotoHelp {
-        this.listener = listener
+    private var resultListener: ZImageResultListener? = null
+    fun getZImageResultListener() = resultListener
+    fun setZImageResultListener(resultListener: ZImageResultListener) : ZPhotoHelp {
+        this.resultListener = resultListener
         return this
     }
 
@@ -72,30 +80,106 @@ class ZPhotoHelp {
      * 去相册
      */
     fun toPhoto(fragment: Fragment) {
-
+        fragment.activity?.let {
+            toPhoto(it)
+        }
     }
 
     /**
      * 去相机
+     * @param outUri    拍照后保存的路径，空为默认值
      */
     fun toCamear(activity: Activity, outUri: String? = null) {
-
+        val noPermissionArray = ZPermission.checkPermission(activity, ZPermission.CAMERA, ZPermission.WRITE_EXTERNAL_STORAGE)
+        if (noPermissionArray.isNullOrEmpty()) {
+            val uri = if (outUri.isNullOrEmpty()) {
+                ZFile.getPathForPath(ZFile.PHOTO) + ZFile.getFileName(".jpg")
+            } else outUri
+            this.outUri = uri
+            activity.startActivityForResult(getCameraIntent(activity, uri), ZPHOTO_TO_CAMEAR_REQUEST_CODE)
+        } else {
+            ZPermission.requestPermission(activity, ZPermission.CAMEAR_CODE, *noPermissionArray)
+        }
     }
 
     /**
      * 去相机
+     * @param outUri    拍照后保存的路径，空为默认值
      */
     fun toCamear(fragment: Fragment, outUri: String? = null) {
-
+        val noPermissionArray =
+            ZPermission.checkPermission(fragment.activity!!, ZPermission.CAMERA, ZPermission.WRITE_EXTERNAL_STORAGE)
+        if (noPermissionArray.isNullOrEmpty()) {
+            val uri = if (outUri.isNullOrEmpty()) {
+                ZFile.getPathForPath(ZFile.PHOTO) + ZFile.getFileName(".jpg")
+            } else outUri
+            this.outUri = uri
+            fragment.startActivityForResult(getCameraIntent(fragment.activity!!, uri), ZPHOTO_TO_CAMEAR_REQUEST_CODE)
+        } else {
+            ZPermission.requestPermission(fragment, ZPermission.CAMEAR_CODE, *noPermissionArray)
+        }
     }
 
     /**
      * 重置
      */
     fun reset() {
-        listener = null
+        resultListener = null
         configuration = null
         imageCompressListener = null
+        outUri = null
+    }
+
+    /**
+     * 处理相机 回调
+     */
+    fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, activityOrFragment: Any) {
+        val resultFile = File(outUri)
+        if (!resultFile.exists() && data == null) {
+            ZLog.e("无法获取拍照或剪裁后的数据")
+            getZImageResultListener()?.selectFailure()
+            return
+        }
+        val context = when (activityOrFragment) {
+            is Activity -> activityOrFragment
+            is Fragment -> activityOrFragment.context
+            else -> throw IllegalArgumentException("activityOrFragment is not Activity or Fragment")
+        }
+        val config = getConfiguration()
+        when (requestCode) {
+            ZPHOTO_TO_CAMEAR_REQUEST_CODE -> { // 拍照后
+                if (config.needCrop) { // 剪裁
+
+                } else {
+                    val uri = Uri.fromFile(resultFile)
+                    val datas = ArrayList<ZPhotoDetail>()
+                    uri.path?.let {
+                        val displayName = it.substring(it.lastIndexOf("/") + 1, it.length)
+                        datas.add(
+                            ZPhotoDetail(
+                                it,
+                                displayName,
+                                ZFile.getFileOrFilesSize(it, ZFile.SIZETYPE_MB),
+                                checkGif(it),
+                                false,
+                                0,
+                                "",
+                                System.currentTimeMillis()
+                            )
+                        )
+                    }
+                    if (config.needCompress) { // 压缩图片
+                        val list = getImageCompressListener()?.getCompressList(datas, context)
+                        getZImageResultListener()?.selectSuccess(list)
+                    } else {
+                        getZImageResultListener()?.selectSuccess(datas)
+                    }
+                }
+            }
+            ZPHOTO_CROP_REQUEST_CODE -> { // 剪裁
+
+            }
+        }
     }
 
     /**

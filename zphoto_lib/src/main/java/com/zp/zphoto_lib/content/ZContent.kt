@@ -29,21 +29,22 @@ const val Z_ALL_DATA_KEY = "ZPhotoAllDate"
 const val Z_ALL_VIDEO_KEY = "ZPhotoAllVideo"
 
 /** 调用相机 */
-const val TO_CAMEAR_REQUEST_CODE = 0x2001
+const val ZPHOTO_TO_CAMEAR_REQUEST_CODE = 0x9001
 /** 剪裁 */
-const val CROP_REQUEST_CODE = 0x2020
+const val ZPHOTO_CROP_REQUEST_CODE = 0x9020
 /** 剪裁失败 */
-const val CROP_ERROR_CODE = 0x2021
+const val ZPHOTO_CROP_ERROR_CODE = 0x9021
 /** 图片默认最大选中数量 */
-const val DEFAULT_MAX_SELECT = 9
+const val ZPHOTO_DEFAULT_MAX_SELECT = 9
 /** 图片默认最大可选 size 10M */
-const val DEFAULT_MAX_SIZE = 10
+const val ZPHOTO_DEFAULT_MAX_SIZE = 10
 /** 图片默认的压缩比率 */
-const val DEFAULT_COMPACT_RATIO = 0.6f
-/** 视频图片默认最大选中数量 */
-const val DEFAULT_MAX_VIDEO_SELECT = 1
+const val ZPHOTO_DEFAULT_COMPACT_RATIO = 0.6f
+
+/** 视频默认最大选中数量 */
+const val ZPHOTO_DEFAULT_MAX_VIDEO_SELECT = 1
 /** 视频默认最大可选 size 50M */
-const val DEFAULT_MAX_VIDEO_SIZE = 50
+const val ZPHOTO_DEFAULT_MAX_VIDEO_SIZE = 50
 
 
 

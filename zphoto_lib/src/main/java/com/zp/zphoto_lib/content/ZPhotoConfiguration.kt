@@ -8,11 +8,11 @@ class ZPhotoConfiguration {
     /**
      * 图片最多可选取数量
      */
-    var maxPicSelect = DEFAULT_MAX_SELECT
+    var maxPicSelect = ZPHOTO_DEFAULT_MAX_SELECT
     /**
      * 图片最大可选取大小
      */
-    var maxPicSize = DEFAULT_MAX_SIZE
+    var maxPicSize = ZPHOTO_DEFAULT_MAX_SIZE
     /**
      * 是否显示Gif
      */
@@ -20,15 +20,15 @@ class ZPhotoConfiguration {
     /**
      * 是否需要裁剪
      */
-    var needCrop = true
+    var needCrop = false
     /**
      * 是否需要压缩
      */
-    var needCompress = true
+    var needCompress = false
     /**
      * 压缩比率 0 到 1
      */
-    var compressRatio = DEFAULT_COMPACT_RATIO
+    var compressRatio = ZPHOTO_DEFAULT_COMPACT_RATIO
     /**
      * 设置是否显示视频
      */
@@ -36,25 +36,29 @@ class ZPhotoConfiguration {
     /**
      * 视频最多可选取数量
      */
-    var maxVideoSelect = DEFAULT_MAX_SELECT
+    var maxVideoSelect = ZPHOTO_DEFAULT_MAX_VIDEO_SELECT
     /**
      * 设置视频最大可选取的size
      */
-    var maxVideoSize = DEFAULT_MAX_VIDEO_SIZE
+    var maxVideoSize = ZPHOTO_DEFAULT_MAX_VIDEO_SIZE
 
     var showLog = true
 
-    /*class Builder {
 
-        private var maxPicSelect = DEFAULT_MAX_SELECT
-        private var maxPicSize = DEFAULT_MAX_SIZE
+    /**
+     * 供java调用
+     */
+    class Builder {
+
+        private var maxPicSelect = ZPHOTO_DEFAULT_MAX_SELECT
+        private var maxPicSize = ZPHOTO_DEFAULT_MAX_SIZE
         private var showGif = true
-        private var needCrop = true
-        private var needCompress = true
-        private var compressRatio = DEFAULT_COMPACT_RATIO
-        private var isShowVideo = true
-        private var maxVideoSelect = DEFAULT_MAX_SELECT
-        private var maxVideoSize = DEFAULT_MAX_VIDEO_SIZE
+        private var needCrop = false
+        private var needCompress = false
+        private var compressRatio = ZPHOTO_DEFAULT_COMPACT_RATIO
+        private var showVideo = true
+        private var maxVideoSelect = ZPHOTO_DEFAULT_MAX_VIDEO_SELECT
+        private var maxVideoSize = ZPHOTO_DEFAULT_MAX_VIDEO_SIZE
         private var showLog = true
 
         fun maxPicSelect(maxPicSelect: Int): Builder {
@@ -87,8 +91,8 @@ class ZPhotoConfiguration {
             return this
         }
 
-        fun isShowVideo(isShowVideo: Boolean): Builder {
-            this.isShowVideo = isShowVideo
+        fun showVideo(showVideo: Boolean): Builder {
+            this.showVideo = showVideo
             return this
         }
 
@@ -114,11 +118,11 @@ class ZPhotoConfiguration {
             this.needCrop = this@Builder.needCrop
             this.needCompress = this@Builder.needCompress
             this.compressRatio = this@Builder.compressRatio
-            this.isShowVideo = this@Builder.isShowVideo
+            this.showVideo = this@Builder.showVideo
             this.maxVideoSelect = this@Builder.maxVideoSelect
             this.maxVideoSize = this@Builder.maxVideoSize
             this.showLog = this@Builder.showLog
         }
-    }*/
+    }
 
 }

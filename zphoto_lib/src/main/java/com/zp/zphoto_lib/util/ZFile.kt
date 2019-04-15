@@ -43,7 +43,8 @@ object ZFile {
 
     private fun getPath(context: Context = getAppContext()): String? {
         if (storagePath == null) {
-            storagePath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).path + "/" + ROOT_DIR
+//            storagePath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).path + "/" + ROOT_DIR
+            storagePath = context.getExternalFilesDir(null).path + "/" + ROOT_DIR
             val file = File(storagePath)
             if (!file.exists()) {
                 if (!file.mkdirs()) {

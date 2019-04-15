@@ -1,5 +1,6 @@
 package com.zp.zphoto_lib.ui
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.widget.GridLayoutManager
@@ -13,6 +14,7 @@ import com.zp.zphoto_lib.common.BaseZPhotoActivity
 import com.zp.zphoto_lib.common.ZPhotoHelp
 import com.zp.zphoto_lib.content.getDisplay
 import com.zp.zphoto_lib.ui.view.ZPhotoRVDivider
+import com.zp.zphoto_lib.util.ZPermission
 import com.zp.zphoto_lib.util.ZPhotoImageAnsy
 import com.zp.zphoto_lib.util.ZToaster
 import kotlinx.android.synthetic.main.activity_zphoto_select.*
@@ -41,6 +43,16 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
 
     override fun init(savedInstanceState: Bundle?) {
         setBarTitle("选择")
+
+        val noPermissionArray = ZPermission.checkPermission(this, ZPermission.WRITE_EXTERNAL_STORAGE)
+        if (noPermissionArray.isNullOrEmpty()) {
+            initAll()
+        } else {
+            ZPermission.requestPermission(this, ZPermission.WRITE_EXTERNAL_CODE, *noPermissionArray)
+        }
+    }
+
+    private fun initAll() {
         setOnMenuItemClickListener(this)
         initSelectLayout()
         initBottomLayout()
@@ -120,6 +132,16 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
             } else {
                 bottomBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
             }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && requestCode == ZPermission.WRITE_EXTERNAL_CODE) {
+            initAll()
+        } else {
+            ZToaster.makeTextS("权限获取失败")
+            finish()
         }
     }
 

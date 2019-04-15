@@ -3,11 +3,14 @@ package com.zp.zphoto_lib.util
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import com.zp.zphoto_lib.common.ZPhotoHelp
+import java.lang.IllegalArgumentException
 import java.util.ArrayList
 
 object ZPermission {
@@ -21,20 +24,6 @@ object ZPermission {
     const val WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE
     /** 相机权限  */
     const val CAMERA = Manifest.permission.CAMERA
-
-    /**
-     * 判断是否申请过权限
-     * @param context   Context
-     * @param permissions   权限
-     * @return true表示没有申请过
-     */
-    fun hasPermission(context: Context, vararg permissions: String): Boolean {
-        for (permission in permissions) {
-            if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED)
-                return true
-        }
-        return false
-    }
 
     /**
      * 判断是否申请过权限
@@ -78,9 +67,30 @@ object ZPermission {
 
     /**
      * 权限检测
+     */
+    fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray,
+                                   activityOrFragment: Any, outUri :String? = null) {
+
+        if (requestCode == CAMEAR_CODE) {
+            val noPermissionArray = onPermissionsResult(permissions, grantResults)
+            if (noPermissionArray.isNullOrEmpty()) {
+                when (activityOrFragment) {
+                    is Activity -> ZPhotoHelp.getInstance().toCamear(activityOrFragment, outUri)
+                    is Fragment -> ZPhotoHelp.getInstance().toCamear(activityOrFragment, outUri)
+                    else -> throw IllegalArgumentException("activityOrFragment is not Activity or Fragment")
+                }
+            } else {
+                ZToaster.makeTextS("权限获取失败")
+            }
+
+        }
+    }
+
+    /**
+     * 权限检测
      * @return  ArrayList<String> 返回权限申请失败的集合
      */
-    fun onPermissionsResult(permissions: Array<String>, grantResults: IntArray): ArrayList<String> {
+    private fun onPermissionsResult(permissions: Array<out String>, grantResults: IntArray): ArrayList<String> {
         val noPermissions = ArrayList<String>()
         for (i in grantResults.indices) {
             if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
@@ -92,5 +102,6 @@ object ZPermission {
         }
         return noPermissions
     }
+
 
 }

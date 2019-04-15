@@ -1,6 +1,7 @@
 package com.zp.zphoto.sample
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
@@ -18,6 +19,7 @@ import com.zp.zphoto_lib.content.ZPhotoDetail
 import com.zp.zphoto_lib.content.dip2px
 import com.zp.zphoto_lib.content.getDisplay
 import com.zp.zphoto_lib.util.ZLog
+import com.zp.zphoto_lib.util.ZPermission
 import com.zp.zphoto_lib.util.ZPhotoUtil
 import com.zp.zphoto_lib.util.ZToaster
 import kotlinx.android.synthetic.main.activity_main.*
@@ -44,6 +46,11 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
                 .setZImageResultListener(this)
                 .toPhoto(this)
         }
+        main_cameraBtn.setOnClickListener {
+            ZPhotoHelp.getInstance()
+                .setZImageResultListener(this)
+                .toCamear(this)
+        }
     }
 
     override fun selectSuccess(list: ArrayList<ZPhotoDetail>?) {
@@ -57,6 +64,16 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
 
     override fun selectCancel() {
         ZToaster.makeTextS("用户取消")
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        ZPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        ZPhotoHelp.getInstance().onActivityResult(requestCode, resultCode, data, this)
     }
 
     class MainApdater(context: Context, resID: Int) : BaseZPhotoAdapter<ZPhotoDetail>(context, resID) {
@@ -82,7 +99,6 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
                     }
                     ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(this, File(item.path))
                 }
-
             }
         }
 
