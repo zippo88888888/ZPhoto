@@ -42,6 +42,21 @@ data class ZPhotoDetail(
         var date_modified: Long
 ) : Parcelable {
 
+        /*override fun equals(other: Any?): Boolean {
+                if (other != null) {
+                        return when (other) {
+                                is String -> path == other
+                                is ZPhotoDetail -> path == other.path
+                                else -> super.equals(other)
+                        }
+                }
+                return super.equals(other)
+        }
+
+        override fun hashCode(): Int {
+                return super.hashCode()
+        }*/
+
         /*constructor(parcel: Parcel) : this(
                 parcel.readString(),
                 parcel.readString(),

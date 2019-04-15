@@ -14,10 +14,7 @@ import com.zp.zphoto.R
 import com.zp.zphoto_lib.common.BaseZPhotoAdapter
 import com.zp.zphoto_lib.common.BaseZPhotoHolder
 import com.zp.zphoto_lib.common.ZPhotoHelp
-import com.zp.zphoto_lib.content.ZImageResultListener
-import com.zp.zphoto_lib.content.ZPhotoDetail
-import com.zp.zphoto_lib.content.dip2px
-import com.zp.zphoto_lib.content.getDisplay
+import com.zp.zphoto_lib.content.*
 import com.zp.zphoto_lib.util.ZLog
 import com.zp.zphoto_lib.util.ZPermission
 import com.zp.zphoto_lib.util.ZPhotoUtil
@@ -34,6 +31,11 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        main_picCountCV.setValue(ZPHOTO_DEFAULT_MAX_PIC_SELECT)
+        main_picSizeCV.setValue(ZPHOTO_DEFAULT_MAX_PIC_SIZE)
+        main_videoCountCV.setValue(ZPHOTO_DEFAULT_MAX_VIDEO_SELECT)
+        main_videoSizeCV.setValue(ZPHOTO_DEFAULT_MAX_VIDEO_SIZE)
+
         mainAdapter = MainApdater(this, com.zp.zphoto_lib.R.layout.item_zphoto_select_pic)
         main_recyclerView.apply {
             layoutManager = GridLayoutManager(this@MainActivity, 3)
@@ -44,11 +46,13 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
         main_photoBtn.setOnClickListener {
             ZPhotoHelp.getInstance()
                 .setZImageResultListener(this)
+                .config(getConfig())
                 .toPhoto(this)
         }
         main_cameraBtn.setOnClickListener {
             ZPhotoHelp.getInstance()
                 .setZImageResultListener(this)
+                .config(getConfig())
                 .toCamear(this)
         }
     }
@@ -64,6 +68,21 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
 
     override fun selectCancel() {
         ZToaster.makeTextS("用户取消")
+    }
+
+    private fun getConfig() = ZPhotoConfiguration().apply {
+        showGif = main_gifBox.isChecked
+        needClipping = main_cutBox.isChecked
+        needCompress = main_compressBox.isChecked
+        showVideo = main_videoBox.isChecked
+        allSelect = main_allSelectBox.isChecked
+        showCamera = main_cameraBox.isChecked
+
+        maxPicSelect = main_picCountCV.getValue()
+        maxPicSize = main_picSizeCV.getValue()
+
+        maxVideoSelect = main_videoCountCV.getValue()
+        maxVideoSize = main_videoSizeCV.getValue()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

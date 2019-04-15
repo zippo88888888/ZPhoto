@@ -35,14 +35,14 @@ const val ZPHOTO_CROP_REQUEST_CODE = 0x9020
 /** 剪裁失败 */
 const val ZPHOTO_CROP_ERROR_CODE = 0x9021
 /** 图片默认最大选中数量 */
-const val ZPHOTO_DEFAULT_MAX_SELECT = 9
-/** 图片默认最大可选 size 10M */
-const val ZPHOTO_DEFAULT_MAX_SIZE = 10
+const val ZPHOTO_DEFAULT_MAX_PIC_SELECT = 9
+/** 图片默认最大可选 size 5M */
+const val ZPHOTO_DEFAULT_MAX_PIC_SIZE = 5
 /** 图片默认的压缩比率 */
 const val ZPHOTO_DEFAULT_COMPACT_RATIO = 0.6f
 
 /** 视频默认最大选中数量 */
-const val ZPHOTO_DEFAULT_MAX_VIDEO_SELECT = 1
+const val ZPHOTO_DEFAULT_MAX_VIDEO_SELECT = 2
 /** 视频默认最大可选 size 50M */
 const val ZPHOTO_DEFAULT_MAX_VIDEO_SIZE = 50
 
@@ -175,6 +175,14 @@ fun getTextValue(any: Any) = try {
 fun checkGif(url: String) = try {
     val gif = url.substring(url.lastIndexOf(".") + 1, url.length)
     "gif" == gif
+} catch (e: Exception) {
+    e.printStackTrace()
+    false
+}
+
+fun checkVideo(url: String) = try {
+    val video = url.substring(url.lastIndexOf(".") + 1, url.length)
+    "mp4" == video
 } catch (e: Exception) {
     e.printStackTrace()
     false

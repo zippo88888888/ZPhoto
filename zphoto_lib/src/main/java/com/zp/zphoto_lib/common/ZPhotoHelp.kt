@@ -44,8 +44,18 @@ class ZPhotoHelp {
      */
     private var configuration: ZPhotoConfiguration? = null
     fun getConfiguration() = configuration ?: ZPhotoConfiguration()
-    fun builder(configuration: ZPhotoConfiguration): ZPhotoHelp {
+    fun config(configuration: ZPhotoConfiguration): ZPhotoHelp {
         this.configuration = configuration
+        return this
+    }
+
+    /**
+     * 设置图片剪裁 监听
+     */
+    private var imageClippingListener: ZImageClippingListener? = null
+    fun getImageClippingListener() = imageClippingListener
+    fun setImageClippingListener(imageClippingListener: ZImageClippingListener?): ZPhotoHelp {
+        this.imageClippingListener = imageClippingListener
         return this
     }
 
@@ -127,6 +137,7 @@ class ZPhotoHelp {
         resultListener = null
         configuration = null
         imageCompressListener = null
+        imageClippingListener = null
         outUri = null
     }
 
@@ -148,7 +159,7 @@ class ZPhotoHelp {
         val config = getConfiguration()
         when (requestCode) {
             ZPHOTO_TO_CAMEAR_REQUEST_CODE -> { // 拍照后
-                if (config.needCrop) { // 剪裁
+                if (config.needClipping) { // 剪裁
 
                 } else {
                     val uri = Uri.fromFile(resultFile)

@@ -33,14 +33,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="剪裁"/>
+                android:text="图片剪裁"/>
 
             <CheckBox
                 android:id="@+id/main_compressBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="压缩图片"/>
+                android:text="图片压缩"/>
 
         </LinearLayout>
 
@@ -57,17 +57,18 @@
                 android:text="显示视频"/>
 
             <CheckBox
-                android:id="@+id/main_dirBox"
+                android:id="@+id/main_allSelectBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="显示文件夹"/>
+                android:text="同时选择"/>
 
             <CheckBox
+                android:id="@+id/main_cameraBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:visibility="invisible"/>
+                android:text="显示拍照"/>
 
         </LinearLayout>
 
@@ -84,6 +85,7 @@
             android:id="@+id/main_styleGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:orientation="horizontal">
 
             <RadioButton
@@ -126,6 +128,7 @@
                 android:text="图片最大选取数量"/>
 
              <com.zp.zphoto.sample.view.CountView
+                 android:id="@+id/main_picCountCV"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content" />
 
@@ -152,6 +155,7 @@
                 android:text="图片最大选取size"/>
 
             <com.zp.zphoto.sample.view.CountView
+                android:id="@+id/main_picSizeCV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -189,6 +193,7 @@
                 android:text="视频最大选取数量"/>
 
             <com.zp.zphoto.sample.view.CountView
+                android:id="@+id/main_videoCountCV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -215,6 +220,7 @@
                 android:text="视频最大选取size"/>
 
             <com.zp.zphoto.sample.view.CountView
+                android:id="@+id/main_videoSizeCV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

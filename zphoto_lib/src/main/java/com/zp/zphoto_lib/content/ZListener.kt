@@ -36,6 +36,16 @@ open class ZImageCompressListener {
     open fun getCompressList(arrayList: ArrayList<ZPhotoDetail>?, context: Context?) = arrayList
 }
 
+/**
+ * 图片剪裁
+ */
+open class ZImageClippingListener {
+
+    open fun clipping(arrayList: ArrayList<ZPhotoDetail>?, context: Context?) {
+
+    }
+}
+
 class ZPhotoFilenameFilter : FilenameFilter {
 
     override fun accept(filename: File, s: String): Boolean {
