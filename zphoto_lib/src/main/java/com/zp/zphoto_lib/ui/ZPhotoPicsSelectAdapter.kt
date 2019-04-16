@@ -85,6 +85,8 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
         super.setDatas(list)
     }
 
+    fun hasSelectedData() = selectedMap.size > 0
+
     fun getSelectedData() = ArrayList<ZPhotoDetail>().apply {
         for ((_, v) in selectedMap) {
             add(v)

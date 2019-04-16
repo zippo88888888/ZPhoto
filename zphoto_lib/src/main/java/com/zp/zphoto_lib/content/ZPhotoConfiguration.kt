@@ -46,7 +46,7 @@ class ZPhotoConfiguration {
      */
     var allSelect = true
     /**
-     * 是否显示拍照按钮
+     * 相册页面是否显示拍照按钮
      */
     var showCamera = false
 

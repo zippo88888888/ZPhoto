@@ -73,8 +73,8 @@
         android:id="@+id/zphoto_select_bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background=" #65000000 "
-        app:layout_behavior="@string/bottom_sheet_behavior">
+        android:layout_gravity="bottom"
+        android:background=" #65000000 " >
 
         <TextView
             android:id="@+id/zphoto_select_changePicTxt"
@@ -82,8 +82,8 @@
             android:layout_height="match_parent"
             android:background="?selectableItemBackground"
             android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:text="所有图片"
             android:textColor="@color/white" />
 
@@ -95,8 +95,8 @@
             android:layout_alignParentRight="true"
             android:background="?selectableItemBackground"
             android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:text="预览"
             android:textColor="@color/white" />
 

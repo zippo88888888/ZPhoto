@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.zp.zphoto_lib">
 
     <application>
@@ -19,6 +18,8 @@
             android:name=".ui.ZPhotoSelectActivity"
             android:theme="@style/ZPhoto_AppTheme_Lib" />
 
+        <activity android:name=".ui.ZPhotoPreviewActivity"
+            android:theme="@style/ZPhoto_AppTheme_Lib" />
     </application>
 
 </manifest>

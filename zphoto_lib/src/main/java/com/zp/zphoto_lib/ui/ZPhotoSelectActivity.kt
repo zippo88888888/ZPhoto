@@ -3,6 +3,7 @@ package com.zp.zphoto_lib.ui
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
+import android.support.v4.util.ArrayMap
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
@@ -13,6 +14,7 @@ import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.common.BaseZPhotoActivity
 import com.zp.zphoto_lib.common.ZPhotoHelp
 import com.zp.zphoto_lib.content.getDisplay
+import com.zp.zphoto_lib.content.jumpActivity
 import com.zp.zphoto_lib.ui.view.ZPhotoRVDivider
 import com.zp.zphoto_lib.util.ZPermission
 import com.zp.zphoto_lib.util.ZPhotoImageAnsy
@@ -67,6 +69,12 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
         val spanCount = 3
         zPhotoPicsSelectAdapter = ZPhotoPicsSelectAdapter(this, R.layout.item_zphoto_select_pic, spanCount)
         zPhotoPicsSelectAdapter?.onItemClickListener = {_, position ->
+            val item = zPhotoPicsSelectAdapter?.getItem(position)
+            if (item?.isVideo == true) {
+
+            } else {
+
+            }
             ZToaster.makeText(position, ZToaster.C, R.color.zphoto_violet)
         }
         zPhotoPicsSelectAdapter?.zPhotoSelectListener = object : ZPhotoPicsSelectAdapter.ZPhotoSelectListener {
@@ -131,6 +139,15 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
                 bottomBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
             } else {
                 bottomBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        }
+        zphoto_select_previewPicTxt.setOnClickListener {
+            if (zPhotoPicsSelectAdapter?.hasSelectedData() == true) {
+                val selectList = zPhotoPicsSelectAdapter?.getSelectedData()
+                jumpActivity(ZPhotoPreviewActivity::class.java, ArrayMap<String, Any>().apply {
+                    put("selectList", selectList)
+                }, 0)
+                overridePendingTransition(R.anim.anim_zphoto_bottom_in, R.anim.anim_zphoto_bottom_out)
             }
         }
     }

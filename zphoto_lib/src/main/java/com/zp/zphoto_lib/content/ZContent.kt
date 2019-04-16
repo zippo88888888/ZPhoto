@@ -58,6 +58,14 @@ fun Context.jumpActivity(clazz: Class<*>, map: ArrayMap<String, Any>? = null) {
     })
 }
 
+fun Activity.jumpActivity(clazz: Class<*>, map: ArrayMap<String, Any>? = null, requestCode: Int) {
+    startActivityForResult(Intent(this, clazz).apply {
+        if (!map.isNullOrEmpty()) {
+            putExtras(getBundleFormMapKV(map))
+        }
+    }, requestCode)
+}
+
 /**
  * 根据Map 获取 Bundle
  */
@@ -72,7 +80,7 @@ fun getBundleFormMapKV(map: ArrayMap<String, Any>) = Bundle().apply {
             is Char -> putChar(k, v)
             is String -> putString(k, v)
             is Serializable -> putSerializable(k, v)
-            is Parcelable -> putParcelable(k, v)
+            is Parcelable ->  putParcelableArrayList(k, v as ArrayList<out Parcelable>?)
             else -> ZLog.e("Unsupported format")
         }
     }
