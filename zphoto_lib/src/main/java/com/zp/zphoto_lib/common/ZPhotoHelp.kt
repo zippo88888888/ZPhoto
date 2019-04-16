@@ -9,11 +9,13 @@ import android.os.Build
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.FileProvider
+import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.content.*
 import com.zp.zphoto_lib.ui.ZPhotoSelectActivity
 import com.zp.zphoto_lib.util.ZFile
 import com.zp.zphoto_lib.util.ZLog
 import com.zp.zphoto_lib.util.ZPermission
+import com.zp.zphoto_lib.util.ZToaster
 import java.io.File
 
 class ZPhotoHelp {
@@ -160,7 +162,7 @@ class ZPhotoHelp {
         when (requestCode) {
             ZPHOTO_TO_CAMEAR_REQUEST_CODE -> { // 拍照后
                 if (config.needClipping) { // 剪裁
-
+                    ZToaster.makeText("拍照后剪裁loading", ZToaster.C, R.color.zphoto_blue)
                 } else {
                     val uri = Uri.fromFile(resultFile)
                     val datas = ArrayList<ZPhotoDetail>()
