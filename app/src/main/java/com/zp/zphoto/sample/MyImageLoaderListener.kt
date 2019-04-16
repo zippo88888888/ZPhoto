@@ -66,10 +66,19 @@ class MyImageLoaderListener : ZImageLoaderListener {
      * 加载 file 图片
      */
     private fun loadImg(file: File, pic: ImageView) {
-        Glide.with(pic.context)
-                .load(file)
-                .asBitmap()
+//        Glide.with(pic.context)
+//                .load(file)
+//                .asBitmap()
+//                .dontAnimate()
+//                .into(pic)
+
+        val load = Glide.with(pic.context).load(file)
+        if (checkGif(file.path)) {
+            load.asGif().into(pic)
+        } else { // 万一不是Gif图的处理
+            load.asBitmap()
                 .dontAnimate()
                 .into(pic)
+        }
     }
 }

@@ -75,6 +75,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/video_msg"
+            android:textSize="12sp"
+            android:layout_margin="5dp"
+            android:textColor="@color/colorAccent"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="选中样式"
             android:textSize="15sp"
             android:textStyle="bold"
