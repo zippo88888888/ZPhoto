@@ -5,10 +5,7 @@ import android.support.v4.util.ArrayMap
 import android.util.SparseBooleanArray
 import android.view.Gravity
 import android.view.View
-import android.widget.CheckBox
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.common.BaseZPhotoAdapter
 import com.zp.zphoto_lib.common.BaseZPhotoHolder
@@ -57,12 +54,17 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
             } else {
                 durationTxt.visibility = View.GONE
             }
-
-            pic.apply {
-                layoutParams = FrameLayout.LayoutParams(wh, wh).apply {
-                    gravity = Gravity.CENTER
-                }
-                ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(this, File(item.path))
+            val cameraLayout = getView<LinearLayout>(R.id.item_zphoto_select_camearLayout)
+            val layoutParams = FrameLayout.LayoutParams(wh, wh).apply {
+                gravity = Gravity.CENTER
+            }
+            pic.layoutParams = layoutParams
+            if (item.name == ZPHOTO_SHOW_CAMEAR) {
+                cameraLayout.visibility = View.VISIBLE
+                cameraLayout.layoutParams = layoutParams
+            } else {
+                cameraLayout.visibility = View.GONE
+                ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(pic, File(item.path))
             }
 
             box.setOnClickListener {

@@ -68,8 +68,16 @@ class ZPhotoImageAnsy(
             }
             // 所有排序
             allList.sortByDescending { it.date_modified }
+            val allFirstPath = allList[0].path
             // 将所有数据 添加 到文件夹数据
-            dirs.add(0, ZPhotoFolder(Z_ALL_DATA_KEY, allList[0].path, "所有图片", allList))
+
+            // 是否要显示拍照图片
+            val showCamera = ZPhotoHelp.getInstance().getConfiguration().showCamera
+            if (showCamera) {
+                allList.add(0, ZPhotoDetail("", ZPHOTO_SHOW_CAMEAR, 0.0,
+                    false, false, 0, "", 0L))
+            }
+            dirs.add(0, ZPhotoFolder(Z_ALL_DATA_KEY, allFirstPath, "所有图片", allList))
 
             handler?.sendMessage(Message().apply {
                 obj = arrayOf(dirs, allList)

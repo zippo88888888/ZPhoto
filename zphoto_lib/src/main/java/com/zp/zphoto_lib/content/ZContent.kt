@@ -27,6 +27,7 @@ const val GIF = "gif"
 
 const val Z_ALL_DATA_KEY = "ZPhotoAllDate"
 const val Z_ALL_VIDEO_KEY = "ZPhotoAllVideo"
+const val ZPHOTO_SHOW_CAMEAR = "显示拍照"
 
 /** 调用相机 */
 const val ZPHOTO_TO_CAMEAR_REQUEST_CODE = 0x9001

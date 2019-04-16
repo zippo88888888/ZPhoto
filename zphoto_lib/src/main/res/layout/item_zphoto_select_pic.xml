@@ -33,4 +33,27 @@
         android:textColor="@color/white"
         tools:text="00:10" />
 
+    <LinearLayout
+        android:id="@+id/item_zphoto_select_camearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:background="@color/zphoto_rv_divider_color2"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_zphoto_camera"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginTop="3dp"
+            android:text="拍摄照片"/>
+
+    </LinearLayout>
+
 </FrameLayout>

@@ -72,35 +72,42 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
         zPhotoPicsSelectAdapter = ZPhotoPicsSelectAdapter(this, R.layout.item_zphoto_select_pic, spanCount)
         zPhotoPicsSelectAdapter?.onItemClickListener = {_, position ->
             val item = zPhotoPicsSelectAdapter?.getItem(position)
-            val config = ZPhotoHelp.getInstance().getConfiguration()
-            if (config.allSelect) { // 视频和图片可以同时选择
-                ZPhotoManager.getInstance().setAllList(zPhotoPicsSelectAdapter?.getDatas())
-                val selectList = zPhotoPicsSelectAdapter?.getSelectedData()
-                jumpActivity(ZPhotoPreviewActivity::class.java, ArrayMap<String, Any>().apply {
-                    put("selectIndex", position)
-                    put("selectList", selectList)
-                    put("needAllList", true)
-                }, ZPHOTO_PREVIEW_REQUEST_CODE)
-            } else { // 不可以同时选择
-                if (item?.isVideo == true) {
-                    // 直接跳转视频预览，且默认选中的就是点击的视频
-                    jumpActivity(ZPhotoPreviewActivity::class.java, ArrayMap<String, Any>().apply {
-                        put("isVideo", true)
-                        put("selectList", ArrayList<ZPhotoDetail>().apply {
-                            add(item)
-                        })
-                    }, ZPHOTO_PREVIEW_REQUEST_CODE)
-                } else {
+            if (item!!.name == ZPHOTO_SHOW_CAMEAR) { // 拍照
+                ZToaster.makeTextS("拍照")
+            } else {
+                val config = ZPhotoHelp.getInstance().getConfiguration()
+                // 判断第0个
+                val hasCamera = zPhotoPicsSelectAdapter!!.getItem(0).name == ZPHOTO_SHOW_CAMEAR
+                val index = if (hasCamera) position - 1 else position
+                if (config.allSelect) { // 视频和图片可以同时选择
                     ZPhotoManager.getInstance().setAllList(zPhotoPicsSelectAdapter?.getDatas())
                     val selectList = zPhotoPicsSelectAdapter?.getSelectedData()
                     jumpActivity(ZPhotoPreviewActivity::class.java, ArrayMap<String, Any>().apply {
-                        put("selectIndex", position)
+                        put("selectIndex", index)
                         put("selectList", selectList)
                         put("needAllList", true)
                     }, ZPHOTO_PREVIEW_REQUEST_CODE)
+                } else { // 不可以同时选择
+                    if (item.isVideo) {
+                        // 直接跳转视频预览，且默认选中的就是点击的视频
+                        jumpActivity(ZPhotoPreviewActivity::class.java, ArrayMap<String, Any>().apply {
+                            put("isVideo", true)
+                            put("selectList", ArrayList<ZPhotoDetail>().apply {
+                                add(item)
+                            })
+                        }, ZPHOTO_PREVIEW_REQUEST_CODE)
+                    } else {
+                        ZPhotoManager.getInstance().setAllList(zPhotoPicsSelectAdapter?.getDatas())
+                        val selectList = zPhotoPicsSelectAdapter?.getSelectedData()
+                        jumpActivity(ZPhotoPreviewActivity::class.java, ArrayMap<String, Any>().apply {
+                            put("selectIndex", index)
+                            put("selectList", selectList)
+                            put("needAllList", true)
+                        }, ZPHOTO_PREVIEW_REQUEST_CODE)
+                    }
                 }
+                overridePendingTransition(R.anim.anim_zphoto_bottom_in, R.anim.anim_zphoto_bottom_out)
             }
-            overridePendingTransition(R.anim.anim_zphoto_bottom_in, R.anim.anim_zphoto_bottom_out)
         }
         zPhotoPicsSelectAdapter?.zPhotoSelectListener = object : ZPhotoPicsSelectAdapter.ZPhotoSelectListener {
             override fun selected(selectedSize: Int) {
