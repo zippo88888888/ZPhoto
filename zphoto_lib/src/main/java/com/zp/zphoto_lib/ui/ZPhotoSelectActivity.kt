@@ -1,5 +1,6 @@
 package com.zp.zphoto_lib.ui
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
@@ -13,9 +14,10 @@ import android.view.View
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.common.BaseZPhotoActivity
 import com.zp.zphoto_lib.common.ZPhotoHelp
-import com.zp.zphoto_lib.content.getDisplay
-import com.zp.zphoto_lib.content.jumpActivity
+import com.zp.zphoto_lib.common.ZPhotoManager
+import com.zp.zphoto_lib.content.*
 import com.zp.zphoto_lib.ui.view.ZPhotoRVDivider
+import com.zp.zphoto_lib.util.ZLog
 import com.zp.zphoto_lib.util.ZPermission
 import com.zp.zphoto_lib.util.ZPhotoImageAnsy
 import com.zp.zphoto_lib.util.ZToaster
@@ -70,12 +72,35 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
         zPhotoPicsSelectAdapter = ZPhotoPicsSelectAdapter(this, R.layout.item_zphoto_select_pic, spanCount)
         zPhotoPicsSelectAdapter?.onItemClickListener = {_, position ->
             val item = zPhotoPicsSelectAdapter?.getItem(position)
-            if (item?.isVideo == true) {
-
-            } else {
-
+            val config = ZPhotoHelp.getInstance().getConfiguration()
+            if (config.allSelect) { // 视频和图片可以同时选择
+                ZPhotoManager.getInstance().setAllList(zPhotoPicsSelectAdapter?.getDatas())
+                val selectList = zPhotoPicsSelectAdapter?.getSelectedData()
+                jumpActivity(ZPhotoPreviewActivity::class.java, ArrayMap<String, Any>().apply {
+                    put("selectIndex", position)
+                    put("selectList", selectList)
+                    put("needAllList", true)
+                }, ZPHOTO_PREVIEW_REQUEST_CODE)
+            } else { // 不可以同时选择
+                if (item?.isVideo == true) {
+                    // 直接跳转视频预览，且默认选中的就是点击的视频
+                    jumpActivity(ZPhotoPreviewActivity::class.java, ArrayMap<String, Any>().apply {
+                        put("isVideo", true)
+                        put("selectList", ArrayList<ZPhotoDetail>().apply {
+                            add(item)
+                        })
+                    }, ZPHOTO_PREVIEW_REQUEST_CODE)
+                } else {
+                    ZPhotoManager.getInstance().setAllList(zPhotoPicsSelectAdapter?.getDatas())
+                    val selectList = zPhotoPicsSelectAdapter?.getSelectedData()
+                    jumpActivity(ZPhotoPreviewActivity::class.java, ArrayMap<String, Any>().apply {
+                        put("selectIndex", position)
+                        put("selectList", selectList)
+                        put("needAllList", true)
+                    }, ZPHOTO_PREVIEW_REQUEST_CODE)
+                }
             }
-            ZToaster.makeText(position, ZToaster.C, R.color.zphoto_violet)
+            overridePendingTransition(R.anim.anim_zphoto_bottom_in, R.anim.anim_zphoto_bottom_out)
         }
         zPhotoPicsSelectAdapter?.zPhotoSelectListener = object : ZPhotoPicsSelectAdapter.ZPhotoSelectListener {
             override fun selected(selectedSize: Int) {
@@ -145,9 +170,23 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
             if (zPhotoPicsSelectAdapter?.hasSelectedData() == true) {
                 val selectList = zPhotoPicsSelectAdapter?.getSelectedData()
                 jumpActivity(ZPhotoPreviewActivity::class.java, ArrayMap<String, Any>().apply {
+                    put("selectIndex", 1)
                     put("selectList", selectList)
-                }, 0)
+                    put("needAllList", false)
+                }, ZPHOTO_PREVIEW_REQUEST_CODE)
                 overridePendingTransition(R.anim.anim_zphoto_bottom_in, R.anim.anim_zphoto_bottom_out)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ZPHOTO_PREVIEW_REQUEST_CODE && resultCode == ZPHOTO_PREVIEW_RESULT_CODE) {
+            if (data != null) {
+                val selectList = data.getParcelableArrayListExtra<ZPhotoDetail>("selectList")
+                ZPhotoHelp.getInstance().getZImageResultListener()
+                    ?.selectSuccess(selectList)
+                finish()
             }
         }
     }
@@ -170,6 +209,11 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
                 ?.selectCancel()
             super.onBackPressed()
         }
+    }
+
+    override fun finish() {
+        ZPhotoManager.getInstance().clearAllList()
+        super.finish()
     }
 }
 

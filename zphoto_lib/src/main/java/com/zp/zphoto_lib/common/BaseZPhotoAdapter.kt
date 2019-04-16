@@ -18,6 +18,8 @@ abstract class BaseZPhotoAdapter<T>(protected var context: Context) : RecyclerVi
     private var layoutID = -1
     private var datas: ArrayList<T> = ArrayList()
 
+    open fun getDatas() = datas
+
     /**
      * 设置值
      */

@@ -34,6 +34,12 @@ const val ZPHOTO_TO_CAMEAR_REQUEST_CODE = 0x9001
 const val ZPHOTO_CROP_REQUEST_CODE = 0x9020
 /** 剪裁失败 */
 const val ZPHOTO_CROP_ERROR_CODE = 0x9021
+
+/** 预览图片requestCode */
+const val ZPHOTO_PREVIEW_REQUEST_CODE = 0x9022
+/** 预览图片resultCode */
+const val ZPHOTO_PREVIEW_RESULT_CODE = 0x9023
+
 /** 图片默认最大选中数量 */
 const val ZPHOTO_DEFAULT_MAX_PIC_SELECT = 9
 /** 图片默认最大可选 size 5M */

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@color/zphoto_gray">
 
@@ -16,26 +17,35 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:id="@+id/zphoto_select_bottomLayout"
+        <RelativeLayout
+            android:id="@+id/zphoto_preview_bottomLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:gravity="center|end"
             android:paddingLeft="@dimen/zphoto_default_divider_padding"
             android:paddingRight="@dimen/zphoto_default_divider_padding"
-            android:background=" #65000000 "
+            android:background="#65000000 "
             android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/zphoto_preview_selectTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                tools:text="1/10"/>
 
              <CheckBox
                  android:id="@+id/zphoto_preview_box"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:textColor="@color/white"
-                 android:checked="true"
+                 android:layout_alignParentRight="true"
+                 android:layout_alignParentEnd="true"
+                 android:layout_centerVertical="true"
                  android:text="选中"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </FrameLayout>
 

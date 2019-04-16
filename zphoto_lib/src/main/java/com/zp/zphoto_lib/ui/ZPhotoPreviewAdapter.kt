@@ -2,6 +2,7 @@ package com.zp.zphoto_lib.ui
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
+import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,21 +10,22 @@ import android.widget.ImageView
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.common.ZPhotoHelp
 import com.zp.zphoto_lib.content.ZPhotoDetail
-import com.zp.zphoto_lib.content.forEachNoIterable
 import com.zp.zphoto_lib.ui.view.ZPhotoVideoPlayer
-import com.zp.zphoto_lib.util.ZLog
 import java.io.File
 
-class ZPhotoPreviewAdapter(private var context: Context, private var list: ArrayList<ZPhotoDetail>?) : PagerAdapter() {
+class ZPhotoPreviewAdapter(
+    private var context: Context,
+    private var list: ArrayList<ZPhotoDetail>?
+) : PagerAdapter() {
 
-    var rootLayouts = ArrayList<View>()
+    var rootLayouts = SparseArray<View>()
 
     init {
-        list?.forEachNoIterable {
-            if (it.isVideo) {
-                rootLayouts.add(LayoutInflater.from(context).inflate(R.layout.layout_zphoto_preview, null))
+        list?.forEachIndexed { i, item ->
+            if (item.isVideo) {
+                rootLayouts.put(i, LayoutInflater.from(context).inflate(R.layout.layout_zphoto_preview, null))
             } else {
-                rootLayouts.add(ImageView(context).apply {
+                rootLayouts.put(i, ImageView(context).apply {
                     scaleType = ImageView.ScaleType.CENTER_CROP
                 })
             }
