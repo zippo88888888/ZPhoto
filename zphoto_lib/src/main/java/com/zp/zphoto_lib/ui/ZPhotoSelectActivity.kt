@@ -73,7 +73,7 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
         zPhotoPicsSelectAdapter?.onItemClickListener = {_, position ->
             val item = zPhotoPicsSelectAdapter?.getItem(position)
             if (item!!.name == ZPHOTO_SHOW_CAMEAR) { // 拍照
-                ZToaster.makeTextS("拍照")
+                ZPhotoHelp.getInstance().toCamear(this)
             } else {
                 val config = ZPhotoHelp.getInstance().getConfiguration()
                 // 判断第0个
@@ -195,17 +195,34 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
                     ?.selectSuccess(selectList)
                 finish()
             }
+        } else if (requestCode == ZPHOTO_TO_CAMEAR_REQUEST_CODE) {
+            // TODO 这里需要对拍照后的数据进行处理下
+            /**
+             * 1 将之前选中的数据进行拼接
+             * 2 将拍照后的数据进行拼接
+             *
+             * 如果上述不行，动态将其加入到列表里面
+             */
+            ZPhotoHelp.getInstance().onActivityResult(requestCode, resultCode, data, this)
+            finish()
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && requestCode == ZPermission.WRITE_EXTERNAL_CODE) {
-            initAll()
-        } else {
-            ZToaster.makeTextS("权限获取失败")
-            finish()
+        when (requestCode) {
+            ZPermission.WRITE_EXTERNAL_CODE -> {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    initAll()
+                } else {
+                    ZToaster.makeTextS("权限获取失败")
+                    finish()
+                }
+            }
+            ZPermission.CAMEAR_CODE ->
+                ZPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
         }
+
     }
 
     override fun onBackPressed() {
