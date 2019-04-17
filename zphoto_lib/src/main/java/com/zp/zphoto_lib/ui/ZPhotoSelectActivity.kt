@@ -77,7 +77,8 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
             } else {
                 val config = ZPhotoHelp.getInstance().getConfiguration()
                 // 判断第0个
-                val hasCamera = zPhotoPicsSelectAdapter!!.getItem(0).name == ZPHOTO_SHOW_CAMEAR
+                val firstItem = zPhotoPicsSelectAdapter!!.getItem(0)
+                val hasCamera = firstItem.name == ZPHOTO_SHOW_CAMEAR
                 val index = if (hasCamera) position - 1 else position
                 if (config.allSelect) { // 视频和图片可以同时选择
                     ZPhotoManager.getInstance().setAllList(zPhotoPicsSelectAdapter?.getDatas())
@@ -177,7 +178,7 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
             if (zPhotoPicsSelectAdapter?.hasSelectedData() == true) {
                 val selectList = zPhotoPicsSelectAdapter?.getSelectedData()
                 jumpActivity(ZPhotoPreviewActivity::class.java, ArrayMap<String, Any>().apply {
-                    put("selectIndex", 1)
+                    put("selectIndex", 0)
                     put("selectList", selectList)
                     put("needAllList", false)
                 }, ZPHOTO_PREVIEW_REQUEST_CODE)

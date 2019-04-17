@@ -100,7 +100,7 @@ class ZPhotoPreviewActivity : BaseZPhotoActivity(), ViewPager.OnPageChangeListen
                 }
             } else { // 只需要展示已选中的图片信息
                 previewAdapter = ZPhotoPreviewAdapter(this, lastPageSelectList)
-                setBarTitle("$lastPageSelectIndex/${lastPageSelectList?.size ?: 0}")
+                setBarTitle("${lastPageSelectIndex + 1}/${lastPageSelectList?.size ?: 0}")
             }
             // 设置底部选中的 数量
             zphoto_preview_selectTxt.text = "${lastPageSelectList?.size ?: 0}/$count"
