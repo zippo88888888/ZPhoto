@@ -16,7 +16,7 @@ class ZPhotoConfiguration {
     /**
      * 是否显示Gif
      */
-    var showGif = true
+    var showGif = false
     /**
      * 图片是否需要裁剪
      */
@@ -32,7 +32,7 @@ class ZPhotoConfiguration {
     /**
      * 设置是否显示视频
      */
-    var showVideo = true
+    var showVideo = false
     /**
      * 视频最多可选取数量
      */
@@ -44,7 +44,7 @@ class ZPhotoConfiguration {
     /**
      * 图片和视频是否可以同时选择
      */
-    var allSelect = true
+    var allSelect = false
     /**
      * 相册页面是否显示拍照按钮
      */
