@@ -17,6 +17,7 @@ import com.zp.zphoto_lib.util.ZLog
 import com.zp.zphoto_lib.util.ZPermission
 import com.zp.zphoto_lib.util.ZToaster
 import java.io.File
+import java.lang.NullPointerException
 
 class ZPhotoHelp {
 
@@ -170,6 +171,8 @@ class ZPhotoHelp {
                         data.getParcelableArrayListExtra<ZPhotoDetail>("selectData")
                     } else ArrayList<ZPhotoDetail>() // 不是从上个界面来的
 
+                    ZLog.e("拍照后path--->>> ${uri.path}")
+
                     uri.path?.let {
                         val displayName = it.substring(it.lastIndexOf("/") + 1, it.length)
                         datas.add(
@@ -186,7 +189,10 @@ class ZPhotoHelp {
                         )
                     }
                     if (config.needCompress) { // 压缩图片
-                        val list = getImageCompressListener()?.getCompressList(datas, context)
+                        val imageCompressListener = getImageCompressListener() ?: throw NullPointerException(
+                            getStringById(R.string.zphoto_imageCompressErrorMsg)
+                        )
+                        val list = imageCompressListener.getCompressList(datas, context)
                         getZImageResultListener()?.selectSuccess(list)
                     } else {
                         getZImageResultListener()?.selectSuccess(datas)
@@ -194,7 +200,11 @@ class ZPhotoHelp {
                 }
             }
             ZPHOTO_CROP_REQUEST_CODE -> { // 剪裁
+                if (config.needCompress) { // 压缩图片
 
+                } else {
+
+                }
             }
         }
     }

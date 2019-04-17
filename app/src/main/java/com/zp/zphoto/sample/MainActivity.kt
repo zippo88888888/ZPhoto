@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
         main_photoBtn.setOnClickListener {
             ZPhotoHelp.getInstance()
                 .setZImageResultListener(this)
+                .setImageCompressListener(MyImageCompressListener())
                 .config(getConfig())
                 .toPhoto(this)
         }

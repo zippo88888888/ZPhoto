@@ -22,6 +22,7 @@ import com.zp.zphoto_lib.util.ZPermission
 import com.zp.zphoto_lib.util.ZPhotoImageAnsy
 import com.zp.zphoto_lib.util.ZToaster
 import kotlinx.android.synthetic.main.activity_zphoto_select.*
+import java.lang.NullPointerException
 
 class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListener {
 
@@ -36,9 +37,7 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.menu_zphoto_select_down) {
-            ZPhotoHelp.getInstance().getZImageResultListener()
-                ?.selectSuccess(zPhotoPicsSelectAdapter?.getSelectedData())
-            finish()
+            disposePicData(zPhotoPicsSelectAdapter!!.getSelectedData())
         }
         return true
     }
@@ -192,11 +191,9 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
         if (requestCode == ZPHOTO_PREVIEW_REQUEST_CODE && resultCode == ZPHOTO_PREVIEW_RESULT_CODE) {
             if (data != null) {
                 val selectList = data.getParcelableArrayListExtra<ZPhotoDetail>("selectList")
-                ZPhotoHelp.getInstance().getZImageResultListener()
-                    ?.selectSuccess(selectList)
-                finish()
+                disposePicData(selectList)
             }
-        } else if (requestCode == ZPHOTO_TO_CAMEAR_REQUEST_CODE) {
+        } else if (requestCode == ZPHOTO_TO_CAMEAR_REQUEST_CODE) { // 拍照
             // 需要将已选中的图片信息返回出去
             val selectData = zPhotoPicsSelectAdapter?.getSelectedData()
             if (!selectData.isNullOrEmpty()) {
@@ -207,6 +204,15 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
                 ZPhotoHelp.getInstance().onActivityResult(requestCode, resultCode, data, this)
             }
             finish()
+        } else if(requestCode == ZPHOTO_CROP_REQUEST_CODE) { // 剪裁
+            val configuration = ZPhotoHelp.getInstance().getConfiguration()
+            if (configuration.needCompress) { // 图片压缩
+                val imageCompressListener = ZPhotoHelp.getInstance().getImageCompressListener() ?: throw NullPointerException(
+                    getStringById(R.string.zphoto_imageCompressErrorMsg)
+                )
+            } else { // 不压缩图片
+
+            }
         }
     }
 
@@ -240,6 +246,30 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
     override fun finish() {
         ZPhotoManager.getInstance().clearAllList()
         super.finish()
+    }
+
+    /**
+     * 处理图片
+     * GIF和视频 不能剪裁和压缩
+     */
+    private fun disposePicData(pics: ArrayList<ZPhotoDetail>) {
+        val configuration = ZPhotoHelp.getInstance().getConfiguration()
+        configuration.needClipping = false
+        if (configuration.needClipping) { // 剪裁
+            // TODO 剪裁逻辑
+
+        } else { // 不剪裁
+            if (configuration.needCompress) { // 图片压缩
+                val imageCompressListener = ZPhotoHelp.getInstance().getImageCompressListener() ?: throw NullPointerException(
+                    getStringById(R.string.zphoto_imageCompressErrorMsg)
+                )
+                val data = imageCompressListener.getCompressList(pics, this)
+                ZPhotoHelp.getInstance().getZImageResultListener()?.selectSuccess(data)
+            } else { // 不压缩图片
+                ZPhotoHelp.getInstance().getZImageResultListener()?.selectSuccess(pics)
+            }
+        }
+        finish()
     }
 }
 

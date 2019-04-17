@@ -32,6 +32,7 @@ interface ZImageLoaderListener {
 open class ZImageCompressListener {
     /**
      * 压缩方法 如果有需要请自己实现
+     * 图片压缩需要time，建议 Loading下！
      */
     open fun getCompressList(arrayList: ArrayList<ZPhotoDetail>?, context: Context?) = arrayList
 }

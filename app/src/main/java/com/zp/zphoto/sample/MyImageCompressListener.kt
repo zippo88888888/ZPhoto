@@ -1,5 +1,6 @@
 package com.zp.zphoto.sample
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.text.TextUtils
 import android.util.Log
@@ -14,6 +15,13 @@ import java.util.*
 class MyImageCompressListener : ZImageCompressListener() {
 
     override fun getCompressList(arrayList: ArrayList<ZPhotoDetail>?, context: Context?): ArrayList<ZPhotoDetail>? {
+        val dialog = ProgressDialog(context).run {
+            setProgressStyle(ProgressDialog.STYLE_SPINNER)
+            setMessage("图片处理中")
+            setCancelable(false)
+            this
+        }
+        dialog.show()
         if (arrayList == null || context == null) {
             return ArrayList()
         }
@@ -39,6 +47,7 @@ class MyImageCompressListener : ZImageCompressListener() {
             arrayList[it].size = size
             arrayList[it].isGif = checkGif(path)
         }
+        dialog.dismiss()
         return arrayList
     }
 }
