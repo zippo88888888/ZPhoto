@@ -164,8 +164,12 @@ class ZPhotoHelp {
                 if (config.needClipping) { // 剪裁
                     ZToaster.makeText("拍照后剪裁loading", ZToaster.C, R.color.zphoto_blue)
                 } else {
-                    val uri = Uri.fromFile(resultFile)
-                    val datas = ArrayList<ZPhotoDetail>()
+                    val uri = Uri.fromFile(resultFile) // 获取拍照后的图片数据
+
+                    val datas = if (data != null) { // 代表从上个界面回来的，携带了上个界面选中的图片信息
+                        data.getParcelableArrayListExtra<ZPhotoDetail>("selectData")
+                    } else ArrayList<ZPhotoDetail>() // 不是从上个界面来的
+
                     uri.path?.let {
                         val displayName = it.substring(it.lastIndexOf("/") + 1, it.length)
                         datas.add(

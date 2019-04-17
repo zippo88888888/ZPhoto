@@ -58,6 +58,10 @@ class ZPhotoPreviewActivity : BaseZPhotoActivity(), ViewPager.OnPageChangeListen
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.menu_zphoto_select_down) {
+            if (selectList.isNullOrEmpty()) {
+                ZToaster.makeTextS("请至少选择一个")
+                return true
+            }
             setResult(ZPHOTO_PREVIEW_RESULT_CODE, Intent(this,ZPhotoSelectActivity::class.java).apply {
                 putExtras(Bundle().apply {
                     putParcelableArrayListExtra("selectList", selectList)

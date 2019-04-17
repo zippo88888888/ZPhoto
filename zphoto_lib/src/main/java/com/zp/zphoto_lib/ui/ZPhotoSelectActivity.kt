@@ -196,14 +196,15 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
                 finish()
             }
         } else if (requestCode == ZPHOTO_TO_CAMEAR_REQUEST_CODE) {
-            // TODO 这里需要对拍照后的数据进行处理下
-            /**
-             * 1 将之前选中的数据进行拼接
-             * 2 将拍照后的数据进行拼接
-             *
-             * 如果上述不行，动态将其加入到列表里面
-             */
-            ZPhotoHelp.getInstance().onActivityResult(requestCode, resultCode, data, this)
+            // 需要将已选中的图片信息返回出去
+            val selectData = zPhotoPicsSelectAdapter?.getSelectedData()
+            if (!selectData.isNullOrEmpty()) {
+                val intent = data ?: Intent()
+                intent.putParcelableArrayListExtra("selectData", selectData)
+                ZPhotoHelp.getInstance().onActivityResult(requestCode, resultCode, intent, this)
+            } else {
+                ZPhotoHelp.getInstance().onActivityResult(requestCode, resultCode, data, this)
+            }
             finish()
         }
     }
