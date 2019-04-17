@@ -12,4 +12,6 @@
 4. 支持样式自定义；
 5. 支持视频裁剪（可能会使用到FFmpeg Coming soon...）；
 
+## 截图
+<img src = "file/src/main/assets/file_manager_main.png" width = 300px><br><br>
 
