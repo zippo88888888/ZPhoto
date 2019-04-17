@@ -24,8 +24,7 @@
             android:id="@+id/item_zphoto_dialog_selectPic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_default_all_error" />
+            android:scaleType="centerCrop"  />
 
     </android.support.v7.widget.CardView>
 

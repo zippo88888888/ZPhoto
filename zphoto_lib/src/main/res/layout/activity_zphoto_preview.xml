@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@color/zphoto_gray">
+    android:background="@color/zphoto_bg_color">
 
     <include layout="@layout/layout_zphoto_tool_bar" />
 

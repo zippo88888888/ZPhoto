@@ -204,7 +204,7 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
                 ZPhotoHelp.getInstance().onActivityResult(requestCode, resultCode, data, this)
             }
             finish()
-        } else if(requestCode == ZPHOTO_CROP_REQUEST_CODE) { // 剪裁
+        } else if (requestCode == ZPHOTO_CROP_REQUEST_CODE) { // 剪裁
             val configuration = ZPhotoHelp.getInstance().getConfiguration()
             if (configuration.needCompress) { // 图片压缩
                 val imageCompressListener = ZPhotoHelp.getInstance().getImageCompressListener() ?: throw NullPointerException(

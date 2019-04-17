@@ -27,29 +27,13 @@ class MyImageLoaderListener : ZImageLoaderListener {
     private fun loadImg(url: String, pic: ImageView, defaultPic: Int = 0) {
         var defaultPic = defaultPic
         if (defaultPic <= 0) {
-            defaultPic = R.drawable.ic_default_all_pic
+            defaultPic = R.drawable.loading_pic
         }
         Glide.with(pic.context).load(url).asBitmap()
                 .placeholder(defaultPic)
                 .error(defaultPic)
                 .dontAnimate() // 可以防止图片变形
                 .into(pic)
-    }
-
-    /**
-     * 加载Gif图
-     */
-    private fun loadGifImg(url: String, pic: ImageView) {
-        val load = Glide.with(pic.context).load(url)
-        if (checkGif(url)) {
-            load.asGif().into(pic)
-        } else { // 万一不是Gif图的处理
-            load.asBitmap()
-                    .placeholder(R.drawable.ic_default_all_pic)
-                    .error(R.drawable.ic_default_all_pic)
-                    .dontAnimate()
-                    .into(pic)
-        }
     }
 
     /**
@@ -72,11 +56,23 @@ class MyImageLoaderListener : ZImageLoaderListener {
 //                .dontAnimate()
 //                .into(pic)
 
+        loadGifImg(file, pic)
+    }
+
+    /**
+     * 加载Gif图
+     */
+    private fun loadGifImg(file: File, pic: ImageView) {
         val load = Glide.with(pic.context).load(file)
         if (checkGif(file.path)) {
-            load.asGif().into(pic)
+            load.asGif()
+                .placeholder(R.drawable.loading_pic)
+                .error(R.drawable.loading_pic_error)
+                .into(pic)
         } else { // 万一不是Gif图的处理
             load.asBitmap()
+                .placeholder(R.drawable.loading_pic)
+                .error(R.drawable.loading_pic_error)
                 .dontAnimate()
                 .into(pic)
         }

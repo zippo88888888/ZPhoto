@@ -26,7 +26,7 @@ class ZPhotoPreviewAdapter(
                 rootLayouts.put(i, LayoutInflater.from(context).inflate(R.layout.layout_zphoto_preview, null))
             } else {
                 rootLayouts.put(i, ImageView(context).apply {
-                    scaleType = ImageView.ScaleType.CENTER_CROP
+//                    scaleType = ImageView.ScaleType.CENTER_CROP
                 })
             }
         }
