@@ -14,7 +14,7 @@
 2. 支持视频、图片、GIF查看，图片裁剪，压缩；
 3. 支持图片、视频 --->>> 单选、多选&&数量、大小限制；
 4. 支持样式自定义；
-5. ~~也许可能大概应该会使用到FFmpeg 来 支持视频裁剪~~（四重否定表肯定？<img src="http://www.fakutownee.cn/d/file/p/2017-07-21/bbd7df2efc2d550fc7ce84da03a72ae8.jpg" width=15px height=15px>）；
+5. ~~也许可能大概应该会使用到FFmpeg 来 支持视频裁剪~~（emm <img src="http://www.fakutownee.cn/d/file/p/2017-07-21/bbd7df2efc2d550fc7ce84da03a72ae8.jpg" width=15px height=15px>）；
 
 ## 截图
 <img src = "app/src/main/assets/ys1.jpg" width = 300px><br><br>
