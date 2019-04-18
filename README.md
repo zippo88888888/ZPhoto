@@ -1,4 +1,5 @@
-https://img.shields.io/badge/ZPhoto-1.0.0-yellowgreen.svg
+
+[![Travis](https://img.shields.io/badge/ZPhoto-1.0.0-yellowgreen.svg)](https://github.com/zippo88888888/ZPhoto)
 
 有很多优秀的图片选择框架，但是大部分集成了许多第三方框架，对我来说不简洁！貌似还没看到用KT写的（果断撸一个）...
 
