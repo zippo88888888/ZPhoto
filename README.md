@@ -14,7 +14,7 @@
 2. 支持视频、图片、GIF查看，图片裁剪，压缩；
 3. 支持图片、视频 --->>> 单选、多选&&数量、大小限制；
 4. 支持样式自定义；
-5. 支持视频裁剪（可能会使用到FFmpeg Coming soon...）；
+5. 也许可能大概应该会使用到FFmpeg 来 支持视频裁剪；
 
 ## 截图
 <img src = "app/src/main/assets/ys1.jpg" width = 300px><br><br>
