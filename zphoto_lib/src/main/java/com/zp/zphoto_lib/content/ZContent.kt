@@ -24,6 +24,7 @@ const val JPEG = "jpeg"
 const val JPG = "jpg"
 const val PNG = "png"
 const val GIF = "gif"
+const val MP4 = "mp4"
 
 const val Z_ALL_DATA_KEY = "ZPhotoAllDate"
 const val Z_ALL_VIDEO_KEY = "ZPhotoAllVideo"

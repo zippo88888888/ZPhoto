@@ -52,7 +52,7 @@ class ZPhotoVideoPlayer : TextureView, TextureView.SurfaceTextureListener {
     constructor(context: Context, attributes: AttributeSet?) : this(context, attributes, 0)
     constructor(context: Context, attributes: AttributeSet?, defStyleAttr: Int) : super(context, attributes, defStyleAttr) {
         surfaceTextureListener = this
-        ZLog.i("初始化....")
+        ZLog.i("ZPhotoVideoPlayer初始化....")
     }
 
     var videoPlayListener: ((MediaPlayer?) -> Unit)? = null

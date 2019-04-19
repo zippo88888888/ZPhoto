@@ -12,10 +12,7 @@ import android.support.v4.content.FileProvider
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.content.*
 import com.zp.zphoto_lib.ui.ZPhotoSelectActivity
-import com.zp.zphoto_lib.util.ZFile
-import com.zp.zphoto_lib.util.ZLog
-import com.zp.zphoto_lib.util.ZPermission
-import com.zp.zphoto_lib.util.ZToaster
+import com.zp.zphoto_lib.util.*
 import java.io.File
 import java.lang.NullPointerException
 
@@ -53,7 +50,7 @@ class ZPhotoHelp {
     }
 
     /**
-     * 设置图片剪裁 监听
+     * 设置图片剪裁
      */
     private var imageClippingListener: ZImageClippingListener? = null
     fun getImageClippingListener() = imageClippingListener
@@ -63,12 +60,12 @@ class ZPhotoHelp {
     }
 
     /**
-     * 设置图片压缩 监听
+     * 设置图片压缩 实现方式
      */
-    private var imageCompressListener: ZImageCompressListener? = null
-    fun getImageCompressListener() = imageCompressListener
-    fun setImageCompressListener(imageCompressListener: ZImageCompressListener?): ZPhotoHelp {
-        this.imageCompressListener = imageCompressListener
+    private var imageCompress: ZImageCompress? = null
+    fun getZImageCompress() = imageCompress
+    fun setZImageCompress(imageCompress: ZImageCompress?): ZPhotoHelp {
+        this.imageCompress = imageCompress
         return this
     }
 
@@ -139,7 +136,7 @@ class ZPhotoHelp {
     fun reset() {
         resultListener = null
         configuration = null
-        imageCompressListener = null
+        imageCompress = null
         imageClippingListener = null
         outUri = null
     }
@@ -189,11 +186,12 @@ class ZPhotoHelp {
                         )
                     }
                     if (config.needCompress) { // 压缩图片
-                        val imageCompressListener = getImageCompressListener() ?: throw NullPointerException(
+                        val imageCompress = getZImageCompress() ?: throw NullPointerException(
                             getStringById(R.string.zphoto_imageCompressErrorMsg)
                         )
-                        val list = imageCompressListener.getCompressList(datas, context)
-                        getZImageResultListener()?.selectSuccess(list)
+                        imageCompress.start(context!!, datas) {
+                            getZImageResultListener()?.selectSuccess(it)
+                        }
                     } else {
                         getZImageResultListener()?.selectSuccess(datas)
                     }

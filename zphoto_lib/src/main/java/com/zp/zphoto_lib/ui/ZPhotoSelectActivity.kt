@@ -207,7 +207,7 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
         } else if (requestCode == ZPHOTO_CROP_REQUEST_CODE) { // 剪裁
             val configuration = ZPhotoHelp.getInstance().getConfiguration()
             if (configuration.needCompress) { // 图片压缩
-                val imageCompressListener = ZPhotoHelp.getInstance().getImageCompressListener() ?: throw NullPointerException(
+                val imageCompress = ZPhotoHelp.getInstance().getZImageCompress() ?: throw NullPointerException(
                     getStringById(R.string.zphoto_imageCompressErrorMsg)
                 )
             } else { // 不压缩图片
@@ -260,11 +260,12 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
 
         } else { // 不剪裁
             if (configuration.needCompress) { // 图片压缩
-                val imageCompressListener = ZPhotoHelp.getInstance().getImageCompressListener() ?: throw NullPointerException(
+                val imageCompress = ZPhotoHelp.getInstance().getZImageCompress()  ?: throw NullPointerException(
                     getStringById(R.string.zphoto_imageCompressErrorMsg)
                 )
-                val data = imageCompressListener.getCompressList(pics, this)
-                ZPhotoHelp.getInstance().getZImageResultListener()?.selectSuccess(data)
+                imageCompress.start(this, pics) {
+                    ZPhotoHelp.getInstance().getZImageResultListener()?.selectSuccess(it)
+                }
             } else { // 不压缩图片
                 ZPhotoHelp.getInstance().getZImageResultListener()?.selectSuccess(pics)
             }

@@ -197,7 +197,7 @@ class ZPhotoImageAnsy(
                     MediaStore.Video.Media.SIZE
                 )
                 val where = (MediaStore.Images.Media.MIME_TYPE + "=?")
-                val whereArgs = arrayOf("video/mp4")
+                val whereArgs = arrayOf("video/$MP4")
 
                 cursor = context.contentResolver?.query(
                     MediaStore.Video.Media.EXTERNAL_CONTENT_URI,

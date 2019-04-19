@@ -40,48 +40,4 @@ data class ZPhotoDetail(
         var duration: Int,
         var parentPath: String,
         var date_modified: Long
-) : Parcelable {
-
-        /*override fun equals(other: Any?): Boolean {
-                if (other != null) {
-                        return when (other) {
-                                is String -> path == other
-                                is ZPhotoDetail -> path == other.path
-                                else -> super.equals(other)
-                        }
-                }
-                return super.equals(other)
-        }
-
-        override fun hashCode(): Int {
-                return super.hashCode()
-        }*/
-
-        /*constructor(parcel: Parcel) : this(
-                parcel.readString(),
-                parcel.readString(),
-                parcel.readDouble(),
-                parcel.readByte() != 0.toByte(),
-                parcel.readByte() != 0.toByte(),
-                parcel.readInt(),
-                parcel.readString(),
-                parcel.readLong()
-        )
-
-        override fun writeToParcel(parcel: Parcel, flags: Int) {
-
-        }
-
-        override fun describeContents() = 0
-
-        companion object CREATOR : Parcelable.Creator<ZPhotoDetail> {
-                override fun createFromParcel(parcel: Parcel): ZPhotoDetail {
-                        return ZPhotoDetail(parcel)
-                }
-
-                override fun newArray(size: Int): Array<ZPhotoDetail?> {
-                        return arrayOfNulls(size)
-                }
-        }*/
-
-}
+) : Parcelable

@@ -1,10 +1,15 @@
 package com.zp.zphoto_lib.content
 
+import android.app.ProgressDialog
 import android.content.Context
+import android.os.AsyncTask
+import android.os.Handler
+import android.os.Message
 import android.widget.ImageView
 import com.zp.zphoto_lib.common.ZPhotoHelp
 import java.io.File
 import java.io.FilenameFilter
+import java.lang.ref.SoftReference
 import java.util.ArrayList
 
 /**
@@ -24,17 +29,6 @@ interface ZImageLoaderListener {
     fun loadImg(imageView: ImageView, file: File)
     fun loadImg(imageView: ImageView, path: String)
     fun loadImg(imageView: ImageView, res: Int)
-}
-
-/**
- * 图片压缩
- */
-open class ZImageCompressListener {
-    /**
-     * 压缩方法 如果有需要请自己实现
-     * 图片压缩需要time，建议 Loading下！
-     */
-    open fun getCompressList(arrayList: ArrayList<ZPhotoDetail>?, context: Context?) = arrayList
 }
 
 /**
