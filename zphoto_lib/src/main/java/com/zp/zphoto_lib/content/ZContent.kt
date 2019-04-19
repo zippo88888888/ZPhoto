@@ -32,10 +32,10 @@ const val ZPHOTO_SHOW_CAMEAR = "显示拍照"
 
 /** 调用相机 */
 const val ZPHOTO_TO_CAMEAR_REQUEST_CODE = 0x9001
-/** 剪裁 */
-const val ZPHOTO_CROP_REQUEST_CODE = 0x9020
-/** 剪裁失败 */
-const val ZPHOTO_CROP_ERROR_CODE = 0x9021
+/** 剪裁 requestCode */
+const val ZPHOTO_CLIPPING_REQUEST_CODE = 0x9020
+/** 剪裁 resultCode */
+const val ZPHOTO_CLIPPING_RESULT_CODE = 0x9021
 
 /** 预览图片requestCode */
 const val ZPHOTO_PREVIEW_REQUEST_CODE = 0x9022

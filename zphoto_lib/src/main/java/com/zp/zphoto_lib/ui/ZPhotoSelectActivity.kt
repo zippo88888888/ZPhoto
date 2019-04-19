@@ -17,7 +17,6 @@ import com.zp.zphoto_lib.common.ZPhotoHelp
 import com.zp.zphoto_lib.common.ZPhotoManager
 import com.zp.zphoto_lib.content.*
 import com.zp.zphoto_lib.ui.view.ZPhotoRVDivider
-import com.zp.zphoto_lib.util.ZLog
 import com.zp.zphoto_lib.util.ZPermission
 import com.zp.zphoto_lib.util.ZPhotoImageAnsy
 import com.zp.zphoto_lib.util.ZToaster
@@ -204,7 +203,7 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
                 ZPhotoHelp.getInstance().onActivityResult(requestCode, resultCode, data, this)
             }
             finish()
-        } else if (requestCode == ZPHOTO_CROP_REQUEST_CODE) { // 剪裁
+        } else if (requestCode == ZPhotoHelp.getInstance().getConfiguration().clippingRequestCode) { // 剪裁
             val configuration = ZPhotoHelp.getInstance().getConfiguration()
             if (configuration.needCompress) { // 图片压缩
                 val imageCompress = ZPhotoHelp.getInstance().getZImageCompress() ?: throw NullPointerException(
@@ -257,10 +256,20 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
         configuration.needClipping = false
         if (configuration.needClipping) { // 剪裁
             // TODO 剪裁逻辑
-
+            ZPhotoHelp.getInstance().getImageClipping() ?: NullPointerException(
+                getStringById(R.string.zphoto_imageClippingErrorMsg)
+            )
+            ZPhotoHelp.getInstance().getImageClipping()?.clipping(
+                pics,
+                this,
+                configuration.clippingUri,
+                configuration.clippingRequestCode,
+                configuration.clippingResultCode,
+                configuration.clippingErrorCode
+            )
         } else { // 不剪裁
             if (configuration.needCompress) { // 图片压缩
-                val imageCompress = ZPhotoHelp.getInstance().getZImageCompress()  ?: throw NullPointerException(
+                val imageCompress = ZPhotoHelp.getInstance().getZImageCompress() ?: throw NullPointerException(
                     getStringById(R.string.zphoto_imageCompressErrorMsg)
                 )
                 imageCompress.start(this, pics) {

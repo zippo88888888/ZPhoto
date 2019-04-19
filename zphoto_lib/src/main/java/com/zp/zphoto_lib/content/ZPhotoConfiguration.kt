@@ -1,5 +1,9 @@
 package com.zp.zphoto_lib.content
 
+import android.net.Uri
+import com.zp.zphoto_lib.util.ZFile
+import java.io.File
+
 /**
  * 配置信息
  */
@@ -21,10 +25,37 @@ class ZPhotoConfiguration {
      * 图片是否需要裁剪
      */
     var needClipping = false
+
+    /**
+     * 剪裁 输出路径
+     */
+    var clippingUri = Uri.fromFile(File(ZFile.getPathForPath(ZFile.CLIPPING)))
+
+    /**
+     * 剪裁 所对应的 requestCode 方便在 onActivityResult 使用
+     */
+    var clippingRequestCode = ZPHOTO_CLIPPING_REQUEST_CODE
+
+    /**
+     * 剪裁 所对应的 resultCode
+     */
+    var clippingResultCode = ZPHOTO_CLIPPING_RESULT_CODE
+
+    /**
+     * 剪裁失败 所对应的 code
+     */
+    var clippingErrorCode = -1
+
     /**
      * 图片是否需要压缩
      */
     var needCompress = false
+
+    /**
+     * 图片压缩 输出路径
+     */
+    var compressUri = Uri.fromFile(File(ZFile.getPathForPath(ZFile.COMPRESS)))
+
     /**
      * 图片压缩比率 0 到 1
      */

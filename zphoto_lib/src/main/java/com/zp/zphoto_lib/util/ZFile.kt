@@ -24,6 +24,10 @@ object ZFile {
 
     /** 照片目录 */
     const val PHOTO = "/photo/"
+    /** 图片压缩 */
+    const val COMPRESS = "/compress/"
+    /** 图片裁剪 */
+    const val CLIPPING = "/clipping/"
 
     private var storagePath: String? = null
     private var packageFilesDirectory: String? = null
@@ -43,7 +47,6 @@ object ZFile {
 
     private fun getPath(context: Context = getAppContext()): String? {
         if (storagePath == null) {
-//            storagePath = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).path + "/" + ROOT_DIR
             storagePath = context.getExternalFilesDir(null).path + "/" + ROOT_DIR
             val file = File(storagePath)
             if (!file.exists()) {

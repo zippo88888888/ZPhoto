@@ -50,12 +50,12 @@ class ZPhotoHelp {
     }
 
     /**
-     * 设置图片剪裁
+     * 设置图片剪裁 实现方式
      */
-    private var imageClippingListener: ZImageClippingListener? = null
-    fun getImageClippingListener() = imageClippingListener
-    fun setImageClippingListener(imageClippingListener: ZImageClippingListener?): ZPhotoHelp {
-        this.imageClippingListener = imageClippingListener
+    private var imageClipping: ZImageClipping? = null
+    fun getImageClipping() = imageClipping
+    fun setImageClipping(imageClipping: ZImageClipping?): ZPhotoHelp {
+        this.imageClipping = imageClipping
         return this
     }
 
@@ -137,7 +137,7 @@ class ZPhotoHelp {
         resultListener = null
         configuration = null
         imageCompress = null
-        imageClippingListener = null
+        imageClipping = null
         outUri = null
     }
 
@@ -153,23 +153,33 @@ class ZPhotoHelp {
         }
         val context = when (activityOrFragment) {
             is Activity -> activityOrFragment
-            is Fragment -> activityOrFragment.context
+            is Fragment -> activityOrFragment.activity
             else -> throw IllegalArgumentException("activityOrFragment is not Activity or Fragment")
         }
         val config = getConfiguration()
         when (requestCode) {
             ZPHOTO_TO_CAMEAR_REQUEST_CODE -> { // 拍照后
+                val uri = Uri.fromFile(resultFile) // 获取拍照后的图片数据
+
+                val datas = if (data != null) { // 代表从上个界面回来的，携带了上个界面选中的图片信息
+                    data.getParcelableArrayListExtra<ZPhotoDetail>("selectData")
+                } else ArrayList<ZPhotoDetail>() // 不是从上个界面来的
+
+                ZLog.e("拍照后path--->>> ${uri.path}")
+
                 if (config.needClipping) { // 剪裁
-                    ZToaster.makeText("拍照后剪裁loading", ZToaster.C, R.color.zphoto_blue)
+                    getImageClipping() ?: NullPointerException(
+                        getStringById(R.string.zphoto_imageClippingErrorMsg)
+                    )
+                    getImageClipping()?.clipping(
+                        datas,
+                        context!!,
+                        config.clippingUri,
+                        config.clippingRequestCode,
+                        config.clippingResultCode,
+                        config.clippingErrorCode
+                    )
                 } else {
-                    val uri = Uri.fromFile(resultFile) // 获取拍照后的图片数据
-
-                    val datas = if (data != null) { // 代表从上个界面回来的，携带了上个界面选中的图片信息
-                        data.getParcelableArrayListExtra<ZPhotoDetail>("selectData")
-                    } else ArrayList<ZPhotoDetail>() // 不是从上个界面来的
-
-                    ZLog.e("拍照后path--->>> ${uri.path}")
-
                     uri.path?.let {
                         val displayName = it.substring(it.lastIndexOf("/") + 1, it.length)
                         datas.add(
@@ -197,7 +207,7 @@ class ZPhotoHelp {
                     }
                 }
             }
-            ZPHOTO_CROP_REQUEST_CODE -> { // 剪裁
+            config.clippingRequestCode -> { // 剪裁
                 if (config.needCompress) { // 压缩图片
 
                 } else {

@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
             ZPhotoHelp.getInstance()
                 .setZImageResultListener(this)
                 .setZImageCompress(MyImageCompress())
+                .setImageClipping(MyImageClipping())
                 .config(getConfig())
                 .toPhoto(this)
         }
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
             ZPhotoHelp.getInstance()
                 .setZImageResultListener(this)
                 .setZImageCompress(MyImageCompress())
+                .setImageClipping(MyImageClipping())
                 .config(getConfig())
                 .toCamear(this)
         }
