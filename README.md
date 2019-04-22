@@ -19,7 +19,7 @@
 
 
 ## 未来
-1.让还在使用java的大佬们更方便的调用
+1.让还在使用java的大佬们更方便的调用<br>
 2.视频裁剪（核心代码--->>>[ZPhotoSuperVideoPlayer](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/src/main/java/com/zp/zphoto_lib/ui/view/ZPhotoSuperVideoPlayer.kt)）
 
 
