@@ -253,5 +253,10 @@ Step 2. 使用
                 .toCamear(this)
 ```
 
-搞定^_^ 如果觉得可以 star 一下
+搞定^_^ 如果觉得可以 star 一下哦
+
+**↓↓↓再次鸣谢↓↓↓**<br>
+[RxGalleryFinal](https://github.com/FinalTeam/RxGalleryFinal)&nbsp;&nbsp;&nbsp;&nbsp;
+[android-crop](https://github.com/jdamcd/android-crop)&nbsp;&nbsp;&nbsp;&nbsp;
+[JiaoZiVideoPlayer](https://github.com/lipangit/JiaoZiVideoPlayer)
 
