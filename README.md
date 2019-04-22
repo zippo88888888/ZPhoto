@@ -2,14 +2,13 @@
 [![Travis](https://img.shields.io/badge/ZPhoto-1.0.0-yellowgreen.svg)](https://github.com/zippo88888888/ZPhoto)
 [![Travis](https://img.shields.io/badge/API-21%2B-green.svg)](https://github.com/zippo88888888/ZPhoto)
 
-有很多优秀的图片选择框架，但是大部分集成了许多第三方框架，对我来说不简洁！貌似还没看到用KT写的（Kotlin是这世上最好的语言<img src="http://www.fakutownee.cn/d/file/p/2017-07-21/bbd7df2efc2d550fc7ce84da03a72ae8.jpg" width=15px height=15px>）所有果断撸一个...<br>
+有很多优秀的图片选择框架，但是大部分集成了许多第三方框架，对我来说不简洁！貌似还没看到用KT写的（Kotlin是这世上最好的语言<img src="http://www.fakutownee.cn/d/file/p/2017-07-21/bbd7df2efc2d550fc7ce84da03a72ae8.jpg" width=15px height=15px>）果断撸一个...<br><br>
 **↓↓↓站在巨人的肩部上，你绝对能看得更远 鸣谢↓↓↓**<br>
 [RxGalleryFinal](https://github.com/FinalTeam/RxGalleryFinal)&nbsp;&nbsp;&nbsp;&nbsp;
 [android-crop](https://github.com/jdamcd/android-crop)&nbsp;&nbsp;&nbsp;&nbsp;
 [JiaoZiVideoPlayer](https://github.com/lipangit/JiaoZiVideoPlayer)
 
 <br>本库基于之前公司已完成的两个项目，基本上没啥大问题...
-
 
 ## 本库特点
 
@@ -20,7 +19,7 @@
 
 
 ## 未来
-视频裁剪（核心代码over[https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/src/main/java/com/zp/zphoto_lib/ui/view/ZPhotoSuperVideoPlayer.kt](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/src/main/java/com/zp/zphoto_lib/ui/view/ZPhotoSuperVideoPlayer.kt)）
+视频裁剪（核心代码--->>>[ZPhotoSuperVideoPlayer](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/src/main/java/com/zp/zphoto_lib/ui/view/ZPhotoSuperVideoPlayer.kt)）
 
 
 ## 截图
@@ -138,7 +137,39 @@ Step 3. Activity 配置 实现 ZImageResultListener 接口，用于数据接收
 
 
 ```
-Step 4. 使用
+Step 4. 配置 FileProvider [详情]（http://yifeng.studio/2017/05/03/android-7-0-compat-fileprovider/）
+``` xml
+
+<!-- 新建paths文件，如果已有，修改即可  -->
+   <paths>
+      <external-path
+        name="z_photo_path"
+        path="." />
+
+  </paths>
+    
+
+    <!-- 在AndroidMainfest  -->
+     <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/your xml" />
+        </provider>  
+        
+```
+``` kotlin
+
+    private fun getConfig() = ZPhotoConfiguration().apply {
+        ... 
+        authority = "your package name.FileProvider"
+    }
+    
+```
+Step 5. 使用
 ``` kotlin
       // 去相册
       main_photoBtn.setOnClickListener {
