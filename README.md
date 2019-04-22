@@ -137,7 +137,7 @@ Step 3. Activity 配置 实现 ZImageResultListener 接口，用于数据接收
 
 
 ```
-Step 4. 配置 FileProvider [详情]（http://yifeng.studio/2017/05/03/android-7-0-compat-fileprovider/）
+Step 4. 配置 FileProvider [详情戳我](http://yifeng.studio/2017/05/03/android-7-0-compat-fileprovider)
 ``` xml
 
 <!-- 新建paths文件，如果已有，修改即可  -->
@@ -187,4 +187,71 @@ Step 5. 使用
         }
         
 ```
+
+## 图片压缩
+Step 1. 新建图片压缩，继承自ZImageCompress，实现压缩方法（以Luban为例）
+``` kotlin
+ class MyImageCompress : ZImageCompress() {
+
+    private var dialog: ProgressDialog? = null
+
+    override fun onPreExecute() {
+        super.onPreExecute()
+        dialog = ProgressDialog(softReference?.get()).run {
+            setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER)
+            setMessage("图片处理中")
+            setCancelable(false)
+            this
+        }
+        dialog?.show()
+    }
+
+    override fun doingCompressImage(arrayList: ArrayList<ZPhotoDetail>?): ArrayList<ZPhotoDetail>? {
+        if (arrayList == null || softReference?.get() == null) {
+            return ArrayList()
+        }
+
+        val list = ArrayList<File>()
+        arrayList.forEach { list.add(File(it.path)) }
+
+        val outDir = ZFile.getPathForPath(ZFile.PHOTO)
+
+        val compactList = Luban.with(softReference?.get())
+            .load(list)
+            .ignoreBy(50)       // 小于50K不压缩
+            .setTargetDir(outDir)    // 压缩后图片的路径
+            .filter { filePath ->   // 设置压缩条件 gif、视频 不压缩
+                !(TextUtils.isEmpty(filePath) ||
+                        filePath.toLowerCase().endsWith(".$GIF") ||
+                        filePath.toLowerCase().endsWith(".$MP4"))
+            }.get()
+
+        arrayList.indices.forEach {
+            val path = compactList[it].path
+            val size = ZFile.getFileOrFilesSize(path, ZFile.SIZETYPE_MB)
+            Log.e("压缩图片", "原图大小：${arrayList[it].size}M <<<===>>>处理后的大小：${size}M")
+            arrayList[it].path = path
+            arrayList[it].parentPath = ""
+            arrayList[it].size = size
+            arrayList[it].isGif = checkGif(path)
+        }
+        return arrayList
+    }
+
+    override fun onPostExecute(list: ArrayList<ZPhotoDetail>?) {
+        super.onPostExecute(list)
+        dialog?.dismiss()
+    }
+}
+```
+Step 2. 使用
+```kotlin
+        ZPhotoHelp.getInstance()
+                .setZImageResultListener(this)
+                .setZImageCompress(MyImageCompress())
+                .config(getConfig())
+                .toCamear(this)
+```
+
+搞定^_^ 如果觉得可以 star 一下
 
