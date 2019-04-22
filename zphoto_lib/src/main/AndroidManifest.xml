@@ -3,23 +3,13 @@
     package="com.zp.zphoto_lib">
 
     <application>
-
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.FileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/z_photo_paths" />
-        </provider>
-
         <activity
             android:name=".ui.ZPhotoSelectActivity"
             android:theme="@style/ZPhoto_AppTheme_Lib" />
 
         <activity android:name=".ui.ZPhotoPreviewActivity"
             android:theme="@style/ZPhoto_AppTheme_Lib" />
+        <activity android:name=".ui.crop.CropImageActivity" />
     </application>
 
 </manifest>

@@ -5,4 +5,7 @@
         but ZImageCompressListener is null ! You need setting ZImageCompressListener</string>
     <string name="zphoto_imageClippingErrorMsg">ZPhotoConfiguration.needClipping is true,
         but ZImageClippingListener is null ! You need setting ZImageClippingListener</string>
+    <string name="crop__pick_error">没有可用的图像来源</string>
+    <string name="crop__saving">保存图片…</string>
+    <string name="crop__wait">请稍后…</string>
 </resources>

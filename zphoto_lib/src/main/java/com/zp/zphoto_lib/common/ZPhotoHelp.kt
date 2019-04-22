@@ -12,13 +12,16 @@ import android.support.v4.content.FileProvider
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.content.*
 import com.zp.zphoto_lib.ui.ZPhotoSelectActivity
+import com.zp.zphoto_lib.ui.crop.ZPhotoCrop
 import com.zp.zphoto_lib.util.*
 import java.io.File
 import java.lang.NullPointerException
 
 class ZPhotoHelp {
 
-    private var outUri: String? = null
+    private var outUri = ""
+    private var needCropDataArray: ArrayList<ZPhotoDetail>? = null
+    private var cropIndex = 0
 
     private object BUILDER {
         val builder = ZPhotoHelp()
@@ -46,16 +49,6 @@ class ZPhotoHelp {
     fun getConfiguration() = configuration ?: ZPhotoConfiguration()
     fun config(configuration: ZPhotoConfiguration): ZPhotoHelp {
         this.configuration = configuration
-        return this
-    }
-
-    /**
-     * 设置图片剪裁 实现方式
-     */
-    private var imageClipping: ZImageClipping? = null
-    fun getImageClipping() = imageClipping
-    fun setImageClipping(imageClipping: ZImageClipping?): ZPhotoHelp {
-        this.imageClipping = imageClipping
         return this
     }
 
@@ -131,26 +124,22 @@ class ZPhotoHelp {
     }
 
     /**
-     * 重置
+     * 重置  在哪里设置ZImageResultListener 就在哪儿调用
      */
     fun reset() {
         resultListener = null
         configuration = null
         imageCompress = null
-        imageClipping = null
-        outUri = null
+        needCropDataArray?.clear()
+        needCropDataArray = null
+        cropIndex = 0
+        outUri = ""
     }
 
     /**
      * 处理相机 回调
      */
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?, activityOrFragment: Any) {
-        val resultFile = File(outUri)
-        if (!resultFile.exists() && data == null) {
-            ZLog.e("无法获取拍照或剪裁后的数据")
-            getZImageResultListener()?.selectFailure()
-            return
-        }
         val context = when (activityOrFragment) {
             is Activity -> activityOrFragment
             is Fragment -> activityOrFragment.activity
@@ -158,62 +147,130 @@ class ZPhotoHelp {
         }
         val config = getConfiguration()
         when (requestCode) {
+            ZPHOTO_SELECT_PIC_BACK_CODE -> { // 从ZPhotoSelectActivity 确定跳转过来的
+
+                val pics = data?.getParcelableArrayListExtra<ZPhotoDetail>("selectData")
+                val configuration = ZPhotoHelp.getInstance().getConfiguration()
+                if (configuration.needCrop) { // 剪裁
+                    needCropDataArray = pics
+                    cropIndex = 0
+                    cropPic(context!!)
+                } else { // 压缩
+                    compressPic(context!!, pics)
+                }
+            }
             ZPHOTO_TO_CAMEAR_REQUEST_CODE -> { // 拍照后
+
+                if (resultCode == Activity.RESULT_CANCELED) {
+                    getZImageResultListener()?.selectCancel()
+                    return
+                }
+
+                val resultFile = File(outUri)
+                if (!resultFile.exists() && data == null) {
+                    ZLog.e("无法获取拍照或剪裁后的数据")
+                    getZImageResultListener()?.selectFailure()
+                    return
+                }
+
                 val uri = Uri.fromFile(resultFile) // 获取拍照后的图片数据
 
-                val datas = if (data != null) { // 代表从上个界面回来的，携带了上个界面选中的图片信息
+                val datas = if (data != null) { // 代表从从ZPhotoSelectActivity界面回来的，携带了上个界面选中的图片信息
                     data.getParcelableArrayListExtra<ZPhotoDetail>("selectData")
                 } else ArrayList<ZPhotoDetail>() // 不是从上个界面来的
 
-                ZLog.e("拍照后path--->>> ${uri.path}")
-
-                if (config.needClipping) { // 剪裁
-                    getImageClipping() ?: NullPointerException(
-                        getStringById(R.string.zphoto_imageClippingErrorMsg)
-                    )
-                    getImageClipping()?.clipping(
-                        datas,
-                        context!!,
-                        config.clippingUri,
-                        config.clippingRequestCode,
-                        config.clippingResultCode,
-                        config.clippingErrorCode
-                    )
-                } else {
-                    uri.path?.let {
-                        val displayName = it.substring(it.lastIndexOf("/") + 1, it.length)
-                        datas.add(
-                            ZPhotoDetail(
-                                it,
-                                displayName,
-                                ZFile.getFileOrFilesSize(it, ZFile.SIZETYPE_MB),
-                                checkGif(it),
-                                false,
-                                0,
-                                "",
-                                System.currentTimeMillis()
-                            )
+                uri.path?.let {
+                    val displayName = it.substring(it.lastIndexOf("/") + 1, it.length)
+                    datas.add(
+                        ZPhotoDetail(
+                            it,
+                            displayName,
+                            ZFile.getFileOrFilesSize(it, ZFile.SIZETYPE_MB),
+                            checkGif(it),
+                            false,
+                            0,
+                            "",
+                            System.currentTimeMillis()
                         )
-                    }
-                    if (config.needCompress) { // 压缩图片
-                        val imageCompress = getZImageCompress() ?: throw NullPointerException(
-                            getStringById(R.string.zphoto_imageCompressErrorMsg)
-                        )
-                        imageCompress.start(context!!, datas) {
-                            getZImageResultListener()?.selectSuccess(it)
-                        }
-                    } else {
-                        getZImageResultListener()?.selectSuccess(datas)
-                    }
+                    )
+                }
+                if (config.needCrop) { // 剪裁
+                    needCropDataArray = datas
+                    cropIndex = 0
+                    cropPic(context!!)
+                } else { // 压缩图片
+                    compressPic(context!!, datas)
                 }
             }
-            config.clippingRequestCode -> { // 剪裁
-                if (config.needCompress) { // 压缩图片
+            ZPHOTO_CROP_REQUEST_CODE -> { // 剪裁
+                nextCropCheck(context!!, resultCode, data)
+            }
+        }
+    }
 
-                } else {
-
+    /**
+     * 剪裁判断
+     */
+    fun nextCropCheck(context: Activity,resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                val cropUri = ZPhotoCrop.getOutput(data)
+                needCropDataArray!![cropIndex].apply {
+                    path = cropUri.path ?: path
+                    name = path.substring(path.lastIndexOf("/") + 1, path.length)
+                    size = ZFile.getFileOrFilesSize(path, ZFile.SIZETYPE_MB)
                 }
             }
+        } else {
+            ZLog.i("用户不想剪裁该图片，继续")
+        }
+        if (cropIndex < needCropDataArray!!.size - 1) {
+            cropIndex++
+            cropPic(context)
+        } else {
+            compressPic(context, needCropDataArray)
+        }
+    }
+
+    /**
+     * 剪裁图片
+     */
+    private fun cropPic(activity: Activity) {
+        val outPath = getConfiguration().cropUri + "crop_" +
+                ZFile.getFileName(".jpg")
+        val outUri = Uri.fromFile(File(outPath))
+        val item = needCropDataArray!![cropIndex]
+        if (item.isVideo || item.isGif) { // 视频，获取GIF不剪裁
+            ZLog.e("不支持剪裁的类型--->>>${item.path}")
+            if (cropIndex < needCropDataArray!!.size - 1) {
+                cropIndex ++
+                cropPic(activity)
+            } else {
+                compressPic(activity, needCropDataArray)
+            }
+
+        } else {
+            val inputPath = item.path
+            ZPhotoCrop.of(Uri.fromFile(File(inputPath)), outUri).asSquare().start(activity)
+        }
+    }
+
+    /**
+     * 压缩图片
+     */
+    private fun compressPic(activity: Activity, datas: ArrayList<ZPhotoDetail>?) {
+        if (getConfiguration().needCompress) { // 压缩图片
+            val imageCompress = getZImageCompress() ?: throw NullPointerException(
+                getStringById(R.string.zphoto_imageCompressErrorMsg)
+            )
+            imageCompress.start(activity, datas) {
+                getZImageResultListener()?.selectSuccess(it)
+            }
+        } else {
+            getZImageResultListener()?.selectSuccess(datas)
+        }
+        if (activity is ZPhotoSelectActivity) {
+            activity.finish()
         }
     }
 
@@ -225,8 +282,7 @@ class ZPhotoHelp {
         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         action = MediaStore.ACTION_IMAGE_CAPTURE
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val contentUri = FileProvider.getUriForFile(context,
-                "${context.packageName}.FileProvider", File(outUri))
+            val contentUri = FileProvider.getUriForFile(context, getConfiguration().authority, File(outUri))
             putExtra(MediaStore.EXTRA_OUTPUT, contentUri)
         } else {
             putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(File(outUri)))

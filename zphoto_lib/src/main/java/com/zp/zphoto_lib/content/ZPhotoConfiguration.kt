@@ -1,8 +1,6 @@
 package com.zp.zphoto_lib.content
 
-import android.net.Uri
 import com.zp.zphoto_lib.util.ZFile
-import java.io.File
 
 /**
  * 配置信息
@@ -24,27 +22,12 @@ class ZPhotoConfiguration {
     /**
      * 图片是否需要裁剪
      */
-    var needClipping = false
+    var needCrop = false
 
     /**
      * 剪裁 输出路径
      */
-    var clippingUri = Uri.fromFile(File(ZFile.getPathForPath(ZFile.CLIPPING)))
-
-    /**
-     * 剪裁 所对应的 requestCode 方便在 onActivityResult 使用
-     */
-    var clippingRequestCode = ZPHOTO_CLIPPING_REQUEST_CODE
-
-    /**
-     * 剪裁 所对应的 resultCode
-     */
-    var clippingResultCode = ZPHOTO_CLIPPING_RESULT_CODE
-
-    /**
-     * 剪裁失败 所对应的 code
-     */
-    var clippingErrorCode = -1
+    var cropUri = ZFile.getPathForPath(ZFile.CROP)
 
     /**
      * 图片是否需要压缩
@@ -54,13 +37,8 @@ class ZPhotoConfiguration {
     /**
      * 图片压缩 输出路径
      */
-    var compressUri = Uri.fromFile(File(ZFile.getPathForPath(ZFile.COMPRESS)))
+    var compressUri = ZFile.getPathForPath(ZFile.COMPRESS)
 
-    /**
-     * 图片压缩比率 0 到 1
-     */
-    @Deprecated("暂时不用")
-    var compressRatio = ZPHOTO_DEFAULT_COMPACT_RATIO
     /**
      * 设置是否显示视频
      */
@@ -82,6 +60,11 @@ class ZPhotoConfiguration {
      */
     var showCamera = false
 
+    /**
+     * Android 7.0以上 需要的 FileProvider，一般都是包名 + xxxFileProvider
+     */
+    var authority = "com.zp.zphoto.FileProvider"
+
     var showLog = true
 
 
@@ -93,14 +76,18 @@ class ZPhotoConfiguration {
         private var maxPicSelect = ZPHOTO_DEFAULT_MAX_PIC_SELECT
         private var maxPicSize = ZPHOTO_DEFAULT_MAX_PIC_SIZE
         private var showGif = true
-        private var needClipping = false
+        private var needCrop = false
+        private var cropUri = ZFile.getPathForPath(ZFile.CROP)
+
         private var needCompress = false
-        private var compressRatio = ZPHOTO_DEFAULT_COMPACT_RATIO
+        private var compressUri = ZFile.getPathForPath(ZFile.COMPRESS)
+
         private var showVideo = true
         private var maxVideoSelect = ZPHOTO_DEFAULT_MAX_VIDEO_SELECT
         private var maxVideoSize = ZPHOTO_DEFAULT_MAX_VIDEO_SIZE
         private var allSelect = false
         private var showCamera = false
+        private var authority = "com.zp.zphoto.FileProvider"
         private var showLog = true
 
         fun maxPicSelect(maxPicSelect: Int): Builder {
@@ -118,8 +105,13 @@ class ZPhotoConfiguration {
             return this
         }
 
-        fun needCrop(needClipping: Boolean): Builder {
-            this.needClipping = needClipping
+        fun needCrop(needCrop: Boolean): Builder {
+            this.needCrop = needCrop
+            return this
+        }
+
+        fun clippingUri(cropUri: String): Builder {
+            this.cropUri = cropUri
             return this
         }
 
@@ -128,8 +120,8 @@ class ZPhotoConfiguration {
             return this
         }
 
-        fun compressRatio(compressRatio: Float): Builder {
-            this.compressRatio = compressRatio
+        fun compressUri(compressUri: String): Builder {
+            this.compressUri = compressUri
             return this
         }
 
@@ -158,6 +150,11 @@ class ZPhotoConfiguration {
             return this
         }
 
+        fun authority(authority: String): Builder {
+            this.authority = authority
+            return this
+        }
+
         fun showLog(showLog: Boolean): Builder {
             this.showLog = showLog
             return this
@@ -167,14 +164,16 @@ class ZPhotoConfiguration {
             this.maxPicSelect = this@Builder.maxPicSelect
             this.maxPicSize = this@Builder.maxPicSize
             this.showGif = this@Builder.showGif
-            this.needClipping = this@Builder.needClipping
+            this.needCrop = this@Builder.needCrop
+            this.cropUri = this@Builder.cropUri
             this.needCompress = this@Builder.needCompress
-            this.compressRatio = this@Builder.compressRatio
+            this.compressUri = this@Builder.compressUri
             this.showVideo = this@Builder.showVideo
             this.maxVideoSelect = this@Builder.maxVideoSelect
             this.maxVideoSize = this@Builder.maxVideoSize
             this.allSelect = this@Builder.allSelect
             this.showCamera = this@Builder.showCamera
+            this.authority = this@Builder.authority
             this.showLog = this@Builder.showLog
         }
     }

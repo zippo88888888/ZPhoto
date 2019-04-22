@@ -1,5 +1,6 @@
 package com.zp.zphoto_lib.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -36,7 +37,7 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.menu_zphoto_select_down) {
-            disposePicData(zPhotoPicsSelectAdapter!!.getSelectedData())
+            disposePicData(zPhotoPicsSelectAdapter!!.getSelectedData(), ZPHOTO_SELECT_PIC_BACK_CODE)
         }
         return true
     }
@@ -190,28 +191,25 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
         if (requestCode == ZPHOTO_PREVIEW_REQUEST_CODE && resultCode == ZPHOTO_PREVIEW_RESULT_CODE) {
             if (data != null) {
                 val selectList = data.getParcelableArrayListExtra<ZPhotoDetail>("selectList")
-                disposePicData(selectList)
+                disposePicData(selectList, ZPHOTO_SELECT_PIC_BACK_CODE)
             }
         } else if (requestCode == ZPHOTO_TO_CAMEAR_REQUEST_CODE) { // 拍照
-            // 需要将已选中的图片信息返回出去
-            val selectData = zPhotoPicsSelectAdapter?.getSelectedData()
-            if (!selectData.isNullOrEmpty()) {
-                val intent = data ?: Intent()
-                intent.putParcelableArrayListExtra("selectData", selectData)
-                ZPhotoHelp.getInstance().onActivityResult(requestCode, resultCode, intent, this)
+            if (resultCode == Activity.RESULT_OK) {
+                // 需要将已选中的图片信息返回出去
+                val selectData = zPhotoPicsSelectAdapter?.getSelectedData()
+                if (!selectData.isNullOrEmpty()) {
+                    val intent = data ?: Intent()
+                    intent.putParcelableArrayListExtra("selectData", selectData)
+                    ZPhotoHelp.getInstance().onActivityResult(requestCode, resultCode, intent, this)
+                } else {
+                    ZPhotoHelp.getInstance().onActivityResult(requestCode, resultCode, data, this)
+                }
+//                finish()
             } else {
-                ZPhotoHelp.getInstance().onActivityResult(requestCode, resultCode, data, this)
+                ZToaster.makeTextS("用户取消")
             }
-            finish()
-        } else if (requestCode == ZPhotoHelp.getInstance().getConfiguration().clippingRequestCode) { // 剪裁
-            val configuration = ZPhotoHelp.getInstance().getConfiguration()
-            if (configuration.needCompress) { // 图片压缩
-                val imageCompress = ZPhotoHelp.getInstance().getZImageCompress() ?: throw NullPointerException(
-                    getStringById(R.string.zphoto_imageCompressErrorMsg)
-                )
-            } else { // 不压缩图片
-
-            }
+        } else if (requestCode == ZPHOTO_CROP_REQUEST_CODE) { // 剪裁
+            ZPhotoHelp.getInstance().nextCropCheck(this, resultCode, data)
         }
     }
 
@@ -251,35 +249,11 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
      * 处理图片
      * GIF和视频 不能剪裁和压缩
      */
-    private fun disposePicData(pics: ArrayList<ZPhotoDetail>) {
-        val configuration = ZPhotoHelp.getInstance().getConfiguration()
-        configuration.needClipping = false
-        if (configuration.needClipping) { // 剪裁
-            // TODO 剪裁逻辑
-            ZPhotoHelp.getInstance().getImageClipping() ?: NullPointerException(
-                getStringById(R.string.zphoto_imageClippingErrorMsg)
-            )
-            ZPhotoHelp.getInstance().getImageClipping()?.clipping(
-                pics,
-                this,
-                configuration.clippingUri,
-                configuration.clippingRequestCode,
-                configuration.clippingResultCode,
-                configuration.clippingErrorCode
-            )
-        } else { // 不剪裁
-            if (configuration.needCompress) { // 图片压缩
-                val imageCompress = ZPhotoHelp.getInstance().getZImageCompress() ?: throw NullPointerException(
-                    getStringById(R.string.zphoto_imageCompressErrorMsg)
-                )
-                imageCompress.start(this, pics) {
-                    ZPhotoHelp.getInstance().getZImageResultListener()?.selectSuccess(it)
-                }
-            } else { // 不压缩图片
-                ZPhotoHelp.getInstance().getZImageResultListener()?.selectSuccess(pics)
-            }
-        }
-        finish()
+    private fun disposePicData(pics: ArrayList<ZPhotoDetail>, requestCode: Int) {
+        val intent = Intent()
+        // 需要将已选中的图片信息返回出去
+        intent.putParcelableArrayListExtra("selectData", pics)
+        ZPhotoHelp.getInstance().onActivityResult(requestCode, Activity.RESULT_OK, intent, this)
     }
 }
 

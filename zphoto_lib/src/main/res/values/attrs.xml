@@ -13,6 +13,6 @@
         </attr>
     </declare-styleable>
 
-    <attr name="cropImageStyle" format="reference" />
+    <attr name="CropImageStyle" format="reference" />
 
 </resources>

@@ -35,23 +35,6 @@ interface ZImageLoaderListener {
     fun loadImg(imageView: ImageView, res: Int)
 }
 
-/**
- * 图片剪裁
- */
-open class ZImageClipping {
-
-    open fun clipping(
-        images: ArrayList<ZPhotoDetail>?,
-        activity: Activity,
-        clippingOutUri: Uri,
-        clippingRequestCode: Int,
-        clippingResultCode: Int,
-        clippingErrorCode: Int
-    ) {
-        ZToaster.makeText("图片剪裁building", ZToaster.C, R.color.zphoto_blue)
-    }
-}
-
 class ZPhotoFilenameFilter : FilenameFilter {
 
     override fun accept(filename: File, s: String): Boolean {

@@ -27,7 +27,7 @@ object ZFile {
     /** 图片压缩 */
     const val COMPRESS = "/compress/"
     /** 图片裁剪 */
-    const val CLIPPING = "/clipping/"
+    const val CROP = "/crop/"
 
     private var storagePath: String? = null
     private var packageFilesDirectory: String? = null

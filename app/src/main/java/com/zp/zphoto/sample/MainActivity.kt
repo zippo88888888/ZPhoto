@@ -2,6 +2,7 @@ package com.zp.zphoto.sample
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
@@ -11,14 +12,12 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.zp.zphoto.R
+import com.zp.zphoto_lib.ui.crop.ZPhotoCrop
 import com.zp.zphoto_lib.common.BaseZPhotoAdapter
 import com.zp.zphoto_lib.common.BaseZPhotoHolder
 import com.zp.zphoto_lib.common.ZPhotoHelp
 import com.zp.zphoto_lib.content.*
-import com.zp.zphoto_lib.util.ZLog
-import com.zp.zphoto_lib.util.ZPermission
-import com.zp.zphoto_lib.util.ZPhotoUtil
-import com.zp.zphoto_lib.util.ZToaster
+import com.zp.zphoto_lib.util.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.util.*
@@ -47,7 +46,6 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
             ZPhotoHelp.getInstance()
                 .setZImageResultListener(this)
                 .setZImageCompress(MyImageCompress())
-                .setImageClipping(MyImageClipping())
                 .config(getConfig())
                 .toPhoto(this)
         }
@@ -55,7 +53,6 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
             ZPhotoHelp.getInstance()
                 .setZImageResultListener(this)
                 .setZImageCompress(MyImageCompress())
-                .setImageClipping(MyImageClipping())
                 .config(getConfig())
                 .toCamear(this)
         }
@@ -76,7 +73,7 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
 
     private fun getConfig() = ZPhotoConfiguration().apply {
         showGif = main_gifBox.isChecked
-        needClipping = main_cutBox.isChecked
+        needCrop = main_cutBox.isChecked
         needCompress = main_compressBox.isChecked
         showVideo = main_videoBox.isChecked
         allSelect = main_allSelectBox.isChecked
