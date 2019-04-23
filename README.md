@@ -188,6 +188,16 @@ Step 5. 使用
         }
         
 ```
+Step 6. 释放资源
+``` kotlin
+    
+    // 及时释放
+    override fun onDestroy() {
+        super.onDestroy()
+        ZPhotoHelp.getInstance().reset()
+    }
+
+```
 
 ## 图片压缩
 Step 1. 新建图片压缩，继承自ZImageCompress，实现压缩方法（以Luban为例）
