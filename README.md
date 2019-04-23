@@ -166,6 +166,7 @@ Step 4. 配置 FileProvider [详情戳我](http://yifeng.studio/2017/05/03/andro
 
     private fun getConfig() = ZPhotoConfiguration().apply {
         ... 
+        // 具体请以自己的 authorities 为准
         authority = "your package name.FileProvider"
     }
     
