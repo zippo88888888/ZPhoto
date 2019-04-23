@@ -37,6 +37,7 @@ class ZPhotoConfiguration {
     /**
      * 图片压缩 输出路径
      */
+    @Deprecated("由于压缩为自己实现，现废弃")
     var compressUri = ZFile.getPathForPath(ZFile.COMPRESS)
 
     /**

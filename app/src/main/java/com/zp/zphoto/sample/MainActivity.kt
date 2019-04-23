@@ -96,6 +96,11 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
         ZPhotoHelp.getInstance().onActivityResult(requestCode, resultCode, data, this)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        ZPhotoHelp.getInstance().reset()
+    }
+
     class MainApdater(context: Context, resID: Int) : BaseZPhotoAdapter<ZPhotoDetail>(context, resID) {
         private var wh = 0
         init {
