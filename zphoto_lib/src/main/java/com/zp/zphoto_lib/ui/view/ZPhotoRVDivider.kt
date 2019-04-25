@@ -18,7 +18,7 @@ class ZPhotoRVDivider : RecyclerView.ItemDecoration {
     // 分割线高度
     private var dividerHeight = 1
     // 列表的方向
-    private var orientation: Int = HORIZONTAL
+    private var orientation = HORIZONTAL
 
     companion object {
         const val VERTICAL = LinearLayoutManager.VERTICAL

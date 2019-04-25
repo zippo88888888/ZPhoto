@@ -2,7 +2,6 @@ package com.zp.zphoto.sample
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
@@ -12,12 +11,14 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.zp.zphoto.R
-import com.zp.zphoto_lib.ui.crop.ZPhotoCrop
 import com.zp.zphoto_lib.common.BaseZPhotoAdapter
 import com.zp.zphoto_lib.common.BaseZPhotoHolder
 import com.zp.zphoto_lib.common.ZPhotoHelp
 import com.zp.zphoto_lib.content.*
-import com.zp.zphoto_lib.util.*
+import com.zp.zphoto_lib.util.ZLog
+import com.zp.zphoto_lib.util.ZPermission
+import com.zp.zphoto_lib.util.ZPhotoUtil
+import com.zp.zphoto_lib.util.ZToaster
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.util.*
@@ -25,15 +26,24 @@ import java.util.*
 class MainActivity : AppCompatActivity(), ZImageResultListener {
 
     private var mainAdapter: MainApdater? = null
+    private lateinit var config: ZPhotoConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        config = ZPhotoConfiguration()
         main_picCountCV.setValue(ZPHOTO_DEFAULT_MAX_PIC_SELECT)
         main_picSizeCV.setValue(ZPHOTO_DEFAULT_MAX_PIC_SIZE)
         main_videoCountCV.setValue(ZPHOTO_DEFAULT_MAX_VIDEO_SELECT)
         main_videoSizeCV.setValue(ZPHOTO_DEFAULT_MAX_VIDEO_SIZE)
+
+        main_styleGroup.setOnCheckedChangeListener { _, checkedId ->
+            config.selectedBoxStyle =  when (checkedId) {
+                R.id.main_styleTwoRadio -> ZPHOTO_BOX_STYLE_TWO
+                R.id.main_styleThreeRadio -> ZPHOTO_BOX_STYLE_THREE
+                else -> ZPHOTO_BOX_STYLE_ONE
+            }
+        }
 
         mainAdapter = MainApdater(this, com.zp.zphoto_lib.R.layout.item_zphoto_select_pic)
         main_recyclerView.apply {
@@ -71,7 +81,7 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
         ZToaster.makeTextS("用户取消")
     }
 
-    private fun getConfig() = ZPhotoConfiguration().apply {
+    private fun getConfig() = config.apply {
         showGif = main_gifBox.isChecked
         needCrop = main_cutBox.isChecked
         needCompress = main_compressBox.isChecked

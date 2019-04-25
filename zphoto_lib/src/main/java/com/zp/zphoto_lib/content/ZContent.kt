@@ -44,16 +44,20 @@ const val ZPHOTO_PREVIEW_REQUEST_CODE = 9022
 /** 预览图片resultCode */
 const val ZPHOTO_PREVIEW_RESULT_CODE = 9023
 
-/** 图片默认最大选中数量 */
+/** 图片默认最多可选的取数量 */
 const val ZPHOTO_DEFAULT_MAX_PIC_SELECT = 9
 /** 图片默认最大可选 size 5M */
 const val ZPHOTO_DEFAULT_MAX_PIC_SIZE = 5
 
-/** 视频默认最大选中数量 */
+/** 视频默认最多可选取的数量 */
 const val ZPHOTO_DEFAULT_MAX_VIDEO_SELECT = 2
 /** 视频默认最大可选 size 50M */
 const val ZPHOTO_DEFAULT_MAX_VIDEO_SIZE = 50
 
+/** CheckBox样式 */
+const val ZPHOTO_BOX_STYLE_ONE = 1
+const val ZPHOTO_BOX_STYLE_TWO = 2
+const val ZPHOTO_BOX_STYLE_THREE = 3
 
 
 
@@ -198,7 +202,7 @@ fun checkGif(url: String) = try {
 
 fun checkVideo(url: String) = try {
     val video = url.substring(url.lastIndexOf(".") + 1, url.length)
-    "mp4" == video
+    MP4 == video
 } catch (e: Exception) {
     e.printStackTrace()
     false

@@ -65,6 +65,10 @@ class ZPhotoConfiguration {
      * Android 7.0以上 需要的 FileProvider，一般都是包名 + xxxFileProvider
      */
     var authority = "com.zp.zphoto.FileProvider"
+    /**
+     * 选中样式
+     */
+    var selectedBoxStyle = ZPHOTO_BOX_STYLE_ONE
 
     var showLog = true
 
@@ -89,6 +93,7 @@ class ZPhotoConfiguration {
         private var allSelect = false
         private var showCamera = false
         private var authority = "com.zp.zphoto.FileProvider"
+        private var selectedBoxStyle = ZPHOTO_BOX_STYLE_ONE
         private var showLog = true
 
         fun maxPicSelect(maxPicSelect: Int): Builder {
@@ -156,6 +161,11 @@ class ZPhotoConfiguration {
             return this
         }
 
+        fun selectedBoxStyle(selectedBoxStyle: Int): Builder {
+            this.selectedBoxStyle = selectedBoxStyle
+            return this
+        }
+
         fun showLog(showLog: Boolean): Builder {
             this.showLog = showLog
             return this
@@ -175,6 +185,7 @@ class ZPhotoConfiguration {
             this.allSelect = this@Builder.allSelect
             this.showCamera = this@Builder.showCamera
             this.authority = this@Builder.authority
+            this.selectedBoxStyle = this@Builder.selectedBoxStyle
             this.showLog = this@Builder.showLog
         }
     }

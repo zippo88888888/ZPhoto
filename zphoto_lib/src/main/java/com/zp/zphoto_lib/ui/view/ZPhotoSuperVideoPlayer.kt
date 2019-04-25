@@ -17,13 +17,13 @@ class ZPhotoSuperVideoPlayer : MediaPlayer.OnBufferingUpdateListener, MediaPlaye
     private var playerState = UNINITIALIZED
     private var mediaPlayer: MediaPlayer? = null
     /** 播放器是否已经准备好了  */
-    private var isPrepared: Boolean = false
+    private var isPrepared = false
     /** 是否循环播放 */
-    var isLooping: Boolean = false
+    var isLooping = false
     /** 播放选项 */
     private var moviePlayerOption: MoviePlayerOption? = null
     /** 是否正在播放 */
-    private var isPlaying: Boolean = false
+    private var isPlaying = false
     /** 播放器监听 */
     var moviePlayerDelegateListener: MoviePlayerDelegateListener? = null
 
@@ -36,13 +36,13 @@ class ZPhotoSuperVideoPlayer : MediaPlayer.OnBufferingUpdateListener, MediaPlaye
     var onSeekToPreviewListener: OnSeekToPreviewListener? = null
 
     /** 跳转的位置 */
-    private var duration: Int = 0
+    private var duration = 0
     private var durationHandler: Handler? = null
 
     private var surfaceHolder: SurfaceHolder? = null
     private var callback: SurfaceHolder.Callback? = null
     /** surface是否销毁 */
-    private var isSurfaceDestroyed: Boolean = false
+    private var isSurfaceDestroyed = false
 
     companion object {
         const val UNINITIALIZED = -0x10 /** 未初始化  */
