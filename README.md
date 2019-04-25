@@ -19,8 +19,9 @@
 
 
 ## 未来
-1. 让还在使用java的大佬们更方便的调用<br>
-2. 视频裁剪（核心代码--->>>[ZPhotoSuperVideoPlayer](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/src/main/java/com/zp/zphoto_lib/ui/view/ZPhotoSuperVideoPlayer.kt)）
+1. 发布到JCenter
+2. 让还在使用java的大佬们更方便的调用<br>
+3. 视频裁剪（核心代码--->>>[ZPhotoSuperVideoPlayer](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/src/main/java/com/zp/zphoto_lib/ui/view/ZPhotoSuperVideoPlayer.kt)）
 
 
 ## 截图
@@ -164,6 +165,7 @@ Step 4. 配置 FileProvider [详情戳我](http://yifeng.studio/2017/05/03/andro
 ```
 ``` kotlin
 
+    // 配置ZPhotoConfiguration，里面包含了是否显示gif，视频等属性
     private fun getConfig() = ZPhotoConfiguration().apply {
         ... 
         // 具体请以自己的 authorities 为准
@@ -199,6 +201,8 @@ Step 6. 释放资源
     }
 
 ```
+
+**由于本库没有引用其他压缩库，但是已经将方法暴露出去了，所以压缩需要自己实现**
 
 ## 图片压缩
 Step 1. 新建图片压缩，继承自ZImageCompress，实现压缩方法（以Luban为例）
