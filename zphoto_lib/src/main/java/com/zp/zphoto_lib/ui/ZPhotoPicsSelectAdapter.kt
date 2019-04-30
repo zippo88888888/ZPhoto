@@ -39,12 +39,38 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
         holder.apply {
             val durationTxt = getView<TextView>(R.id.item_zphoto_select_videoDurationiTxt)
             val box = getView<CheckBox>(R.id.item_zphoto_select_box)
-            box.isChecked = selectedArray[position]
-
+            val diyBox = getView<TextView>(R.id.item_zphoto_select_txt)
+            when (config.selectedBoxStyle) {
+                ZPHOTO_BOX_STYLE_TWO -> {
+                    diyBox.visibility = View.VISIBLE
+                    box.visibility = View.GONE
+                    diyBox.isSelected = selectedArray[position]
+                    diyBox.setBackgroundResource(R.drawable.zphoto_checkbox_my_selector)
+                }
+                ZPHOTO_BOX_STYLE_THREE -> {
+                    diyBox.visibility = View.VISIBLE
+                    box.visibility = View.GONE
+                    diyBox.isSelected = selectedArray[position]
+                    diyBox.setBackgroundResource(R.drawable.zphoto_checkbox_number_selector)
+                }
+                else -> {
+                    diyBox.visibility = View.GONE
+                    box.visibility = View.VISIBLE
+                    box.isChecked = selectedArray[position]
+                }
+            }
             if (config.allSelect) { // 能够同时选择图片和视频
-                box.visibility = View.VISIBLE
+                if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_ONE) {
+                    box.visibility = View.VISIBLE
+                } else {
+                    diyBox.visibility = View.VISIBLE
+                }
             } else {
-                box.visibility = if (item.isVideo) View.GONE else View.VISIBLE
+                if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_ONE) {
+                    box.visibility = if (item.isVideo) View.GONE else View.VISIBLE
+                } else {
+                    diyBox.visibility = if (item.isVideo) View.GONE else View.VISIBLE
+                }
             }
 
             val pic = getView<ImageView>(R.id.item_zphoto_select_pic)
@@ -69,6 +95,9 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
 
             box.setOnClickListener {
                 boxClick(item, position, box)
+            }
+            diyBox.setOnClickListener {
+                boxClick(item, position, diyBox)
             }
         }
     }
@@ -98,13 +127,19 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
     /**
      * 点击逻辑
      */
-    private fun boxClick(item: ZPhotoDetail, position: Int, box: CheckBox) {
+    private fun boxClick(item: ZPhotoDetail, position: Int, box: TextView) {
         ZLog.i("选择了 ${item.path}  大小：${item.size}M")
         if (selectedArray[position]) { // 选中-->>不选中
             if (selectedMap.contains(item.path)) { // 包含删除
                 selectedMap.remove(item.path)
                 selectedArray.put(position, !selectedArray[position])
                 zPhotoSelectListener?.selected(selectedMap.size)
+                if (box !is CheckBox) {
+                    box.isSelected = false
+                    if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_THREE) {
+                        box.text = ""
+                    }
+                }
             } else {
                 ZLog.e("当前取消选中的不在map集合里面")
             }
@@ -114,14 +149,22 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
                 // 判断视频大小
                 if (item.size > config.maxVideoSize) {
                     ZToaster.makeTextS("单个视频最大可选取的大小：${config.maxVideoSize}M")
-                    box.isChecked = false
+                    if (box is CheckBox) box.isChecked = false
+                    else box.isSelected = false
                     return
                 }
                 val videoCount = counts.second
                 if (videoCount >= config.maxVideoSelect) {
                     ZToaster.makeTextS("视频最多可选取的数量：${config.maxVideoSelect}")
-                    box.isChecked = false
+                    if (box is CheckBox) box.isChecked = false
+                    else box.isSelected = false
                 } else {
+                    if (box !is CheckBox) {
+                        box.isSelected = true
+                        if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_THREE) {
+                            box.text = "${selectedMap.size + 1}"
+                        }
+                    }
                     selectedMap[item.path] = item
                     selectedArray.put(position, !selectedArray[position])
                     zPhotoSelectListener?.selected(selectedMap.size)
@@ -130,18 +173,25 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
                 // 判断图片大小
                 if (item.size > config.maxPicSize) {
                     ZToaster.makeTextS("单张图片最大可选取的大小：${config.maxPicSize}M")
-                    box.isChecked = false
+                    if (box is CheckBox) box.isChecked = false
+                    else box.isSelected = false
                     return
                 }
                 val picCount = counts.first
                 if (picCount >= config.maxPicSelect) {
                     ZToaster.makeTextS("图片最多可选取的数量：${config.maxPicSelect}")
-                    box.isChecked = false
+                    if (box is CheckBox) box.isChecked = false
+                    else box.isSelected = false
                 } else {
+                    if (box !is CheckBox) {
+                        box.isSelected = true
+                        if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_THREE) {
+                            box.text = "${selectedMap.size + 1}"
+                        }
+                    }
                     selectedMap[item.path] = item
                     selectedArray.put(position, !selectedArray[position])
                     zPhotoSelectListener?.selected(selectedMap.size)
-
                 }
             }
         }

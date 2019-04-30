@@ -28,5 +28,7 @@
 
     <color name="zphoto_tool_bar_txt_color">@color/white</color>
 
+    <color name="zphoto_box_number_stroke_color">@color/white</color>
+    <color name="zphoto_box_number_solid_color">@color/zphoto_red</color>
 
 </resources>
