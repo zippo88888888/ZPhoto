@@ -5,6 +5,12 @@
         but ZImageCompressListener is null ! You need setting ZImageCompressListener</string>
     <string name="zphoto_imageClippingErrorMsg">ZPhotoConfiguration.needClipping is true,
         but ZImageClippingListener is null ! You need setting ZImageClippingListener</string>
+
+    <string name="zphoto_video_size_tip">视频最大可选取 %1$d M</string>
+    <string name="zphoto_video_count_tip">视频最多可选 %1$d 个</string>
+    <string name="zphoto_pic_size_tip">图片最大可选取 %1$d M</string>
+    <string name="zphoto_pic_count_tip">图片最多可选 %1$d 张</string>
+
     <string name="crop__pick_error">没有可用的图像来源</string>
     <string name="crop__saving">保存图片…</string>
     <string name="crop__wait">请稍后…</string>

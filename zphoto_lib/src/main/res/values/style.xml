@@ -4,15 +4,9 @@
     <style name="ZPhoto_BaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <!-- 修改点击水波纹效果的颜色 -->
-        <!--<item name="colorControlHighlight">@color/baseColor</item>-->
-        <!-- 修改单选，多选的水波纹颜色点击效果 -->
         <item name="colorAccent">@color/zphoto_baseColor</item>
-        <!-- 设置状态栏的颜色 -->
         <item name="colorPrimaryDark">@color/zphoto_baseColor</item>
-        <!-- 标题栏颜色 -->
         <item name="colorPrimary">@color/zphoto_baseColor</item>
-        <!-- ActionBar上Menu的字体颜色 -->
         <item name="actionMenuTextColor">@color/white</item>
     </style>
 

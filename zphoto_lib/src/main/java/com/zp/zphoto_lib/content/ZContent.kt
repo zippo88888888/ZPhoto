@@ -183,6 +183,9 @@ fun getColorById(colorID: Int) = ContextCompat.getColor(getAppContext(), colorID
 fun getDimenById(dimenID: Int) = getAppContext().resources.getDimension(dimenID)
 fun getStringById(stringID: Int) = getAppContext().resources.getString(stringID)
 
+fun getTipStr(strRes: Int, value: Int) = String.format(getStringById(strRes), value)
+
+
 fun getTextValue(any: Any) = try {
     when (any) {
         is Int -> getStringById(any)

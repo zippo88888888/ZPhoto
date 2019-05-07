@@ -148,14 +148,14 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
             if (item.isVideo) {
                 // 判断视频大小
                 if (item.size > config.maxVideoSize) {
-                    ZToaster.makeTextS("单个视频最大可选取的大小：${config.maxVideoSize}M")
+                    ZToaster.makeTextS(getTipStr(R.string.zphoto_video_size_tip, config.maxVideoSize))
                     if (box is CheckBox) box.isChecked = false
                     else box.isSelected = false
                     return
                 }
                 val videoCount = counts.second
                 if (videoCount >= config.maxVideoSelect) {
-                    ZToaster.makeTextS("视频最多可选取的数量：${config.maxVideoSelect}")
+                    ZToaster.makeTextS(getTipStr(R.string.zphoto_video_count_tip, config.maxVideoSelect))
                     if (box is CheckBox) box.isChecked = false
                     else box.isSelected = false
                 } else {
@@ -172,14 +172,14 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
             } else {
                 // 判断图片大小
                 if (item.size > config.maxPicSize) {
-                    ZToaster.makeTextS("单张图片最大可选取的大小：${config.maxPicSize}M")
+                    ZToaster.makeTextS(getTipStr(R.string.zphoto_pic_size_tip, config.maxPicSize))
                     if (box is CheckBox) box.isChecked = false
                     else box.isSelected = false
                     return
                 }
                 val picCount = counts.first
                 if (picCount >= config.maxPicSelect) {
-                    ZToaster.makeTextS("图片最多可选取的数量：${config.maxPicSelect}")
+                    ZToaster.makeTextS(getTipStr(R.string.zphoto_pic_count_tip, config.maxPicSelect))
                     if (box is CheckBox) box.isChecked = false
                     else box.isSelected = false
                 } else {

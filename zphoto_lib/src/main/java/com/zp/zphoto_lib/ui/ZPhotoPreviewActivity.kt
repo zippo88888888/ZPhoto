@@ -15,6 +15,7 @@ import com.zp.zphoto_lib.common.ZPhotoManager
 import com.zp.zphoto_lib.content.ZPHOTO_PREVIEW_RESULT_CODE
 import com.zp.zphoto_lib.content.ZPhotoDetail
 import com.zp.zphoto_lib.content.forEachNoIterable
+import com.zp.zphoto_lib.content.getTipStr
 import com.zp.zphoto_lib.ui.view.ZPhotoVideoPlayer
 import com.zp.zphoto_lib.util.ZLog
 import com.zp.zphoto_lib.util.ZToaster
@@ -121,13 +122,13 @@ class ZPhotoPreviewActivity : BaseZPhotoActivity(), ViewPager.OnPageChangeListen
                 if (item.isVideo) {
                     // 判断视频大小
                     if (item.size > ZPhotoHelp.getInstance().getConfiguration().maxVideoSize) {
-                        ZToaster.makeTextS("单个视频最大可选取的大小：${ZPhotoHelp.getInstance().getConfiguration().maxVideoSize}M")
+                        ZToaster.makeTextS(getTipStr(R.string.zphoto_video_size_tip, ZPhotoHelp.getInstance().getConfiguration().maxVideoSize))
                         zphoto_preview_box.isChecked = false
                     } else {
                         // 判断数量
                         val videoSelectCount = getSelectPicOrVideoCount().first
                         if (videoSelectCount >= getVideoMaxSelectCount()) {
-                            ZToaster.makeTextS("视频最多可选取的数量：${getVideoMaxSelectCount()}")
+                            ZToaster.makeTextS(getTipStr(R.string.zphoto_video_count_tip, getVideoMaxSelectCount()))
                             zphoto_preview_box.isChecked = false
                         } else {
                             selectList.add(item)
@@ -138,12 +139,12 @@ class ZPhotoPreviewActivity : BaseZPhotoActivity(), ViewPager.OnPageChangeListen
 
                     // 判断图片大小
                     if (item.size > ZPhotoHelp.getInstance().getConfiguration().maxPicSize) {
-                        ZToaster.makeTextS("单张图片最大可选取的大小：${ZPhotoHelp.getInstance().getConfiguration().maxPicSize}M")
+                        ZToaster.makeTextS(getTipStr(R.string.zphoto_pic_size_tip, ZPhotoHelp.getInstance().getConfiguration().maxPicSize))
                         zphoto_preview_box.isChecked = false
                     } else {
                         val picSelectCount = getSelectPicOrVideoCount().second
                         if (picSelectCount >= getPicMaxSelectCount()) {
-                            ZToaster.makeTextS("图片最多可选取的数量：${getPicMaxSelectCount()}")
+                            ZToaster.makeTextS(getTipStr(R.string.zphoto_pic_count_tip, getPicMaxSelectCount()))
                             zphoto_preview_box.isChecked = false
                         } else {
                             selectList.add(item)
