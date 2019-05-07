@@ -15,13 +15,14 @@
 1. **引用最基本的v4，v7，cardview，design官方库和基于 android-crop修改后的图片剪裁外无其他第三方库[查看lib gradle配置](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/build.gradle)**；
 2. 支持视频、图片、GIF查看，图片裁剪，压缩；
 3. 支持图片、视频 --->>> 单选、多选&&数量、大小限制；
-4. 支持样式自定义（还未完成）；
+4. 支持样式自定义；
 
 
 ## 未来
 1. 发布到JCenter
 2. 让还在使用java的大佬们更方便的调用<br>
 3. 视频裁剪（核心代码--->>>[ZPhotoSuperVideoPlayer](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/src/main/java/com/zp/zphoto_lib/ui/view/ZPhotoSuperVideoPlayer.kt)）
+4. 优化图片获取
 
 
 ## 截图
