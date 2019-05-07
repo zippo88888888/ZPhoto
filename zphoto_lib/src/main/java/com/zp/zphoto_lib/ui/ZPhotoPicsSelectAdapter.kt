@@ -41,13 +41,13 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
             val box = getView<CheckBox>(R.id.item_zphoto_select_box)
             val diyBox = getView<TextView>(R.id.item_zphoto_select_txt)
             when (config.selectedBoxStyle) {
-                ZPHOTO_BOX_STYLE_TWO -> {
+                ZPHOTO_BOX_STYLE_DIY -> {
                     diyBox.visibility = View.VISIBLE
                     box.visibility = View.GONE
                     diyBox.isSelected = selectedArray[position]
                     diyBox.setBackgroundResource(R.drawable.zphoto_checkbox_my_selector)
                 }
-                ZPHOTO_BOX_STYLE_THREE -> {
+                ZPHOTO_BOX_STYLE_NUM -> {
                     diyBox.visibility = View.VISIBLE
                     box.visibility = View.GONE
                     diyBox.isSelected = selectedArray[position]
@@ -60,13 +60,13 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
                 }
             }
             if (config.allSelect) { // 能够同时选择图片和视频
-                if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_ONE) {
+                if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_DEFAULT) {
                     box.visibility = View.VISIBLE
                 } else {
                     diyBox.visibility = View.VISIBLE
                 }
             } else {
-                if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_ONE) {
+                if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_DEFAULT) {
                     box.visibility = if (item.isVideo) View.GONE else View.VISIBLE
                 } else {
                     diyBox.visibility = if (item.isVideo) View.GONE else View.VISIBLE
@@ -136,7 +136,7 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
                 zPhotoSelectListener?.selected(selectedMap.size)
                 if (box !is CheckBox) {
                     box.isSelected = false
-                    if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_THREE) {
+                    if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_NUM) {
                         box.text = ""
                     }
                 }
@@ -161,7 +161,7 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
                 } else {
                     if (box !is CheckBox) {
                         box.isSelected = true
-                        if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_THREE) {
+                        if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_NUM) {
                             box.text = "${selectedMap.size + 1}"
                         }
                     }
@@ -185,7 +185,7 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
                 } else {
                     if (box !is CheckBox) {
                         box.isSelected = true
-                        if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_THREE) {
+                        if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_NUM) {
                             box.text = "${selectedMap.size + 1}"
                         }
                     }

@@ -55,9 +55,10 @@ const val ZPHOTO_DEFAULT_MAX_VIDEO_SELECT = 2
 const val ZPHOTO_DEFAULT_MAX_VIDEO_SIZE = 50
 
 /** CheckBox样式 */
-const val ZPHOTO_BOX_STYLE_ONE = 1
-const val ZPHOTO_BOX_STYLE_TWO = 2
-const val ZPHOTO_BOX_STYLE_THREE = 3
+const val ZPHOTO_BOX_STYLE_DEFAULT = 1
+const val ZPHOTO_BOX_STYLE_DIY = 2
+@Deprecated("慎用")
+const val ZPHOTO_BOX_STYLE_NUM = 3
 
 
 

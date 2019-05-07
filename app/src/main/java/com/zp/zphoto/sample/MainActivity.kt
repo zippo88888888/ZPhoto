@@ -39,9 +39,8 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
 
         main_styleGroup.setOnCheckedChangeListener { _, checkedId ->
             config.selectedBoxStyle =  when (checkedId) {
-                R.id.main_styleTwoRadio -> ZPHOTO_BOX_STYLE_TWO
-                R.id.main_styleThreeRadio -> ZPHOTO_BOX_STYLE_THREE
-                else -> ZPHOTO_BOX_STYLE_ONE
+                R.id.main_styleTwoRadio -> ZPHOTO_BOX_STYLE_DIY
+                else -> ZPHOTO_BOX_STYLE_DEFAULT
             }
         }
 

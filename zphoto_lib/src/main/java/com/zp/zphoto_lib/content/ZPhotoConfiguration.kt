@@ -68,7 +68,7 @@ class ZPhotoConfiguration {
     /**
      * 选中样式
      */
-    var selectedBoxStyle = ZPHOTO_BOX_STYLE_ONE
+    var selectedBoxStyle = ZPHOTO_BOX_STYLE_DEFAULT
 
     var showLog = true
 
@@ -93,7 +93,7 @@ class ZPhotoConfiguration {
         private var allSelect = false
         private var showCamera = false
         private var authority = "com.zp.zphoto.FileProvider"
-        private var selectedBoxStyle = ZPHOTO_BOX_STYLE_ONE
+        private var selectedBoxStyle = ZPHOTO_BOX_STYLE_DEFAULT
         private var showLog = true
 
         fun maxPicSelect(maxPicSelect: Int): Builder {
