@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".sample.java_sample.JavaMainActivity"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

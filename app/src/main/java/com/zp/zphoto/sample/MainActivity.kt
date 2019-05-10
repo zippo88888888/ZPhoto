@@ -11,6 +11,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.zp.zphoto.R
+import com.zp.zphoto.sample.java_sample.JavaMainActivity
 import com.zp.zphoto_lib.common.BaseZPhotoAdapter
 import com.zp.zphoto_lib.common.BaseZPhotoHolder
 import com.zp.zphoto_lib.common.ZPhotoHelp
@@ -50,6 +51,8 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
             isNestedScrollingEnabled = false
             adapter = mainAdapter
         }
+
+        main_javaUserBtn.setOnClickListener { jumpActivity(JavaMainActivity::class.java) }
 
         main_photoBtn.setOnClickListener {
             ZPhotoHelp.getInstance()

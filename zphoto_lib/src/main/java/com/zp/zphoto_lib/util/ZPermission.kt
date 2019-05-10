@@ -68,6 +68,7 @@ object ZPermission {
     /**
      * 权限检测
      */
+    @JvmStatic
     fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray,
                                    activityOrFragment: Any, outUri :String? = null) {
 

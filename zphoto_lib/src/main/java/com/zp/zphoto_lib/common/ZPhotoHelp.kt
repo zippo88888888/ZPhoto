@@ -28,6 +28,7 @@ class ZPhotoHelp {
     }
 
     companion object {
+        @JvmStatic
         fun getInstance() = BUILDER.builder
     }
 

@@ -251,6 +251,12 @@
             android:layout_height="wrap_content"
             android:text="相册"/>
 
+        <Button
+            android:id="@+id/main_javaUserBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="JAVA 调用"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/main_recyclerView"
             android:layout_width="match_parent"
