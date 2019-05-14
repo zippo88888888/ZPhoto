@@ -106,6 +106,7 @@ class ZPhotoPreviewActivity : BaseZPhotoActivity(), ViewPager.OnPageChangeListen
             // 设置底部选中的 数量
             zphoto_preview_selectTxt.text = "${lastPageSelectList?.size ?: 0}/$count"
         }
+        setNavigationIcon(R.drawable.ic_close_black)
         setOnMenuItemClickListener(this)
 
         zphoto_preview_vp.adapter = previewAdapter
