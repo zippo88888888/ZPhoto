@@ -7,15 +7,13 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.CheckBox
 import android.widget.ImageView
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.common.BaseZPhotoActivity
 import com.zp.zphoto_lib.common.ZPhotoHelp
 import com.zp.zphoto_lib.common.ZPhotoManager
-import com.zp.zphoto_lib.content.ZPHOTO_PREVIEW_RESULT_CODE
-import com.zp.zphoto_lib.content.ZPhotoDetail
-import com.zp.zphoto_lib.content.forEachNoIterable
-import com.zp.zphoto_lib.content.getTipStr
+import com.zp.zphoto_lib.content.*
 import com.zp.zphoto_lib.ui.view.ZPhotoVideoPlayer
 import com.zp.zphoto_lib.util.ZLog
 import com.zp.zphoto_lib.util.ZToaster
@@ -78,6 +76,19 @@ class ZPhotoPreviewActivity : BaseZPhotoActivity(), ViewPager.OnPageChangeListen
     override fun init(savedInstanceState: Bundle?) {
         isVideo = intent.getBooleanExtra("isVideo", false)
         lastPageSelectList = intent.getParcelableArrayListExtra("selectList")
+
+        val config = ZPhotoHelp.getInstance().getConfiguration()
+        when (config.selectedBoxStyle) {
+            ZPHOTO_BOX_STYLE_DIY -> {
+                zphoto_preview_txt.visibility = View.VISIBLE
+                zphoto_preview_box.visibility = View.GONE
+            }
+            else -> {
+                zphoto_preview_txt.visibility = View.GONE
+                zphoto_preview_box.visibility = View.VISIBLE
+            }
+        }
+
         if (!lastPageSelectList.isNullOrEmpty()) {
             selectList.addAll(lastPageSelectList!!)
         }
@@ -114,52 +125,10 @@ class ZPhotoPreviewActivity : BaseZPhotoActivity(), ViewPager.OnPageChangeListen
         zphoto_preview_vp.addOnPageChangeListener(this)
 
         zphoto_preview_box.setOnClickListener {
-            val item = if (needAllList) {
-                allList!![zphoto_preview_vp.currentItem]
-            } else {
-                lastPageSelectList!![zphoto_preview_vp.currentItem]
-            }
-            if (zphoto_preview_box.isChecked) { // 选中
-                if (item.isVideo) {
-                    // 判断视频大小
-                    if (item.size > ZPhotoHelp.getInstance().getConfiguration().maxVideoSize) {
-                        ZToaster.makeTextS(getTipStr(R.string.zphoto_video_size_tip, ZPhotoHelp.getInstance().getConfiguration().maxVideoSize))
-                        zphoto_preview_box.isChecked = false
-                    } else {
-                        // 判断数量
-                        val videoSelectCount = getSelectPicOrVideoCount().first
-                        if (videoSelectCount >= getVideoMaxSelectCount()) {
-                            ZToaster.makeTextS(getTipStr(R.string.zphoto_video_count_tip, getVideoMaxSelectCount()))
-                            zphoto_preview_box.isChecked = false
-                        } else {
-                            selectList.add(item)
-                        }
-                    }
-
-                } else {
-
-                    // 判断图片大小
-                    if (item.size > ZPhotoHelp.getInstance().getConfiguration().maxPicSize) {
-                        ZToaster.makeTextS(getTipStr(R.string.zphoto_pic_size_tip, ZPhotoHelp.getInstance().getConfiguration().maxPicSize))
-                        zphoto_preview_box.isChecked = false
-                    } else {
-                        val picSelectCount = getSelectPicOrVideoCount().second
-                        if (picSelectCount >= getPicMaxSelectCount()) {
-                            ZToaster.makeTextS(getTipStr(R.string.zphoto_pic_count_tip, getPicMaxSelectCount()))
-                            zphoto_preview_box.isChecked = false
-                        } else {
-                            selectList.add(item)
-                        }
-                    }
-                }
-
-            } else { // 取消选中
-                if (selectList.contains(item)) {
-                    selectList.remove(item)
-                }
-            }
-            // 设置底部选中的 数量
-            zphoto_preview_selectTxt.text = "${selectList?.size}/$count"
+            click()
+        }
+        zphoto_preview_txt.setOnClickListener {
+            click()
         }
 
         // 第一次进来判断 当前是否已经选中
@@ -169,7 +138,75 @@ class ZPhotoPreviewActivity : BaseZPhotoActivity(), ViewPager.OnPageChangeListen
             lastPageSelectList!![zphoto_preview_vp.currentItem]
         }
         val checked = selectList.contains(item)
-        zphoto_preview_box.isChecked = checked
+        setCheckedByStyle(checked)
+    }
+
+    private fun click() {
+        val config = ZPhotoHelp.getInstance().getConfiguration()
+        val isChecked =  when (config.selectedBoxStyle) {
+            ZPHOTO_BOX_STYLE_DIY -> {
+                !zphoto_preview_txt.isSelected
+            }
+            else -> {
+                zphoto_preview_box.isChecked
+            }
+        }
+
+        val item = if (needAllList) {
+            allList!![zphoto_preview_vp.currentItem]
+        } else {
+            lastPageSelectList!![zphoto_preview_vp.currentItem]
+        }
+        if (isChecked) { // 选中
+            if (item.isVideo) {
+                // 判断视频大小
+                if (item.size > ZPhotoHelp.getInstance().getConfiguration().maxVideoSize) {
+                    ZToaster.makeTextS(getTipStr(R.string.zphoto_video_size_tip, ZPhotoHelp.getInstance().getConfiguration().maxVideoSize))
+                    setCheckedByStyle(false)
+                } else {
+                    // 判断数量
+                    val videoSelectCount = getSelectPicOrVideoCount().first
+                    if (videoSelectCount >= getVideoMaxSelectCount()) {
+                        ZToaster.makeTextS(getTipStr(R.string.zphoto_video_count_tip, getVideoMaxSelectCount()))
+                        setCheckedByStyle(false)
+                    } else {
+                        selectList.add(item)
+                        if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_DIY) {
+                            zphoto_preview_txt.isSelected = true
+                        }
+                    }
+                }
+
+            } else {
+
+                // 判断图片大小
+                if (item.size > ZPhotoHelp.getInstance().getConfiguration().maxPicSize) {
+                    ZToaster.makeTextS(getTipStr(R.string.zphoto_pic_size_tip, ZPhotoHelp.getInstance().getConfiguration().maxPicSize))
+                    setCheckedByStyle(false)
+                } else {
+                    val picSelectCount = getSelectPicOrVideoCount().second
+                    if (picSelectCount >= getPicMaxSelectCount()) {
+                        ZToaster.makeTextS(getTipStr(R.string.zphoto_pic_count_tip, getPicMaxSelectCount()))
+                        setCheckedByStyle(false)
+                    } else {
+                        selectList.add(item)
+                        if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_DIY) {
+                            zphoto_preview_txt.isSelected = true
+                        }
+                    }
+                }
+            }
+
+        } else { // 取消选中
+            if (selectList.contains(item)) {
+                selectList.remove(item)
+                if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_DIY) {
+                    zphoto_preview_txt.isSelected = false
+                }
+            }
+        }
+        // 设置底部选中的 数量
+        zphoto_preview_selectTxt.text = "${selectList?.size}/$count"
     }
 
     override fun onPageScrollStateChanged(position: Int) = Unit
@@ -181,13 +218,13 @@ class ZPhotoPreviewActivity : BaseZPhotoActivity(), ViewPager.OnPageChangeListen
             if (needAllList) {
                 item = allList!![position]
                 // 设置是否选中
-                zphoto_preview_box.isChecked = selectList.contains(item)
+                setCheckedByStyle(selectList.contains(item))
                 // 设置头部下标显示
                 setBarTitle("${position + 1}/${allList?.size ?: 0}")
             } else {
                 item = lastPageSelectList!![position]
                 // 设置是否选中
-                zphoto_preview_box.isChecked = selectList.contains(item)
+                setCheckedByStyle(selectList.contains(item))
                 setBarTitle("${position + 1}/${lastPageSelectList?.size ?: 0}")
             }
             // 判断是否停止播放视频，获取的是上一个
@@ -204,6 +241,18 @@ class ZPhotoPreviewActivity : BaseZPhotoActivity(), ViewPager.OnPageChangeListen
                 }
             }
             lastIndex = position
+        }
+    }
+
+    private fun setCheckedByStyle(checkedOrSelected: Boolean) {
+        val config = ZPhotoHelp.getInstance().getConfiguration()
+        when (config.selectedBoxStyle) {
+            ZPHOTO_BOX_STYLE_DIY -> {
+                zphoto_preview_txt.isSelected = checkedOrSelected
+            }
+            else -> {
+                zphoto_preview_box.isChecked = checkedOrSelected
+            }
         }
     }
 
