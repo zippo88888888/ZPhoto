@@ -19,21 +19,39 @@
 
 
 ## 未来
-1. 发布到JCenter
-2. 视频裁剪（核心代码--->>>[ZPhotoSuperVideoPlayer](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/src/main/java/com/zp/zphoto_lib/ui/view/ZPhotoSuperVideoPlayer.kt)）
+1. 视频裁剪（核心代码--->>>[ZPhotoSuperVideoPlayer](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/src/main/java/com/zp/zphoto_lib/ui/view/ZPhotoSuperVideoPlayer.kt)）
 
 
 ## 截图
 <img src = "app/src/main/assets/ys1.jpg" width = 300px><br><br>
 
 ## 使用
+
+Step 0. 添加依赖
+
+gradle
+```
+implementation 'com.github.zp:zphoto_lib:1.0'
+```
+
+maven
+```xml
+<dependency>
+	<groupId>com.github.zp</groupId>
+	<artifactId>zphoto_lib</artifactId>
+	<version>1.0</version>
+	<type>pom</type>
+</dependency>
+```
+
+或 aar --> [点击下载](http://yifeng.studio/2017/05/03/android-7-0-compat-fileprovider)
+
 **↓↓↓不要忘记权限↓↓↓**
 ``` xml
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 <uses-permission android:name="android.permission.CAMERA" />
 ```
-
 
 Step 1.  新建图片加载，继承自ZImageLoaderListener，实现自己的图片加载方式（以Glide为例）
 ``` kotlin
