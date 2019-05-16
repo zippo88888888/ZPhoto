@@ -44,7 +44,7 @@ maven
 </dependency>
 ```
 
-或 aar --> [点击下载](http://yifeng.studio/2017/05/03/android-7-0-compat-fileprovider)
+或 aar --> [点击下载](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib-1.0)
 
 **↓↓↓不要忘记权限↓↓↓**
 ``` xml
