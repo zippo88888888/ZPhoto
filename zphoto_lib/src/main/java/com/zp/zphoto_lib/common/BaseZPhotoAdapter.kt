@@ -20,9 +20,6 @@ abstract class BaseZPhotoAdapter<T>(protected var context: Context) : RecyclerVi
 
     open fun getDatas() = datas
 
-    /**
-     * 设置值
-     */
     open fun setDatas(list: List<T>?) {
         clear()
         if (!list.isNullOrEmpty()) {

@@ -1,5 +1,6 @@
 package com.zp.zphoto_lib.util
 
+/** @hide */
 object ZPhotoUtil {
 
     /**

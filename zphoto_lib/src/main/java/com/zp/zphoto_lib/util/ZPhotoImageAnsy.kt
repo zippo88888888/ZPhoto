@@ -12,6 +12,10 @@ import java.io.File
 import java.lang.Exception
 import java.lang.ref.SoftReference
 
+/**
+ * LoaderManager
+ * 优化代码
+ */
 class ZPhotoImageAnsy(
     private var context: Context,
     private var listener: (dirs: ArrayList<ZPhotoFolder>, pics: ArrayList<ZPhotoDetail>) -> Unit,

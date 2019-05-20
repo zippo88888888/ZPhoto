@@ -89,13 +89,11 @@ class ZPhotoRVDivider : RecyclerView.ItemDecoration {
         }
     }
 
-    // 获取分割线尺寸
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
         outRect.set(0, 0, 0, dividerHeight)
     }
 
-    // 绘制分割线
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDraw(c, parent, state)
         if (orientation == LinearLayoutManager.VERTICAL) {
@@ -105,7 +103,6 @@ class ZPhotoRVDivider : RecyclerView.ItemDecoration {
         }
     }
 
-    // 绘制横向 item 分割线
     private fun drawHorizontal(canvas: Canvas, parent: RecyclerView) {
         val left = parent.paddingLeft
         val right = parent.measuredWidth - parent.paddingRight
@@ -119,7 +116,6 @@ class ZPhotoRVDivider : RecyclerView.ItemDecoration {
         }
     }
 
-    // 绘制纵向 item 分割线
     private fun drawVertical(canvas: Canvas, parent: RecyclerView) {
         val top = parent.paddingTop
         val bottom = parent.measuredHeight - parent.paddingBottom

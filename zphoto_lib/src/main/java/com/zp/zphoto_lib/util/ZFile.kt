@@ -8,6 +8,7 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+/** @hide */
 object ZFile {
 
     /** 文件大小单位为B */
@@ -60,7 +61,6 @@ object ZFile {
 
     private fun getPathInPackage(context: Context, grantPermissions: Boolean): String? {
         if (packageFilesDirectory != null) return packageFilesDirectory
-        // 手机不存在sdcard, 需要使用 data/data/name.of.package/files 目录
         val path = "${context.filesDir}/$ROOT_DIR"
         val file = File(path)
         if (!file.exists()) {

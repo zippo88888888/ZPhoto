@@ -35,14 +35,3 @@ interface ZImageLoaderListener {
     fun loadImg(imageView: ImageView, res: Int)
 }
 
-class ZPhotoFilenameFilter : FilenameFilter {
-
-    override fun accept(filename: File, s: String): Boolean {
-        val name = s.toLowerCase()
-        val showGif = ZPhotoHelp.getInstance().getConfiguration().showGif
-        if (showGif) return name.endsWith(JPEG) || name.endsWith(JPG)
-                || name.endsWith(PNG) || name.endsWith(GIF)
-        return name.endsWith(JPEG) || name.endsWith(JPG)
-                || name.endsWith(PNG)
-    }
-}

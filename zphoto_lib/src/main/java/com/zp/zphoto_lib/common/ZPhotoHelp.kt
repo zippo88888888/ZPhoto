@@ -125,7 +125,7 @@ class ZPhotoHelp {
     }
 
     /**
-     * 重置  在哪里设置ZImageResultListener 就在哪儿调用
+     * 重置
      */
     fun reset() {
         resultListener = null

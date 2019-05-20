@@ -278,11 +278,8 @@ class ZPhotoVideoPlayer : TextureView, TextureView.SurfaceTextureListener {
         val sy = height.toFloat() / videoHeight.toFloat()
         val matrix = Matrix()
         val maxScale = Math.max(sx, sy)
-        // 视频区移动到View区,使两者中心点重合.
         matrix.preTranslate(((width - videoWidth) / 2).toFloat(), ((height - videoHeight) / 2).toFloat())
-        // 默认视频是fitXY的形式显示的,所以首先要缩放还原回来.
         matrix.preScale(videoWidth / width.toFloat(), videoHeight / height.toFloat())
-        // 等比例放大或缩小,直到视频区的一边超过View一边, 另一边与View的另一边相等.
         matrix.postScale(maxScale, maxScale, (width / 2).toFloat(), (height / 2).toFloat())
         setTransform(matrix)
         postInvalidate()
@@ -296,11 +293,8 @@ class ZPhotoVideoPlayer : TextureView, TextureView.SurfaceTextureListener {
         val sx = width.toFloat() / videoWidth.toFloat()
         val sy = height.toFloat() / videoHeight.toFloat()
         val matrix = Matrix()
-        // 把视频区移动到View区,使两者中心点重合.
         matrix.preTranslate(((width - videoWidth) / 2).toFloat(), ((height - videoHeight) / 2).toFloat())
-        // 默认视频是fitXY的形式显示的,所以首先要缩放还原回来.
         matrix.preScale(videoWidth / width.toFloat(), videoHeight / height.toFloat())
-        // 等比例放大或缩小,直到视频区的一边和View一边相等.如果另一边和view的一边不相等，则留下空隙
         if (sx >= sy) {
             matrix.postScale(sy, sy, (width / 2).toFloat(), (height / 2).toFloat())
         } else {

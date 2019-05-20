@@ -74,20 +74,20 @@ class ZPhotoConfiguration {
 
 
     /**
-     * 供java调用
+     * 方便java调用
      */
     class Builder {
 
         private var maxPicSelect = ZPHOTO_DEFAULT_MAX_PIC_SELECT
         private var maxPicSize = ZPHOTO_DEFAULT_MAX_PIC_SIZE
-        private var showGif = true
+        private var showGif = false
         private var needCrop = false
         private var cropUri = ZFile.getPathForPath(ZFile.CROP)
 
         private var needCompress = false
         private var compressUri = ZFile.getPathForPath(ZFile.COMPRESS)
 
-        private var showVideo = true
+        private var showVideo = false
         private var maxVideoSelect = ZPHOTO_DEFAULT_MAX_VIDEO_SELECT
         private var maxVideoSize = ZPHOTO_DEFAULT_MAX_VIDEO_SIZE
         private var allSelect = false

@@ -49,9 +49,7 @@ class ZPhotoManager {
                 if (config.allSelect) { // 同时选择不处理
                     SoftReference(list as ArrayList<ZPhotoDetail>)
                 } else { // 如果不能同时选择，直接将视频移除
-                    ZLog.e("如果不能同时选择，需要将视频移除  size：${allList.size}")
                     list = list.filterNot { it.isVideo }
-                    ZLog.e("如果不能同时选择，直接将视频移除  size：${list.size}")
                     SoftReference(list as ArrayList<ZPhotoDetail>)
                 }
             } else {

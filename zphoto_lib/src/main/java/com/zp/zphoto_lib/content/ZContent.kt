@@ -139,39 +139,6 @@ fun Context.getDisplay() = IntArray(2).apply {
     this[1] = point.y
 }
 
-/** 返回当前程序版本名 */
-fun Context.getAppVersionName() = packageManager.getPackageInfo(packageName, 0).versionName
-
-/** 返回当前程序版本号 */
-fun Context.getAppCode() = packageManager.getPackageInfo(packageName, 0).longVersionCode
-
-/** 复制到剪贴板管理器 */
-fun Context.copy(content: String) {
-    val cmb = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    cmb.primaryClip = ClipData.newPlainText(ClipDescription.MIMETYPE_TEXT_PLAIN, content)
-}
-
-/** 关闭软键盘 */
-fun Activity.closeKeyboard() {
-    try {
-        val m = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (m.isActive) { // 表示打开
-            // 如果打开，则关闭
-            m.hideSoftInputFromWindow(currentFocus!!.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
-    }
-}
-
-/** 根据Tag检查是否存在Fragment实例，如果存在就移除！ */
-fun AppCompatActivity.checkFragmentByTag(fragmentTag: String) {
-    val fragment = supportFragmentManager.findFragmentByTag(fragmentTag)
-    if (fragment != null) {
-        supportFragmentManager.beginTransaction().remove(fragment).commit()
-    }
-}
-
 // 资源相关 ================================================
 
 fun dip2pxF(dpValue: Float) = dpValue * getAppContext().resources.displayMetrics.density + 0.5f
@@ -204,13 +171,6 @@ fun checkGif(url: String) = try {
     false
 }
 
-fun checkVideo(url: String) = try {
-    val video = url.substring(url.lastIndexOf(".") + 1, url.length)
-    MP4 == video
-} catch (e: Exception) {
-    e.printStackTrace()
-    false
-}
 
 // 列表、集合 ===============================================
 
@@ -241,8 +201,7 @@ internal inline fun <E> SparseArray<E>.forEachIndices(block: (E, Int) -> Unit) {
     }
 }
 
-val SparseArray<*>.indices: IntRange
-    get() = 0 until size()
+
 
 internal inline fun <E> List<E>.forEachNoIterable(block: (E) -> Unit) {
     var index = 0
@@ -253,11 +212,4 @@ internal inline fun <E> List<E>.forEachNoIterable(block: (E) -> Unit) {
     }
 }
 
-internal fun <E> LinkedList<E>.forEach(block: (E, Int) -> Unit) {
-    var i = size - 1
-    while (i > -1) {
-        block(get(i), i)
-        i = size
-        i--
-    }
-}
+
