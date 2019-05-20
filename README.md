@@ -44,7 +44,7 @@ maven
 </dependency>
 ```
 
-或 aar --> [点击下载](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib-1.0)
+或 aar --> [点击下载](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib-1.0.aar)
 
 **↓↓↓不要忘记权限↓↓↓**
 ``` xml
