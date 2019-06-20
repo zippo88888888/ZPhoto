@@ -38,4 +38,9 @@
         <item name="overlapAnchor">true</item>
     </style>
 
+    <style name="ZPhoto_Toolbar_TitleStyle" parent="Base.DialogWindowTitle.AppCompat">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/zphoto_tool_bar_txt_color</item>
+    </style>
+
 </resources>

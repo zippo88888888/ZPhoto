@@ -8,7 +8,6 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-/** @hide */
 object ZFile {
 
     /** 文件大小单位为B */
@@ -21,7 +20,7 @@ object ZFile {
     const val SIZETYPE_GB = 4
 
     /** 根目录 */
-    private const val ROOT_DIR = "zphoto"
+    private const val ROOT_DIR = "zphoto_lib"
 
     /** 照片目录 */
     const val PHOTO = "/photo/"
@@ -32,6 +31,13 @@ object ZFile {
 
     private var storagePath: String? = null
     private var packageFilesDirectory: String? = null
+
+    /** 缓存列表 */
+    private fun getCacheList() = arrayOf(
+        getPath() + PHOTO,
+        getPath() + COMPRESS,
+        getPath() + CROP
+    )
 
     /**
      * 得到具体的路径
@@ -141,6 +147,54 @@ object ZFile {
             SIZETYPE_GB -> java.lang.Double.valueOf(df.format(fileS.toDouble() / 1073741824))
             else -> 0.0
         }
+    }
+
+    /**
+     * 删除文件
+     */
+    private fun delete(file: File) {
+        if (!file.exists()) return
+        if (file.isFile) {
+            file.delete()
+            return
+        }
+        if (file.isDirectory) {
+            val childFiles = file.listFiles()
+            if (childFiles == null || childFiles.isEmpty()) {
+                file.delete()
+                return
+            }
+            for (i in childFiles.indices) {
+                delete(childFiles[i])
+            }
+            file.delete()
+        }
+    }
+
+    /**
+     * 获取缓存目录的大小  建议在非UI线程中操作
+     */
+    fun getZPhotoCacheSize(sizeType: Int = SIZETYPE_MB): Double {
+        var size = 0.0
+        getCacheList().forEach {
+            if (File(it).exists()) {
+                val filesSize = getFileOrFilesSize(it, sizeType)
+                size += filesSize
+            }
+        }
+        return size
+    }
+
+    /**
+     * 清除缓存
+     */
+    fun deleteZPhotoCache(clearSuccess: () -> Unit) {
+        Thread {
+            getCacheList().forEach {
+                delete(File(it))
+            }
+            clearSuccess.invoke()
+        }.start()
     }
 
 }

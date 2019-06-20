@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.zp.zphoto.R;
@@ -34,7 +35,7 @@ public class JavaMainActivity extends AppCompatActivity implements ZImageResultL
         ZPhotoHelp.getInstance()
                 .setZImageResultListener(this)
                 .config(getConfig())
-                .toCamear(this, outUri);
+                .toCamera(this, outUri);
     }
 
     public void toPhoto(View view) {
@@ -63,12 +64,12 @@ public class JavaMainActivity extends AppCompatActivity implements ZImageResultL
 
     @Override
     public void selectFailure() {
-        ZToaster.Companion.makeTextS("失败了", ZToaster.LONG);
+        Log.e("java", "Failure");
     }
 
     @Override
     public void selectCancel() {
-        ZToaster.Companion.makeTextS("取消了", ZToaster.LONG);
+        Log.i("java", "Cancel");
     }
 
     @Override

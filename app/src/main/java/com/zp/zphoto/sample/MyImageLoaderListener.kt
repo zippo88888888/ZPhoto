@@ -7,6 +7,9 @@ import com.zp.zphoto_lib.content.ZImageLoaderListener
 import com.zp.zphoto_lib.content.checkGif
 import java.io.File
 
+/**
+ * 具体以自己业务逻辑为准
+ */
 class MyImageLoaderListener : ZImageLoaderListener {
 
     override fun loadImg(imageView: ImageView, file: File) {
@@ -50,12 +53,6 @@ class MyImageLoaderListener : ZImageLoaderListener {
      * 加载 file 图片
      */
     private fun loadImg(file: File, pic: ImageView) {
-//        Glide.with(pic.context)
-//                .load(file)
-//                .asBitmap()
-//                .dontAnimate()
-//                .into(pic)
-
         loadGifImg(file, pic)
     }
 

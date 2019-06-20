@@ -74,6 +74,17 @@ class ZPhotoHelp {
     }
 
     /**
+     * 获取ZPhoto缓存大小 单位MB
+     */
+    fun getZPhotoCacheSize() = ZFile.getZPhotoCacheSize()
+
+    /**
+     * 清除ZPhoto缓存
+     * @param block  清除后方法回调
+     */
+    fun clearZPhotoCache(block: () -> Unit) = ZFile.deleteZPhotoCache(block)
+
+    /**
      * 去相册
      */
     fun toPhoto(activity: Activity) {
@@ -93,7 +104,7 @@ class ZPhotoHelp {
      * 去相机
      * @param outUri    拍照后保存的路径，空为默认值
      */
-    fun toCamear(activity: Activity, outUri: String? = null) {
+    fun toCamera(activity: Activity, outUri: String? = null) {
         val noPermissionArray = ZPermission.checkPermission(activity, ZPermission.CAMERA, ZPermission.WRITE_EXTERNAL_STORAGE)
         if (noPermissionArray.isNullOrEmpty()) {
             val uri = if (outUri.isNullOrEmpty()) {
@@ -110,7 +121,7 @@ class ZPhotoHelp {
      * 去相机
      * @param outUri    拍照后保存的路径，空为默认值
      */
-    fun toCamear(fragment: Fragment, outUri: String? = null) {
+    fun toCamera(fragment: Fragment, outUri: String? = null) {
         val noPermissionArray =
             ZPermission.checkPermission(fragment.activity!!, ZPermission.CAMERA, ZPermission.WRITE_EXTERNAL_STORAGE)
         if (noPermissionArray.isNullOrEmpty()) {

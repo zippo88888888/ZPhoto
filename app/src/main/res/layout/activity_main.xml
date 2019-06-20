@@ -26,21 +26,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="显示gif"/>
+                android:text="显示gif" />
 
             <CheckBox
                 android:id="@+id/main_cutBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="图片剪裁"/>
+                android:text="图片剪裁" />
 
             <CheckBox
                 android:id="@+id/main_compressBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="图片压缩"/>
+                android:text="图片压缩" />
 
         </LinearLayout>
 
@@ -54,40 +54,40 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="显示视频"/>
+                android:text="显示视频" />
 
             <CheckBox
                 android:id="@+id/main_allSelectBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="同时选择"/>
+                android:text="同时选择" />
 
             <CheckBox
                 android:id="@+id/main_cameraBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="显示拍照"/>
+                android:text="显示拍照" />
 
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/video_msg"
-            android:textSize="12sp"
             android:layout_margin="5dp"
-            android:textColor="@color/colorAccent"/>
+            android:text="@string/video_msg"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="选中样式"
-            android:textSize="15sp"
-            android:textStyle="bold"
             android:layout_margin="5dp"
-            android:textColor="@color/colorPrimary"/>
+            android:text="选中样式"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <RadioGroup
             android:id="@+id/main_styleGroup"
@@ -102,14 +102,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:checked="true"
-                android:text="默认系统样式"/>
+                android:text="默认系统样式" />
 
             <RadioButton
                 android:id="@+id/main_styleTwoRadio"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="自定义样式"/>
+                android:text="自定义样式" />
 
         </RadioGroup>
 
@@ -121,18 +121,18 @@
             <TextView
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textStyle="bold"
+                android:layout_gravity="center|start"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_gravity="center|start"
+                android:text="图片最大选取数量"
                 android:textColor="@color/colorPrimary"
-                android:text="图片最大选取数量"/>
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-             <com.zp.zphoto.sample.view.CountView
-                 android:id="@+id/main_picCountCV"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content" />
+            <com.zp.zphoto.sample.view.CountView
+                android:id="@+id/main_picCountCV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -148,13 +148,13 @@
             <TextView
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textStyle="bold"
+                android:layout_gravity="center|start"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_gravity="center|start"
+                android:text="图片最大选取size"
                 android:textColor="@color/colorPrimary"
-                android:text="图片最大选取size"/>
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <com.zp.zphoto.sample.view.CountView
                 android:id="@+id/main_picSizeCV"
@@ -164,13 +164,13 @@
             <TextView
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textStyle="bold"
+                android:layout_gravity="center|start"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_gravity="center|start"
+                android:text="MB"
                 android:textColor="@color/colorPrimary"
-                android:text="MB"/>
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -186,13 +186,13 @@
             <TextView
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textStyle="bold"
+                android:layout_gravity="center|start"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_gravity="center|start"
+                android:text="视频最大选取数量"
                 android:textColor="@color/colorPrimary"
-                android:text="视频最大选取数量"/>
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <com.zp.zphoto.sample.view.CountView
                 android:id="@+id/main_videoCountCV"
@@ -213,13 +213,13 @@
             <TextView
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textStyle="bold"
+                android:layout_gravity="center|start"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:layout_gravity="center|start"
+                android:text="视频最大选取size"
                 android:textColor="@color/colorPrimary"
-                android:text="视频最大选取size"/>
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <com.zp.zphoto.sample.view.CountView
                 android:id="@+id/main_videoSizeCV"
@@ -229,13 +229,13 @@
             <TextView
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textStyle="bold"
+                android:layout_gravity="center|start"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_gravity="center|start"
+                android:text="MB"
                 android:textColor="@color/colorPrimary"
-                android:text="MB"/>
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -249,13 +249,13 @@
             android:id="@+id/main_photoBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="相册"/>
+            android:text="相册" />
 
         <Button
             android:id="@+id/main_javaUserBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="JAVA 调用"/>
+            android:text="JAVA 调用" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/main_recyclerView"

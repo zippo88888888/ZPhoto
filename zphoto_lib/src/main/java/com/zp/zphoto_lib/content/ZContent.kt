@@ -62,7 +62,6 @@ const val ZPHOTO_BOX_STYLE_NUM = 3
 
 
 
-// Context 相关 ===========================================================
 fun Context.jumpActivity(clazz: Class<*>, map: ArrayMap<String, Any>? = null) {
     startActivity(Intent(this, clazz).apply {
         if (!map.isNullOrEmpty()) {
@@ -79,9 +78,6 @@ fun Activity.jumpActivity(clazz: Class<*>, map: ArrayMap<String, Any>? = null, r
     }, requestCode)
 }
 
-/**
- * 根据Map 获取 Bundle
- */
 fun getBundleFormMapKV(map: ArrayMap<String, Any>) = Bundle().apply {
     for ((k, v) in map) {
         when (v) {
@@ -99,25 +95,11 @@ fun getBundleFormMapKV(map: ArrayMap<String, Any>) = Bundle().apply {
     }
 }
 
-/** 获取全局的ApplicationContext */
 fun getAppContext() = ZPhotoManager.getInstance().getApplicationContext()
 
-/** 返回ToolBar的高度 */
 fun getToolBarHeight() = getAppContext().resources.getDimension(R.dimen.zphoto_toolBarHeight).toInt()
 
-/**
- * 设置状态栏 显示状态
- * @param enable true: 隐藏；false：显示
- */
-fun Activity.setFullScreen(enable: Boolean) {
-    val lp = window.attributes
-    if (enable) lp.flags = lp.flags or WindowManager.LayoutParams.FLAG_FULLSCREEN
-    else lp.flags = lp.flags and WindowManager.LayoutParams.FLAG_FULLSCREEN.inv()
-    window.attributes = lp
-    window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-}
 
-/** 设置状态栏透明 */
 fun Activity.setStatusBarTransparent() {
     val decorView = window.decorView
     val option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -125,12 +107,10 @@ fun Activity.setStatusBarTransparent() {
     window.statusBarColor = Color.TRANSPARENT
 }
 
-/** 获取状态栏高度 */
 fun Context.getStatusBarHeight() = resources.getDimensionPixelSize(
     resources.getIdentifier("status_bar_height", "dimen", "android")
 )
 
-/** 获取屏幕的宽，高 */
 fun Context.getDisplay() = IntArray(2).apply {
     val manager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
     val point = Point()
@@ -138,8 +118,6 @@ fun Context.getDisplay() = IntArray(2).apply {
     this[0] = point.x
     this[1] = point.y
 }
-
-// 资源相关 ================================================
 
 fun dip2pxF(dpValue: Float) = dpValue * getAppContext().resources.displayMetrics.density + 0.5f
 fun dip2px(dpValue: Float) = dip2pxF(dpValue).toInt()
@@ -171,9 +149,6 @@ fun checkGif(url: String) = try {
     false
 }
 
-
-// 列表、集合 ===============================================
-
 internal inline fun SparseBooleanArray.forEach(block: (Int) -> Unit) {
     var index = 0
     val size = size()
@@ -182,26 +157,6 @@ internal inline fun SparseBooleanArray.forEach(block: (Int) -> Unit) {
         index ++
     }
 }
-
-internal inline fun <E> SparseArray<E>.forEach(block: (E) -> Unit) {
-    var index = 0
-    val size = size()
-    while (index < size) {
-        block(get(index))
-        index ++
-    }
-}
-
-internal inline fun <E> SparseArray<E>.forEachIndices(block: (E, Int) -> Unit) {
-    var index = 0
-    val size = size()
-    while (index < size) {
-        block(get(index), index)
-        index ++
-    }
-}
-
-
 
 internal inline fun <E> List<E>.forEachNoIterable(block: (E) -> Unit) {
     var index = 0

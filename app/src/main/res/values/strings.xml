@@ -2,4 +2,8 @@
     <string name="app_name">ZPhoto</string>
     <string name="video_msg"> \""显示视频\"" 只是在相册显示视频，可以通过预览选择，而不能通过CheckBox选中&amp;&amp;只能预览一个；
         如果需要通过CheckBox选中&amp;&amp;选择、预览多个视频，需要将 \""同时选择\"" 勾上</string>
+
+    <!-- 提示语句 -->
+    <string name="zphoto_pic_count_tip">bilibili( ゜- ゜)つロ 干杯 亲亲 图片最多能选 %1$d 张  bilibili( ゜- ゜)つロ 干杯</string>
+
 </resources>

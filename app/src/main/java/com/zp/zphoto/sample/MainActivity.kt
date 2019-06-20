@@ -66,13 +66,15 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
                 .setZImageResultListener(this)
                 .setZImageCompress(MyImageCompress())
                 .config(getConfig())
-                .toCamear(this)
+                .toCamera(this)
         }
     }
 
     override fun selectSuccess(list: ArrayList<ZPhotoDetail>?) {
         ZLog.e("选中的数量：${list?.size}")
         mainAdapter?.setDatas(list)
+        ZLog.e("当前缓存大小：${ZPhotoHelp.getInstance().getZPhotoCacheSize()}MB")
+
     }
 
     override fun selectFailure() {

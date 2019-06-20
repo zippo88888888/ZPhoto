@@ -22,7 +22,6 @@ import com.zp.zphoto_lib.util.ZPermission
 import com.zp.zphoto_lib.util.ZPhotoImageAnsy
 import com.zp.zphoto_lib.util.ZToaster
 import kotlinx.android.synthetic.main.activity_zphoto_select.*
-import java.lang.NullPointerException
 
 class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListener {
 
@@ -72,7 +71,7 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
         zPhotoPicsSelectAdapter?.onItemClickListener = {_, position ->
             val item = zPhotoPicsSelectAdapter?.getItem(position)
             if (item!!.name == ZPHOTO_SHOW_CAMEAR) { // 拍照
-                ZPhotoHelp.getInstance().toCamear(this)
+                ZPhotoHelp.getInstance().toCamera(this)
             } else {
                 val config = ZPhotoHelp.getInstance().getConfiguration()
                 // 判断第0个

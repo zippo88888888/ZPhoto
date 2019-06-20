@@ -3,7 +3,6 @@ package com.zp.zphoto_lib.util
 import android.Manifest
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.support.v4.app.ActivityCompat
@@ -76,8 +75,8 @@ object ZPermission {
             val noPermissionArray = onPermissionsResult(permissions, grantResults)
             if (noPermissionArray.isNullOrEmpty()) {
                 when (activityOrFragment) {
-                    is Activity -> ZPhotoHelp.getInstance().toCamear(activityOrFragment, outUri)
-                    is Fragment -> ZPhotoHelp.getInstance().toCamear(activityOrFragment, outUri)
+                    is Activity -> ZPhotoHelp.getInstance().toCamera(activityOrFragment, outUri)
+                    is Fragment -> ZPhotoHelp.getInstance().toCamera(activityOrFragment, outUri)
                     else -> throw IllegalArgumentException("activityOrFragment is not Activity or Fragment")
                 }
             } else {

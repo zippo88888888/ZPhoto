@@ -1,20 +1,8 @@
 package com.zp.zphoto_lib.content
 
-import android.app.Activity
-import android.app.ProgressDialog
-import android.content.Context
-import android.net.Uri
-import android.os.AsyncTask
-import android.os.Handler
-import android.os.Message
 import android.widget.ImageView
-import com.zp.zphoto_lib.R
-import com.zp.zphoto_lib.common.ZPhotoHelp
-import com.zp.zphoto_lib.util.ZToaster
 import java.io.File
-import java.io.FilenameFilter
-import java.lang.ref.SoftReference
-import java.util.ArrayList
+import java.util.*
 
 /**
  * 图片选择回调

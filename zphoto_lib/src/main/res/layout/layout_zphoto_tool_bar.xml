@@ -24,7 +24,7 @@
         app:theme="@style/ZPhoto_ToolbarTheme">
 
         <TextView
-            style="@style/Base.DialogWindowTitle.AppCompat"
+            style="@style/ZPhoto_Toolbar_TitleStyle"
             android:id="@+id/tool_bar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.CheckBox
 import android.widget.ImageView
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.common.BaseZPhotoActivity
@@ -117,7 +116,7 @@ class ZPhotoPreviewActivity : BaseZPhotoActivity(), ViewPager.OnPageChangeListen
             // 设置底部选中的 数量
             zphoto_preview_selectTxt.text = "${lastPageSelectList?.size ?: 0}/$count"
         }
-        setNavigationIcon(R.drawable.ic_close_black)
+        setNavigationIcon(R.drawable.ic_zphoto_close_black)
         setOnMenuItemClickListener(this)
 
         zphoto_preview_vp.adapter = previewAdapter
