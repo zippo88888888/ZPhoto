@@ -1,6 +1,8 @@
 
-[![Travis](https://img.shields.io/badge/ZPhoto-1.0.0-yellowgreen.svg)](https://github.com/zippo88888888/ZPhoto)
-[![Travis](https://img.shields.io/badge/API-21%2B-green.svg)](https://github.com/zippo88888888/ZPhoto)
+[![Travis](https://img.shields.io/badge/ZPhoto-1.1-yellowgreen.svg)](https://github.com/zippo88888888/ZPhoto)
+[![Travis](https://img.shields.io/badge/API-18%2B-green.svg)](https://github.com/zippo88888888/ZPhoto)
+[![Travis](https://img.shields.io/badge/Apache-2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
 
 有很多优秀的图片选择框架，但是大部分集成了许多第三方框架，对我来说不简洁！貌似还没看到用KT写的（Kotlin是这世上最好的语言<img src="http://www.fakutownee.cn/d/file/p/2017-07-21/bbd7df2efc2d550fc7ce84da03a72ae8.jpg" width=15px height=15px>）果断撸一个...<br><br>
 **↓↓↓站在巨人的肩部上，你绝对能看得更远 鸣谢↓↓↓**<br>
@@ -19,7 +21,8 @@
 
 
 ## 未来
-1. 视频裁剪（核心代码--->>>[ZPhotoSuperVideoPlayer](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/src/main/java/com/zp/zphoto_lib/ui/view/ZPhotoSuperVideoPlayer.kt)）
+1. 缓存开放
+2. 视频裁剪（核心代码--->>>[ZPhotoSuperVideoPlayer](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/src/main/java/com/zp/zphoto_lib/ui/view/ZPhotoSuperVideoPlayer.kt)）
 
 
 ## 截图
@@ -31,7 +34,7 @@ Step 0. 添加依赖
 
 gradle
 ```
-implementation 'com.github.zp:zphoto_lib:1.0'
+implementation 'com.github.zp:zphoto_lib:1.1'
 ```
 
 maven
@@ -39,12 +42,12 @@ maven
 <dependency>
 	<groupId>com.github.zp</groupId>
 	<artifactId>zphoto_lib</artifactId>
-	<version>1.0</version>
+	<version>1.1</version>
 	<type>pom</type>
 </dependency>
 ```
 
-或 aar --> [点击下载](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib-1.0.aar)
+或 aar --> [点击下载](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib-1.1.aar)
 
 **↓↓↓不要忘记权限↓↓↓**
 ``` xml
