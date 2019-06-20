@@ -1,5 +1,5 @@
 
-[![Travis](https://img.shields.io/badge/ZPhoto-1.1-yellowgreen.svg)](https://github.com/zippo88888888/ZPhoto)
+[![Travis](https://img.shields.io/badge/ZPhoto-1.2-yellowgreen.svg)](https://github.com/zippo88888888/ZPhoto)
 [![Travis](https://img.shields.io/badge/API-18%2B-green.svg)](https://github.com/zippo88888888/ZPhoto)
 [![Travis](https://img.shields.io/badge/Apache-2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
@@ -21,8 +21,7 @@
 
 
 ## 未来
-1. 缓存开放
-2. 视频裁剪（核心代码--->>>[ZPhotoSuperVideoPlayer](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/src/main/java/com/zp/zphoto_lib/ui/view/ZPhotoSuperVideoPlayer.kt)）
+1. 视频裁剪（核心代码--->>>[ZPhotoSuperVideoPlayer](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/src/main/java/com/zp/zphoto_lib/ui/view/ZPhotoSuperVideoPlayer.kt)）
 
 
 ## 截图
@@ -34,7 +33,7 @@ Step 0. 添加依赖
 
 gradle
 ```
-implementation 'com.github.zp:zphoto_lib:1.1'
+implementation 'com.github.zp:zphoto_lib:1.2'
 ```
 
 maven
@@ -42,12 +41,11 @@ maven
 <dependency>
 	<groupId>com.github.zp</groupId>
 	<artifactId>zphoto_lib</artifactId>
-	<version>1.1</version>
-	<type>pom</type>
+	<version>1.2</version>
 </dependency>
 ```
 
-或 aar --> [点击下载](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib-1.1.aar)
+或 aar --> [点击下载](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib-1.2.aar)
 
 **↓↓↓不要忘记权限↓↓↓**
 ``` xml
@@ -207,7 +205,7 @@ Step 5. 使用
             ZPhotoHelp.getInstance()
                 .setZImageResultListener(this)
                 .config(getConfig()) // 配置信息 
-                .toCamear(this)
+                .toCamera(this)
         }
         
 ```
@@ -286,7 +284,33 @@ Step 2. 使用
                 .setZImageResultListener(this)
                 .setZImageCompress(MyImageCompress())
                 .config(getConfig())
-                .toCamear(this)
+                .toCamera(this)
+```
+
+## 关于自定义<br>
+
+**样式**<br>
+ZPhoto_BaseTheme（activity 主题） <br>
+ZPhoto_ToolbarTheme<br>
+ZPhoto_Toolbar_TitleStyle<br><br>
+
+**颜色**<br>
+zphoto_baseColor  主体色<br>
+zphoto_tool_bar_txt_color 标题颜色<br>
+zphoto_red<br>
+...<br><br>
+
+**提示文字**<br>
+```xml
+<!-- lib -->
+<string name="zphoto_video_size_tip">视频最大可选取 %1$d M</string>
+<string name="zphoto_video_count_tip">视频最多可选 %1$d 个</string>
+<string name="zphoto_pic_size_tip">图片最大可选取 %1$d M</string>
+<string name="zphoto_pic_count_tip">图片最多可选 %1$d 张</string>	
+
+<!-- 自定义的 %1$d 占位符必须要 -->
+<string name="zphoto_pic_count_tip">bilibili( ゜- ゜)つロ 干杯 亲亲 图片最多能选 %1$d 张  bilibili( ゜- ゜)つロ 干杯</string>
+...
 ```
 
 搞定^_^ 如果觉得可以 star 一下哦
