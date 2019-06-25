@@ -27,7 +27,7 @@
 ## 截图
 <img src = "app/src/main/assets/ys1.jpg" width = 300px><br><br>
 
-## 使用
+## 使用（[Java调用](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/java/com/zp/zphoto/sample/java_sample/JavaMainActivity.java)）
 
 Step 0. 添加依赖
 
