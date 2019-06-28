@@ -9,8 +9,9 @@ import android.provider.MediaStore
 import com.zp.zphoto_lib.common.ZPhotoHelp
 import com.zp.zphoto_lib.content.*
 import java.io.File
-import java.lang.Exception
 import java.lang.ref.SoftReference
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * LoaderManager
@@ -104,23 +105,37 @@ class ZPhotoImageAnsy(
                 )
 
                 val showGif = ZPhotoHelp.getInstance().getConfiguration().showGif
-                // 查询条件  指定格式
-                val whereArgs = if (showGif) arrayOf("image/$JPEG", "image/$PNG", "image/$JPG", "image/$GIF")
-                else arrayOf("image/$JPEG", "image/$PNG", "image/$JPG")
+                val minPicSize = ZPhotoHelp.getInstance().getConfiguration().minPicSize
 
-                // 查询条件 取值
-                val where = if (showGif) (MediaStore.Images.Media.MIME_TYPE + "=? or "
-                        + MediaStore.Images.Media.MIME_TYPE + "=? or "
-                        + MediaStore.Images.Media.MIME_TYPE + "=? or "
-                        + MediaStore.Images.Media.MIME_TYPE + "=?")
-                else (MediaStore.Images.Media.MIME_TYPE + "=? or "
-                        + MediaStore.Images.Media.MIME_TYPE + "=? or "
-                        + MediaStore.Images.Media.MIME_TYPE + "=?")
+                // 指定格式
+                val whereArgsArray = ArrayList<String>().run {
+                    add("image/$JPEG")
+                    add("image/$PNG")
+                    add("image/$JPG")
+                    if (showGif) add("image/$GIF")
+                    add(" $minPicSize ")
+                    this
+                }
+
+                // 查询条件
+                val whereStr = StringBuilder().run {
+                    val size = if (showGif) 4 else 3
+                    append(" ( ")
+                    for (i in 0 until size) {
+                        append(MediaStore.Images.Media.MIME_TYPE)
+                        if (i == size - 1) append("=?") else append(" =? OR ")
+                    }
+                    append(" ) AND ").append(MediaStore.MediaColumns.SIZE + ">?")
+                    this.toString()
+                }
+
+                val whereArgs = arrayOfNulls<String>(whereArgsArray.size)
+                whereArgsArray.toArray(whereArgs)
 
                 // 排序方式
                 val sortOrder = MediaStore.Images.Media.DATE_MODIFIED + " DESC"
 
-                cursor = context.contentResolver.query(imageUri, projImage, where, whereArgs, sortOrder)
+                cursor = context.contentResolver.query(imageUri, projImage, whereStr, whereArgs, sortOrder)
 
                 val list = ArrayList<ZPhotoDetail>()
 
@@ -200,8 +215,9 @@ class ZPhotoImageAnsy(
                     MediaStore.Video.Media.DATE_MODIFIED,
                     MediaStore.Video.Media.SIZE
                 )
-                val where = (MediaStore.Images.Media.MIME_TYPE + "=?")
-                val whereArgs = arrayOf("video/$MP4")
+                val minVideoSize = ZPhotoHelp.getInstance().getConfiguration().minVideoSize
+                val where = (MediaStore.Images.Media.MIME_TYPE + "=? AND " + MediaStore.Images.Media.SIZE + ">?")
+                val whereArgs = arrayOf("video/$MP4", " $minVideoSize ")
 
                 cursor = context.contentResolver?.query(
                     MediaStore.Video.Media.EXTERNAL_CONTENT_URI,

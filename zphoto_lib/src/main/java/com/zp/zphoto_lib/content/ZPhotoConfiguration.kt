@@ -11,10 +11,17 @@ class ZPhotoConfiguration {
      * 图片最多可选取数量
      */
     var maxPicSelect = ZPHOTO_DEFAULT_MAX_PIC_SELECT
+
     /**
      * 图片最大可选取大小
      */
     var maxPicSize = ZPHOTO_DEFAULT_MAX_PIC_SIZE
+
+    /**
+     * 图片最小可选取的大小
+     */
+    var minPicSize = ZPHOTO_DEFAULT_MIN_PIC_SIZE
+
     /**
      * 是否显示Gif
      */
@@ -53,6 +60,10 @@ class ZPhotoConfiguration {
      */
     var maxVideoSize = ZPHOTO_DEFAULT_MAX_VIDEO_SIZE
     /**
+     * 设置视频最小可选取的size
+     */
+    var minVideoSize = ZPHOTO_DEFAULT_MIN_VIDEO_SIZE
+    /**
      * 图片和视频是否可以同时选择
      */
     var allSelect = false
@@ -80,6 +91,7 @@ class ZPhotoConfiguration {
 
         private var maxPicSelect = ZPHOTO_DEFAULT_MAX_PIC_SELECT
         private var maxPicSize = ZPHOTO_DEFAULT_MAX_PIC_SIZE
+        private var minPicSize = ZPHOTO_DEFAULT_MIN_PIC_SIZE
         private var showGif = false
         private var needCrop = false
         private var cropUri = ZFile.getPathForPath(ZFile.CROP)
@@ -90,6 +102,7 @@ class ZPhotoConfiguration {
         private var showVideo = false
         private var maxVideoSelect = ZPHOTO_DEFAULT_MAX_VIDEO_SELECT
         private var maxVideoSize = ZPHOTO_DEFAULT_MAX_VIDEO_SIZE
+        private var minVideoSize = ZPHOTO_DEFAULT_MIN_VIDEO_SIZE
         private var allSelect = false
         private var showCamera = false
         private var authority = "com.zp.zphoto.FileProvider"
@@ -103,6 +116,11 @@ class ZPhotoConfiguration {
 
         fun maxPicSize(maxPicSize: Int): Builder {
             this.maxPicSize = maxPicSize
+            return this
+        }
+
+        fun minPicSize(minPicSize: Long): Builder {
+            this.minPicSize = minPicSize
             return this
         }
 
@@ -146,6 +164,11 @@ class ZPhotoConfiguration {
             return this
         }
 
+        fun minVideoSize(minVideoSize: Long): Builder {
+            this.minVideoSize = minVideoSize
+            return this
+        }
+
         fun allSelect(allSelect: Boolean): Builder {
             this.allSelect = allSelect
             return this
@@ -174,6 +197,7 @@ class ZPhotoConfiguration {
         fun builder() = ZPhotoConfiguration().apply {
             this.maxPicSelect = this@Builder.maxPicSelect
             this.maxPicSize = this@Builder.maxPicSize
+            this.minPicSize = this@Builder.minPicSize
             this.showGif = this@Builder.showGif
             this.needCrop = this@Builder.needCrop
             this.cropUri = this@Builder.cropUri
@@ -182,6 +206,7 @@ class ZPhotoConfiguration {
             this.showVideo = this@Builder.showVideo
             this.maxVideoSelect = this@Builder.maxVideoSelect
             this.maxVideoSize = this@Builder.maxVideoSize
+            this.minVideoSize = this@Builder.minVideoSize
             this.allSelect = this@Builder.allSelect
             this.showCamera = this@Builder.showCamera
             this.authority = this@Builder.authority
