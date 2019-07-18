@@ -10,7 +10,6 @@
 [android-crop](https://github.com/jdamcd/android-crop)&nbsp;&nbsp;&nbsp;&nbsp;
 [JiaoZiVideoPlayer](https://github.com/lipangit/JiaoZiVideoPlayer)
 
-<br>本库基于之前公司已完成的两个项目，基本上没啥大问题...
 
 ## 本库特点
 
@@ -25,9 +24,9 @@
 
 
 ## 截图
-<img src = "app/src/main/assets/ys1.jpg" width = 250px>
-<img src = "app/src/main/assets/ys2.jpg" width = 250px>
-<img src = "app/src/main/assets/ys3.jpg" width = 250px><br><br>
+<img src = "app/src/main/assets/ys1.jpg" width = 150px>
+<img src = "app/src/main/assets/ys2.jpg" width = 150px>
+<img src = "app/src/main/assets/ys3.jpg" width = 150px><br><br>
 
 ## 使用（[Java调用](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/java/com/zp/zphoto/sample/java_sample/JavaMainActivity.java)）
 
@@ -114,7 +113,7 @@ class MyImageLoaderListener : ZImageLoaderListener {
                 .placeholder(R.drawable.loading_pic)
                 .error(R.drawable.loading_pic_error)
                 .into(pic)
-        } else { // 万一不是Gif图的处理
+        } else {
             load.asBitmap()
                 .placeholder(R.drawable.loading_pic)
                 .error(R.drawable.loading_pic_error)
@@ -289,20 +288,29 @@ Step 2. 使用
                 .toCamera(this)
 ```
 
-## 关于自定义<br>
+## 关于自定义
 
-**样式**<br>
-ZPhoto_BaseTheme（activity 主题） <br>
-ZPhoto_ToolbarTheme<br>
-ZPhoto_Toolbar_TitleStyle<br><br>
 
-**颜色**<br>
-zphoto_baseColor  主体色<br>
-zphoto_tool_bar_txt_color 标题颜色<br>
-zphoto_red<br>
-...<br><br>
+**style**
+```xml
+<!-- activity 主题 -->
+ZPhoto_BaseTheme
+ZPhoto_ToolbarTheme
+ZPhoto_Toolbar_TitleStyle
 
-**提示文字**<br>
+```
+
+**color**
+```xml
+<!-- 主体色 -->
+zphoto_baseColor 
+<!--  标题文字颜色 -->
+zphoto_tool_bar_txt_color 
+
+```
+
+
+**string**<br>
 ```xml
 <!-- lib -->
 <string name="zphoto_video_size_tip">视频最大可选取 %1$d M</string>
