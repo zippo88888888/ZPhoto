@@ -171,6 +171,7 @@ Step 4. 配置 FileProvider [详情戳我](http://yifeng.studio/2017/05/03/andro
     
 
     <!-- 在AndroidMainfest  -->
+    <!-- AndroidX 中 name 为 androidx.core.content.FileProvider -->
      <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.FileProvider"
@@ -321,6 +322,18 @@ zphoto_tool_bar_txt_color
 <!-- 自定义的 %1$d 占位符必须要 -->
 <string name="zphoto_pic_count_tip">bilibili( ゜- ゜)つロ 干杯 亲亲 图片最多能选 %1$d 张  bilibili( ゜- ゜)つロ 干杯</string>
 ...
+```
+
+## Android X
+```gradel
+# 在gradle.properties 文件中添加以下配置，自动适配Android X 
+
+android.useAndroidX=true
+android.enableJetifier=true
+
+# android.enableJetifier=true 表示将依赖包也迁移到androidx。如果取值为false,
+# 表示不迁移依赖包到androidx，但在使用其他依赖包中的内容时可能会出现问题
+
 ```
 
 搞定^_^ 如果觉得可以 star 一下哦
