@@ -1,5 +1,5 @@
 
-[![Travis](https://img.shields.io/badge/ZPhoto-1.3-yellowgreen.svg)](https://github.com/zippo88888888/ZPhoto)
+[![Travis](https://img.shields.io/badge/ZPhoto-1.4-yellowgreen)](https://github.com/zippo88888888/ZPhoto)
 [![Travis](https://img.shields.io/badge/API-18%2B-green.svg)](https://github.com/zippo88888888/ZPhoto)
 [![Travis](https://img.shields.io/badge/Apache-2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
@@ -10,7 +10,6 @@
 [android-crop](https://github.com/jdamcd/android-crop)&nbsp;&nbsp;&nbsp;&nbsp;
 [JiaoZiVideoPlayer](https://github.com/lipangit/JiaoZiVideoPlayer)
 
-<br>本库基于之前公司已完成的两个项目，基本上没啥大问题...
 
 ## 本库特点
 
@@ -20,12 +19,10 @@
 4. 支持样式自定义；
 
 
-## 未来
-1. 视频裁剪（核心代码--->>>[ZPhotoSuperVideoPlayer](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/src/main/java/com/zp/zphoto_lib/ui/view/ZPhotoSuperVideoPlayer.kt)）
-
-
 ## 截图
-<img src = "app/src/main/assets/ys1.jpg" width = 300px><br><br>
+<img src = "app/src/main/assets/ys1.jpg" width = 150px>
+<img src = "app/src/main/assets/ys2.jpg" width = 150px>
+<img src = "app/src/main/assets/ys3.jpg" width = 150px><br><br>
 
 ## 使用（[Java调用](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/java/com/zp/zphoto/sample/java_sample/JavaMainActivity.java)）
 
@@ -33,7 +30,7 @@ Step 0. 添加依赖
 
 gradle
 ```
-implementation 'com.github.zp:zphoto_lib:1.3'
+implementation 'com.github.zp:zphoto_lib:1.4'
 ```
 
 maven
@@ -41,11 +38,11 @@ maven
 <dependency>
 	<groupId>com.github.zp</groupId>
 	<artifactId>zphoto_lib</artifactId>
-	<version>1.3</version>
+	<version>1.4</version>
 </dependency>
 ```
 
-或 aar --> [点击下载](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib-1.3.aar)
+或 aar --> [点击下载](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib-1.4.aar)
 
 **↓↓↓不要忘记权限↓↓↓**
 ``` xml
@@ -112,7 +109,7 @@ class MyImageLoaderListener : ZImageLoaderListener {
                 .placeholder(R.drawable.loading_pic)
                 .error(R.drawable.loading_pic_error)
                 .into(pic)
-        } else { // 万一不是Gif图的处理
+        } else {
             load.asBitmap()
                 .placeholder(R.drawable.loading_pic)
                 .error(R.drawable.loading_pic_error)
@@ -126,7 +123,7 @@ Step 2. 在Application中初始化
 ``` kotlin
 ZPhotoHelp.getInstance().init(this, MyImageLoaderListener())
 ```
-Step 3. Activity 配置 实现 ZImageResultListener 接口，用于数据接收
+Step 3. Activity or Fragment 配置 实现 ZImageResultListener 接口，用于数据接收
 ``` kotlin
 
   // 图片选择成功
@@ -147,7 +144,7 @@ Step 3. Activity 配置 实现 ZImageResultListener 接口，用于数据接收
   // 权限处理
   override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        ZPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+        ZPhotoHelp.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
     // 相机拍照处理
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -170,6 +167,7 @@ Step 4. 配置 FileProvider [详情戳我](http://yifeng.studio/2017/05/03/andro
     
 
     <!-- 在AndroidMainfest  -->
+    <!-- AndroidX 中 name 为 androidx.core.content.FileProvider -->
      <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.FileProvider"
@@ -262,7 +260,7 @@ Step 1. 新建图片压缩，继承自ZImageCompress，实现压缩方法（以L
 
         arrayList.indices.forEach {
             val path = compactList[it].path
-            val size = ZFile.getFileOrFilesSize(path, ZFile.SIZETYPE_MB)
+            val size = ZFile.getFileOrFilesSize(path)
             Log.e("压缩图片", "原图大小：${arrayList[it].size}M <<<===>>>处理后的大小：${size}M")
             arrayList[it].path = path
             arrayList[it].parentPath = ""
@@ -287,20 +285,29 @@ Step 2. 使用
                 .toCamera(this)
 ```
 
-## 关于自定义<br>
+## 关于自定义
 
-**样式**<br>
-ZPhoto_BaseTheme（activity 主题） <br>
-ZPhoto_ToolbarTheme<br>
-ZPhoto_Toolbar_TitleStyle<br><br>
 
-**颜色**<br>
-zphoto_baseColor  主体色<br>
-zphoto_tool_bar_txt_color 标题颜色<br>
-zphoto_red<br>
-...<br><br>
+**style**
+```xml
+<!-- activity 主题 -->
+ZPhoto_BaseTheme
+ZPhoto_ToolbarTheme
+ZPhoto_Toolbar_TitleStyle
 
-**提示文字**<br>
+```
+
+**color**
+```xml
+<!-- 主体色 -->
+zphoto_baseColor 
+<!--  标题文字颜色 -->
+zphoto_tool_bar_txt_color 
+
+```
+
+
+**string**<br>
 ```xml
 <!-- lib -->
 <string name="zphoto_video_size_tip">视频最大可选取 %1$d M</string>
@@ -309,8 +316,20 @@ zphoto_red<br>
 <string name="zphoto_pic_count_tip">图片最多可选 %1$d 张</string>	
 
 <!-- 自定义的 %1$d 占位符必须要 -->
-<string name="zphoto_pic_count_tip">bilibili( ゜- ゜)つロ 干杯 亲亲 图片最多能选 %1$d 张  bilibili( ゜- ゜)つロ 干杯</string>
+<string name="zphoto_pic_count_tip">bilibili( ゜- ゜)つロ 干杯 亲 图片最多能选 %1$d 张  bilibili( ゜- ゜)つロ 干杯</string>
 ...
+```
+
+## Android X
+```gradel
+# 在gradle.properties 文件中添加以下配置，自动适配Android X 
+
+android.useAndroidX=true
+android.enableJetifier=true
+
+# android.enableJetifier=true 表示将依赖包也迁移到androidx。如果取值为false,
+# 表示不迁移依赖包到androidx，但在使用其他依赖包中的内容时可能会出现问题
+
 ```
 
 搞定^_^ 如果觉得可以 star 一下哦
