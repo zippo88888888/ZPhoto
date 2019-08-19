@@ -186,7 +186,7 @@
             android:layout_marginRight="5dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:text="图片小于0 byte不获取（可在ZPhotoConfiguration配置）"
+            android:text="图片小于10 byte不获取（可在ZPhotoConfiguration配置）"
             android:textColor="@color/colorPrimary"
             android:textSize="13sp"
             android:textStyle="bold" />
@@ -255,19 +255,6 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|start"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="5dp"
-            android:text="视频小于0 byte不获取"
-            android:textColor="@color/colorPrimary"
-            android:textSize="13sp"
-            android:textStyle="bold" />
 
         <Space
             android:layout_width="match_parent"

@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        ZPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+        ZPhotoHelp.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

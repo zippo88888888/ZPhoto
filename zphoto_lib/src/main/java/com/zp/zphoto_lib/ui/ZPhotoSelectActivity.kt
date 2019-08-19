@@ -224,7 +224,7 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
                 }
             }
             ZPermission.CAMEAR_CODE ->
-                ZPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+                ZPhotoHelp.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults, this)
         }
 
     }

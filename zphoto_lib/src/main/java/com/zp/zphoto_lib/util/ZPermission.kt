@@ -67,7 +67,7 @@ object ZPermission {
     /**
      * 权限检测
      */
-    @JvmStatic
+    /*@JvmStatic
     fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray,
                                    activityOrFragment: Any, outUri :String? = null) {
 
@@ -84,13 +84,13 @@ object ZPermission {
             }
 
         }
-    }
+    }*/
 
     /**
      * 权限检测
      * @return  ArrayList<String> 返回权限申请失败的集合
      */
-    private fun onPermissionsResult(permissions: Array<out String>, grantResults: IntArray): ArrayList<String> {
+    fun onPermissionsResult(permissions: Array<out String>, grantResults: IntArray): ArrayList<String> {
         val noPermissions = ArrayList<String>()
         for (i in grantResults.indices) {
             if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {

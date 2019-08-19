@@ -158,7 +158,7 @@ class ZPhotoImageAnsy(
                             ZPhotoDetail(
                                 path,
                                 displayName,
-                                ZFile.formetFileSize(size, ZFile.SIZETYPE_MB),
+                                ZFile.formetFileSize(size),
                                 checkGif(path), false, 0,
                                 "",
                                 date_modified
@@ -175,7 +175,7 @@ class ZPhotoImageAnsy(
                                 ZPhotoDetail(
                                     path,
                                     displayName,
-                                    ZFile.formetFileSize(size, ZFile.SIZETYPE_MB),
+                                    ZFile.formetFileSize(size),
                                     checkGif(path), false,0,
                                     "",
                                     date_modified
@@ -188,7 +188,7 @@ class ZPhotoImageAnsy(
                                 ZPhotoDetail(
                                     path,
                                     displayName,
-                                    ZFile.formetFileSize(size, ZFile.SIZETYPE_MB),
+                                    ZFile.formetFileSize(size),
                                     checkGif(path),false,0,
                                     "",
                                     date_modified
@@ -240,7 +240,7 @@ class ZPhotoImageAnsy(
                         add(
                             ZPhotoDetail(
                                 path, displayName,
-                                ZFile.formetFileSize(size, ZFile.SIZETYPE_MB),
+                                ZFile.formetFileSize(size),
                                 false, true, duration, "", date
                             )
                         )

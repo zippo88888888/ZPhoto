@@ -49,7 +49,7 @@ class MyImageCompress : ZImageCompress() {
 
         arrayList.indices.forEach {
             val path = compactList[it].path
-            val size = ZFile.getFileOrFilesSize(path, ZFile.SIZETYPE_MB)
+            val size = ZFile.getFileOrFilesSize(path)
             Log.e("压缩图片", "原图大小：${arrayList[it].size}M <<<===>>>处理后的大小：${size}M")
             arrayList[it].path = path
             arrayList[it].parentPath = ""

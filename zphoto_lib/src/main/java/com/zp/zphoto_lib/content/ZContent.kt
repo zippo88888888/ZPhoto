@@ -48,15 +48,15 @@ const val ZPHOTO_PREVIEW_RESULT_CODE = 9023
 const val ZPHOTO_DEFAULT_MAX_PIC_SELECT = 9
 /** 图片默认最大可选 size 5M */
 const val ZPHOTO_DEFAULT_MAX_PIC_SIZE = 5
-/** 图片默认最小可选 size 0 byte */
-const val ZPHOTO_DEFAULT_MIN_PIC_SIZE = 0L
+/** 图片默认最小可选 size 10 byte */
+const val ZPHOTO_DEFAULT_MIN_PIC_SIZE = 10L
 
 /** 视频默认最多可选取的数量 */
 const val ZPHOTO_DEFAULT_MAX_VIDEO_SELECT = 2
 /** 视频默认最大可选 size 50M */
 const val ZPHOTO_DEFAULT_MAX_VIDEO_SIZE = 50
-/** 视频默认最小可选 size 0 byte */
-const val ZPHOTO_DEFAULT_MIN_VIDEO_SIZE = 0L
+/** 视频默认最小可选 size 10 byte */
+const val ZPHOTO_DEFAULT_MIN_VIDEO_SIZE = 10L
 
 /** CheckBox样式 */
 const val ZPHOTO_BOX_STYLE_DEFAULT = 1

@@ -100,7 +100,9 @@ object ZFile {
      * @param filePath 文件或文件夹路径
      * @param sizeType 获取大小的类型1为B、2为KB、3为MB、4为GB
      */
-    fun getFileOrFilesSize(filePath: String, sizeType: Int): Double {
+    @JvmOverloads
+    @JvmStatic
+    fun getFileOrFilesSize(filePath: String, sizeType: Int = SIZETYPE_MB): Double {
         val file = File(filePath)
         var blockSize: Long = 0
         try {
@@ -138,7 +140,7 @@ object ZFile {
     /**
      * 转换文件大小,指定转换的类型
      */
-    fun formetFileSize(fileS: Long, sizeType: Int): Double {
+    fun formetFileSize(fileS: Long, sizeType: Int = SIZETYPE_MB): Double {
         val df = DecimalFormat("#.00")
         return when (sizeType) {
             SIZETYPE_B -> java.lang.Double.valueOf(df.format(fileS.toDouble()))

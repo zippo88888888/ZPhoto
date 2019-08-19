@@ -197,7 +197,7 @@ class ZPhotoHelp {
                         ZPhotoDetail(
                             it,
                             displayName,
-                            ZFile.getFileOrFilesSize(it, ZFile.SIZETYPE_MB),
+                            ZFile.getFileOrFilesSize(it),
                             checkGif(it),
                             false,
                             0,
@@ -230,7 +230,7 @@ class ZPhotoHelp {
                 needCropDataArray!![cropIndex].apply {
                     path = cropUri.path ?: path
                     name = path.substring(path.lastIndexOf("/") + 1, path.length)
-                    size = ZFile.getFileOrFilesSize(path, ZFile.SIZETYPE_MB)
+                    size = ZFile.getFileOrFilesSize(path)
                 }
             }
         } else {
@@ -298,6 +298,26 @@ class ZPhotoHelp {
             putExtra(MediaStore.EXTRA_OUTPUT, contentUri)
         } else {
             putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(File(outUri)))
+        }
+    }
+
+    /**
+     * 权限处理
+     */
+    fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray,
+                                   activityOrFragment: Any, outUri :String? = null) {
+        if (requestCode == ZPermission.CAMEAR_CODE) {
+            val noPermissionArray = ZPermission.onPermissionsResult(permissions, grantResults)
+            if (noPermissionArray.isNullOrEmpty()) {
+                when (activityOrFragment) {
+                    is Activity -> toCamera(activityOrFragment, outUri)
+                    is Fragment -> toCamera(activityOrFragment, outUri)
+                    else -> throw java.lang.IllegalArgumentException("activityOrFragment is not Activity or Fragment")
+                }
+            } else {
+                ZToaster.makeTextS("权限获取失败")
+            }
+
         }
     }
 

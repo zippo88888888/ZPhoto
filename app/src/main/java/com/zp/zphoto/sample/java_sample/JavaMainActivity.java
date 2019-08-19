@@ -1,9 +1,9 @@
 package com.zp.zphoto.sample.java_sample;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -12,8 +12,6 @@ import com.zp.zphoto_lib.common.ZPhotoHelp;
 import com.zp.zphoto_lib.content.ZImageResultListener;
 import com.zp.zphoto_lib.content.ZPhotoConfiguration;
 import com.zp.zphoto_lib.content.ZPhotoDetail;
-import com.zp.zphoto_lib.util.ZPermission;
-import com.zp.zphoto_lib.util.ZToaster;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -75,7 +73,7 @@ public class JavaMainActivity extends AppCompatActivity implements ZImageResultL
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        ZPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, this, outUri);
+        ZPhotoHelp.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults, this, outUri);
     }
 
     @Override
