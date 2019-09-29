@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:checked="true"
-                android:text="默认系统样式" />
+                android:text="默认样式" />
 
             <RadioButton
                 android:id="@+id/main_styleTwoRadio"
@@ -110,6 +110,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="自定义样式" />
+
+            <RadioButton
+                android:id="@+id/main_styleThreeRadio"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                android:text="数字样式" />
 
         </RadioGroup>
 

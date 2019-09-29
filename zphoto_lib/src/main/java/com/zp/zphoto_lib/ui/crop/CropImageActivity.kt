@@ -149,7 +149,7 @@ class CropImageActivity : MonitoredActivity() {
         }
         crop_image.setImageRotateBitmapResetBase(rotateBitmap, true)
         CropUtil.startBackgroundJob(
-            this, null, resources.getString(R.string.crop__wait),
+            this, null, resources.getString(R.string.zphoto_crop_wait),
             Runnable {
                 val latch = CountDownLatch(1)
                 handler.post {
@@ -256,7 +256,7 @@ class CropImageActivity : MonitoredActivity() {
     private fun saveImage(croppedImage: Bitmap?) {
         if (croppedImage != null) {
             CropUtil.startBackgroundJob(
-                this, null, resources.getString(R.string.crop__saving),
+                this, null, resources.getString(R.string.zphoto_crop_saving),
                 Runnable { saveOutput(croppedImage) }, handler
             )
         } else {

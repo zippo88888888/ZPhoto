@@ -75,7 +75,7 @@ class ZPhotoConfiguration {
     /**
      * Android 7.0以上 需要的 FileProvider，一般都是包名 + xxxFileProvider
      */
-    var authority = "com.zp.zphoto.FileProvider"
+    var authority = ""
     /**
      * 选中样式
      */
@@ -105,7 +105,7 @@ class ZPhotoConfiguration {
         private var minVideoSize = ZPHOTO_DEFAULT_MIN_VIDEO_SIZE
         private var allSelect = false
         private var showCamera = false
-        private var authority = "com.zp.zphoto.FileProvider"
+        private var authority = ""
         private var selectedBoxStyle = ZPHOTO_BOX_STYLE_DEFAULT
         private var showLog = true
 

@@ -45,7 +45,12 @@ public class JavaMainActivity extends AppCompatActivity implements ZImageResultL
 
     private ZPhotoConfiguration getConfig() {
         ZPhotoConfiguration.Builder builder = new ZPhotoConfiguration.Builder();
-        builder.allSelect(true).showVideo(true).maxVideoSelect(9).maxPicSelect(9);
+        builder
+                .authority("com.zp.zphoto.FileProvider")
+                .allSelect(true)
+                .showVideo(true)
+                .maxVideoSelect(9)
+                .maxPicSelect(9);
         return builder.builder();
     }
 

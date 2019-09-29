@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
         main_styleGroup.setOnCheckedChangeListener { _, checkedId ->
             config.selectedBoxStyle =  when (checkedId) {
                 R.id.main_styleTwoRadio -> ZPHOTO_BOX_STYLE_DIY
+                R.id.main_styleThreeRadio -> ZPHOTO_BOX_STYLE_NUM
                 else -> ZPHOTO_BOX_STYLE_DEFAULT
             }
         }
@@ -98,6 +99,9 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
 
         maxVideoSelect = main_videoCountCV.getValue()
         maxVideoSize = main_videoSizeCV.getValue()
+
+        // 一般都是包名 + xxxFileProvider
+        authority = "com.zp.zphoto.FileProvider"
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

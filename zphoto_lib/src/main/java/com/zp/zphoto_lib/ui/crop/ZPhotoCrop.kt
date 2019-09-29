@@ -104,7 +104,7 @@ class ZPhotoCrop(source: Uri, destination: Uri) {
         }
 
         private fun showImagePickerError() {
-            ZToaster.makeTextS(R.string.crop__pick_error)
+            ZToaster.makeTextS(R.string.zphoto_crop_pick_error)
         }
     }
 

@@ -13,16 +13,19 @@
 
 ## 本库特点
 
-1. **引用最基本的v4，v7，cardview，design官方库和基于 android-crop修改后的图片剪裁外无其他第三方库[查看lib gradle配置](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/build.gradle)**；
+1. **基于android-crop修改后的图片剪裁外无其他第三方库[查看lib gradle配置](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/build.gradle)**；
 2. 支持视频、图片、GIF查看，图片裁剪，压缩；
 3. 支持图片、视频 --->>> 单选、多选&&数量、大小限制；
 4. 支持样式自定义；
+5. Kotlin编码，100%兼容Java；
 
 
 ## 截图
-<img src = "app/src/main/assets/ys1.jpg" width = 150px>
-<img src = "app/src/main/assets/ys2.jpg" width = 150px>
-<img src = "app/src/main/assets/ys3.jpg" width = 150px><br><br>
+<div align="center">
+<img src = "app/src/main/assets/ys1.jpg" width=268 >
+<img src = "app/src/main/assets/ys2.jpg" width=268 >
+<img src = "app/src/main/assets/ys3.jpg" width=268 >
+</div>
 
 ## 使用（[Java调用](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/java/com/zp/zphoto/sample/java_sample/JavaMainActivity.java)）
 

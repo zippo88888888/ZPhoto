@@ -104,6 +104,7 @@ class ZPhotoHelp {
      * 去相机
      * @param outUri    拍照后保存的路径，空为默认值
      */
+    @JvmOverloads
     fun toCamera(activity: Activity, outUri: String? = null) {
         val noPermissionArray = ZPermission.checkPermission(activity, ZPermission.CAMERA, ZPermission.WRITE_EXTERNAL_STORAGE)
         if (noPermissionArray.isNullOrEmpty()) {
@@ -121,6 +122,7 @@ class ZPhotoHelp {
      * 去相机
      * @param outUri    拍照后保存的路径，空为默认值
      */
+    @JvmOverloads
     fun toCamera(fragment: Fragment, outUri: String? = null) {
         val noPermissionArray =
             ZPermission.checkPermission(fragment.activity!!, ZPermission.CAMERA, ZPermission.WRITE_EXTERNAL_STORAGE)
@@ -304,6 +306,7 @@ class ZPhotoHelp {
     /**
      * 权限处理
      */
+    @JvmOverloads
     fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray,
                                    activityOrFragment: Any, outUri :String? = null) {
         if (requestCode == ZPermission.CAMEAR_CODE) {

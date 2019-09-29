@@ -41,4 +41,3 @@ dependencies {
     implementation 'top.zibin:Luban:1.1.8'
     implementation 'com.github.bumptech.glide:glide:3.8.0'
 }
-

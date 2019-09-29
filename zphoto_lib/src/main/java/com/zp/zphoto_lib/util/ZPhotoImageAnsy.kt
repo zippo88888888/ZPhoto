@@ -1,6 +1,5 @@
 package com.zp.zphoto_lib.util
 
-import android.app.ProgressDialog
 import android.content.Context
 import android.database.Cursor
 import android.os.Handler
@@ -8,6 +7,7 @@ import android.os.Message
 import android.provider.MediaStore
 import com.zp.zphoto_lib.common.ZPhotoHelp
 import com.zp.zphoto_lib.content.*
+import com.zp.zphoto_lib.ui.view.ZLoadDialog
 import java.io.File
 import java.lang.ref.SoftReference
 import java.util.*
@@ -24,16 +24,14 @@ class ZPhotoImageAnsy(
 ) {
 
     private var handler: ImageHandler? = null
-    private var dialog: ProgressDialog? = null
+    private var dialog: ZLoadDialog? = null
 
     fun start() {
         if (handler == null) {
             handler = ImageHandler(this)
         }
         if (isShowLoading) {
-            dialog = ProgressDialog(context).run {
-                setProgressStyle(ProgressDialog.STYLE_SPINNER)
-                setMessage("读取相册数据，请稍后...")
+            dialog = ZLoadDialog(context).run {
                 setCancelable(false)
                 this
             }

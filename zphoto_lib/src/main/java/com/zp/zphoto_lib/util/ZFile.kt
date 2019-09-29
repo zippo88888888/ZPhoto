@@ -1,9 +1,8 @@
 package com.zp.zphoto_lib.util
 
 import android.content.Context
-import android.os.Environment
 import com.zp.zphoto_lib.content.getAppContext
-import java.io.*
+import java.io.File
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,7 +53,7 @@ object ZFile {
 
     private fun getPath(context: Context = getAppContext()): String? {
         if (storagePath == null) {
-            storagePath = context.getExternalFilesDir(null).path + "/" + ROOT_DIR
+            storagePath = "${context.getExternalFilesDir(null).path}/$ROOT_DIR"
             val file = File(storagePath)
             if (!file.exists()) {
                 if (!file.mkdirs()) {
@@ -92,7 +91,7 @@ object ZFile {
     fun getFileName(suffix: String, index: Int = -1): String {
         val simpleDateFormat = SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.CHINA)
         val timeStamp = simpleDateFormat.format(Date())
-        return if (index > 0) timeStamp + "_$index" + suffix else timeStamp + suffix
+        return if (index > 0) "${timeStamp}_$index$suffix" else timeStamp + suffix
     }
 
     /**
@@ -122,7 +121,7 @@ object ZFile {
     private fun getFileSize(file: File) = if (file.exists()) file.length() else 0L
 
     /**
-     * 获取指定文件夹
+     * 获取指定文件夹大小
      */
     private fun getFileSizes(f: File): Long {
         var size: Long = 0
@@ -174,7 +173,7 @@ object ZFile {
     }
 
     /**
-     * 获取缓存目录的大小  建议在非UI线程中操作
+     * 获取缓存目录的大小
      */
     fun getZPhotoCacheSize(sizeType: Int = SIZETYPE_MB): Double {
         var size = 0.0
