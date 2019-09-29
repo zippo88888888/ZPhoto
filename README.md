@@ -33,7 +33,7 @@ Step 0. 添加依赖
 
 gradle
 ```
-implementation 'com.github.zp:zphoto_lib:1.4'
+implementation 'com.github.zp:zphoto_lib:1.4.1'
 ```
 
 maven
@@ -41,7 +41,7 @@ maven
 <dependency>
 	<groupId>com.github.zp</groupId>
 	<artifactId>zphoto_lib</artifactId>
-	<version>1.4</version>
+	<version>1.4.1</version>
 </dependency>
 ```
 
