@@ -12,7 +12,7 @@ import com.zp.zphoto_lib.common.ZPhotoHelp
 import java.lang.IllegalArgumentException
 import java.util.ArrayList
 
-object ZPermission {
+internal object ZPermission {
 
     /** SD卡权限 对应requestCode  */
     const val WRITE_EXTERNAL_CODE = 0x101
@@ -63,28 +63,6 @@ object ZPermission {
             fragment.requestPermissions(requestPermission, code)
         }
     }
-
-    /**
-     * 权限检测
-     */
-    /*@JvmStatic
-    fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray,
-                                   activityOrFragment: Any, outUri :String? = null) {
-
-        if (requestCode == CAMEAR_CODE) {
-            val noPermissionArray = onPermissionsResult(permissions, grantResults)
-            if (noPermissionArray.isNullOrEmpty()) {
-                when (activityOrFragment) {
-                    is Activity -> ZPhotoHelp.getInstance().toCamera(activityOrFragment, outUri)
-                    is Fragment -> ZPhotoHelp.getInstance().toCamera(activityOrFragment, outUri)
-                    else -> throw IllegalArgumentException("activityOrFragment is not Activity or Fragment")
-                }
-            } else {
-                ZToaster.makeTextS("权限获取失败")
-            }
-
-        }
-    }*/
 
     /**
      * 权限检测

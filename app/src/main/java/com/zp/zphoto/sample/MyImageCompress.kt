@@ -4,7 +4,7 @@ import android.app.ProgressDialog
 import android.text.TextUtils
 import android.util.Log
 import com.zp.zphoto_lib.content.*
-import com.zp.zphoto_lib.util.ZFile
+import com.zp.zphoto_lib.util.ZPhotoUtil
 import top.zibin.luban.Luban
 import java.io.File
 import java.util.*
@@ -18,7 +18,7 @@ class MyImageCompress : ZImageCompress() {
 
     override fun onPreExecute() {
         super.onPreExecute()
-        dialog = ProgressDialog(softReference?.get()).run {
+        dialog = ProgressDialog(getContext()).run {
             setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER)
             setMessage("图片处理中")
             setCancelable(false)
@@ -28,16 +28,16 @@ class MyImageCompress : ZImageCompress() {
     }
 
     override fun doingCompressImage(arrayList: ArrayList<ZPhotoDetail>?): ArrayList<ZPhotoDetail>? {
-        if (arrayList == null || softReference?.get() == null) {
+        if (arrayList == null || getContext() == null) {
             return ArrayList()
         }
 
         val list = ArrayList<File>()
         arrayList.forEach { list.add(File(it.path)) }
 
-        val outDir = ZFile.getPathForPath(ZFile.PHOTO)
+        val outDir = ZPhotoUtil.getDefaultPath()
 
-        val compactList = Luban.with(softReference?.get())
+        val compactList = Luban.with(getContext())
             .load(list)
             .ignoreBy(50)       // 小于50K不压缩
             .setTargetDir(outDir)    // 压缩后图片的路径
@@ -49,7 +49,7 @@ class MyImageCompress : ZImageCompress() {
 
         arrayList.indices.forEach {
             val path = compactList[it].path
-            val size = ZFile.getFileOrFilesSize(path)
+            val size = ZPhotoUtil.getDefaultFileSize(path)
             Log.e("压缩图片", "原图大小：${arrayList[it].size}M <<<===>>>处理后的大小：${size}M")
             arrayList[it].path = path
             arrayList[it].parentPath = ""

@@ -17,7 +17,7 @@ import kotlin.collections.ArrayList
  * LoaderManager
  * 优化代码
  */
-class ZPhotoImageAnsy(
+internal class ZPhotoImageAnsy(
     private var context: Context,
     private var listener: (dirs: ArrayList<ZPhotoFolder>, pics: ArrayList<ZPhotoDetail>) -> Unit,
     private var isShowLoading: Boolean = true

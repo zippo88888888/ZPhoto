@@ -12,7 +12,7 @@ import com.zp.zphoto_lib.util.ZLog
 import java.lang.ref.SoftReference
 import java.util.*
 
-class ZPhotoManager {
+internal class ZPhotoManager {
 
     private var applicationCon: Context? = null
 

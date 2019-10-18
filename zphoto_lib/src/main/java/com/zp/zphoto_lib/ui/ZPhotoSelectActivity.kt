@@ -108,15 +108,13 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
                 overridePendingTransition(R.anim.anim_zphoto_bottom_in, R.anim.anim_zphoto_bottom_out)
             }
         }
-        zPhotoPicsSelectAdapter?.zPhotoSelectListener = object : ZPhotoPicsSelectAdapter.ZPhotoSelectListener {
-            override fun selected(selectedSize: Int) {
-                if (selectedSize <= 0) {
-                    setBarTitle("选择")
-                    getMenu().findItem(R.id.menu_zphoto_select_down).isVisible = false
-                } else {
-                    setBarTitle("$selectedSize 已选")
-                    getMenu().findItem(R.id.menu_zphoto_select_down).isVisible = true
-                }
+        zPhotoPicsSelectAdapter?.zPhotoSelectListener = { selectedSize ->
+            if (selectedSize <= 0) {
+                setBarTitle("选择")
+                getMenu().findItem(R.id.menu_zphoto_select_down).isVisible = false
+            } else {
+                setBarTitle("$selectedSize 已选")
+                getMenu().findItem(R.id.menu_zphoto_select_down).isVisible = true
             }
         }
         zphoto_select_picRecyclerView.apply {

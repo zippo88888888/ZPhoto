@@ -10,7 +10,7 @@ import android.widget.Toast
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.content.*
 
-class ZToaster(con: Context) : Toast(con) {
+internal class ZToaster(con: Context) : Toast(con) {
 
     companion object {
 

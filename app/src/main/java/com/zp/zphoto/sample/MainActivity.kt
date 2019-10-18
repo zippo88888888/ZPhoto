@@ -5,26 +5,29 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.zp.zphoto.R
 import com.zp.zphoto.sample.java_sample.JavaMainActivity
 import com.zp.zphoto_lib.common.BaseZPhotoAdapter
 import com.zp.zphoto_lib.common.BaseZPhotoHolder
 import com.zp.zphoto_lib.common.ZPhotoHelp
 import com.zp.zphoto_lib.content.*
-import com.zp.zphoto_lib.util.ZLog
-import com.zp.zphoto_lib.util.ZPermission
 import com.zp.zphoto_lib.util.ZPhotoUtil
-import com.zp.zphoto_lib.util.ZToaster
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.util.*
 
 class MainActivity : AppCompatActivity(), ZImageResultListener {
+
+    companion object {
+        private const val TAG = "ZPhotoLib"
+    }
 
     private var mainAdapter: MainApdater? = null
     private lateinit var config: ZPhotoConfiguration
@@ -53,7 +56,9 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
             adapter = mainAdapter
         }
 
-        main_javaUserBtn.setOnClickListener { jumpActivity(JavaMainActivity::class.java) }
+        main_javaUserBtn.setOnClickListener {
+            startActivity(Intent(this, JavaMainActivity::class.java))
+        }
 
         main_photoBtn.setOnClickListener {
             ZPhotoHelp.getInstance()
@@ -72,18 +77,18 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
     }
 
     override fun selectSuccess(list: ArrayList<ZPhotoDetail>?) {
-        ZLog.e("选中的数量：${list?.size}")
+        Log.e(TAG, "选中的数量：${list?.size}")
         mainAdapter?.setDatas(list)
-        ZLog.e("当前缓存大小：${ZPhotoHelp.getInstance().getZPhotoCacheSize()}MB")
+        Log.e(TAG, "当前缓存大小：${ZPhotoHelp.getInstance().getZPhotoCacheSize()}MB")
 
     }
 
     override fun selectFailure() {
-        ZToaster.makeText("不能够获取图片信息", ZToaster.C)
+        Log.e(TAG, "不能够获取图片信息")
     }
 
     override fun selectCancel() {
-        ZToaster.makeTextS("用户取消")
+        Toast.makeText(this, "用户取消", Toast.LENGTH_SHORT).show()
     }
 
     private fun getConfig() = config.apply {
@@ -118,6 +123,8 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
         super.onDestroy()
         ZPhotoHelp.getInstance().reset()
     }
+
+
 
     class MainApdater(context: Context, resID: Int) : BaseZPhotoAdapter<ZPhotoDetail>(context, resID) {
         private var wh = 0

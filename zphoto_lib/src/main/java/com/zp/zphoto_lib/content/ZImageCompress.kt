@@ -3,12 +3,13 @@ package com.zp.zphoto_lib.content
 import android.content.Context
 import android.os.Handler
 import android.os.Message
+import android.support.annotation.Nullable
 import java.lang.ref.SoftReference
 import java.util.*
 
 open class ZImageCompress {
 
-    protected var softReference: SoftReference<Context>? = null
+    private var softReference: SoftReference<Context>? = null
     private var listener: ((ArrayList<ZPhotoDetail>?) -> Unit)? = null
 
     fun start(
@@ -35,12 +36,13 @@ open class ZImageCompress {
 
     private var handler: CompressHandler? = null
 
+    @Nullable
+    protected fun getContext() = softReference?.get()
+
     /**
      * 压缩图片执行前调用 mainThread
      */
-    protected open fun onPreExecute() {
-
-    }
+    protected open fun onPreExecute() = Unit
 
     /**
      * 压缩图片 子线程 ，如有需要，请重写该方法实现

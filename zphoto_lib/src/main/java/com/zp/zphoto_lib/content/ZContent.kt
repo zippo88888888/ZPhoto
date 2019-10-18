@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.*
 import android.graphics.Color
 import android.graphics.Point
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
 import android.support.v4.util.ArrayMap
 import android.support.v7.app.AppCompatActivity
@@ -66,7 +68,7 @@ const val ZPHOTO_BOX_STYLE_NUM = 3
 
 
 
-fun Context.jumpActivity(clazz: Class<*>, map: ArrayMap<String, Any>? = null) {
+internal fun Context.jumpActivity(clazz: Class<*>, map: ArrayMap<String, Any>? = null) {
     startActivity(Intent(this, clazz).apply {
         if (!map.isNullOrEmpty()) {
             putExtras(getBundleFormMapKV(map))
@@ -74,7 +76,7 @@ fun Context.jumpActivity(clazz: Class<*>, map: ArrayMap<String, Any>? = null) {
     })
 }
 
-fun Activity.jumpActivity(clazz: Class<*>, map: ArrayMap<String, Any>? = null, requestCode: Int) {
+internal fun Activity.jumpActivity(clazz: Class<*>, map: ArrayMap<String, Any>? = null, requestCode: Int) {
     startActivityForResult(Intent(this, clazz).apply {
         if (!map.isNullOrEmpty()) {
             putExtras(getBundleFormMapKV(map))
@@ -82,7 +84,7 @@ fun Activity.jumpActivity(clazz: Class<*>, map: ArrayMap<String, Any>? = null, r
     }, requestCode)
 }
 
-fun getBundleFormMapKV(map: ArrayMap<String, Any>) = Bundle().apply {
+internal fun getBundleFormMapKV(map: ArrayMap<String, Any>) = Bundle().apply {
     for ((k, v) in map) {
         when (v) {
             is Int -> putInt(k, v)
@@ -99,16 +101,17 @@ fun getBundleFormMapKV(map: ArrayMap<String, Any>) = Bundle().apply {
     }
 }
 
-fun getAppContext() = ZPhotoManager.getInstance().getApplicationContext()
+internal fun getAppContext() = ZPhotoManager.getInstance().getApplicationContext()
 
-fun getToolBarHeight() = getAppContext().resources.getDimension(R.dimen.zphoto_toolBarHeight).toInt()
-
+internal fun getToolBarHeight() = getAppContext().resources.getDimension(R.dimen.zphoto_toolBarHeight).toInt()
 
 fun Activity.setStatusBarTransparent() {
-    val decorView = window.decorView
-    val option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-    decorView.systemUiVisibility = option
-    window.statusBarColor = Color.TRANSPARENT
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        val decorView = window.decorView
+        val option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        decorView.systemUiVisibility = option
+        window.statusBarColor = Color.TRANSPARENT
+    }
 }
 
 fun Context.getStatusBarHeight() = resources.getDimensionPixelSize(

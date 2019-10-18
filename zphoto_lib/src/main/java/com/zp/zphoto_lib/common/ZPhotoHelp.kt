@@ -19,7 +19,7 @@ import java.lang.NullPointerException
 
 class ZPhotoHelp {
 
-    private var outUri = ""
+    internal var cameraPath = ""
     private var needCropDataArray: ArrayList<ZPhotoDetail>? = null
     private var cropIndex = 0
 
@@ -40,8 +40,10 @@ class ZPhotoHelp {
     /**
      * 图片加载方式，必须手动实现
      */
-    private lateinit var imageLoaderListener: ZImageLoaderListener
-    fun getImageLoaderListener() = imageLoaderListener
+    private var imageLoaderListener: ZImageLoaderListener? = null
+    fun getImageLoaderListener(): ZImageLoaderListener =
+        if (imageLoaderListener == null) throw NullPointerException("ZImageLoaderListener is not Null")
+        else imageLoaderListener!!
 
     /**
      * 配置信息
@@ -80,9 +82,8 @@ class ZPhotoHelp {
 
     /**
      * 清除ZPhoto缓存
-     * @param block  清除后方法回调
      */
-    fun clearZPhotoCache(block: () -> Unit) = ZFile.deleteZPhotoCache(block)
+    fun clearZPhotoCache() = ZFile.deleteZPhotoCache()
 
     /**
      * 去相册
@@ -111,7 +112,7 @@ class ZPhotoHelp {
             val uri = if (outUri.isNullOrEmpty()) {
                 ZFile.getPathForPath(ZFile.PHOTO) + ZFile.getFileName(".jpg")
             } else outUri
-            this.outUri = uri
+            this.cameraPath = uri
             activity.startActivityForResult(getCameraIntent(activity, uri), ZPHOTO_TO_CAMEAR_REQUEST_CODE)
         } else {
             ZPermission.requestPermission(activity, ZPermission.CAMEAR_CODE, *noPermissionArray)
@@ -130,7 +131,7 @@ class ZPhotoHelp {
             val uri = if (outUri.isNullOrEmpty()) {
                 ZFile.getPathForPath(ZFile.PHOTO) + ZFile.getFileName(".jpg")
             } else outUri
-            this.outUri = uri
+            this.cameraPath = uri
             fragment.startActivityForResult(getCameraIntent(fragment.activity!!, uri), ZPHOTO_TO_CAMEAR_REQUEST_CODE)
         } else {
             ZPermission.requestPermission(fragment, ZPermission.CAMEAR_CODE, *noPermissionArray)
@@ -147,7 +148,7 @@ class ZPhotoHelp {
         needCropDataArray?.clear()
         needCropDataArray = null
         cropIndex = 0
-        outUri = ""
+        cameraPath = ""
     }
 
     /**
@@ -180,7 +181,7 @@ class ZPhotoHelp {
                     return
                 }
 
-                val resultFile = File(outUri)
+                val resultFile = File(cameraPath)
                 if (!resultFile.exists() && data == null) {
                     ZLog.e("无法获取拍照或剪裁后的数据")
                     getZImageResultListener()?.selectFailure()

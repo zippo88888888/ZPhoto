@@ -4,7 +4,7 @@ import android.util.Log
 import com.zp.zphoto_lib.common.ZPhotoHelp
 import com.zp.zphoto_lib.content.getTextValue
 
-object ZLog {
+internal object ZLog {
 
     private const val TAG = "ZPhotoLib"
     private const val I = 1

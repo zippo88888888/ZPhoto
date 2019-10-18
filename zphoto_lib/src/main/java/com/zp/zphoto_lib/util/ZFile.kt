@@ -1,13 +1,14 @@
 package com.zp.zphoto_lib.util
 
 import android.content.Context
+import com.zp.zphoto_lib.common.ZPhotoHelp
 import com.zp.zphoto_lib.content.getAppContext
 import java.io.File
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-object ZFile {
+internal object ZFile {
 
     /** 文件大小单位为B */
     const val SIZETYPE_B = 1
@@ -189,13 +190,21 @@ object ZFile {
     /**
      * 清除缓存
      */
-    fun deleteZPhotoCache(clearSuccess: () -> Unit) {
-        Thread {
+    fun deleteZPhotoCache(): Boolean {
+        var isSuccess = true
+        try {
             getCacheList().forEach {
                 delete(File(it))
             }
-            clearSuccess.invoke()
-        }.start()
+        } catch (e: Exception) {
+            if (ZPhotoHelp.getInstance().getConfiguration().showLog) {
+                ZToaster.makeTextS("清除缓存失败")
+                e.printStackTrace()
+            }
+            isSuccess = false
+        } finally {
+            return isSuccess
+        }
     }
 
 }

@@ -1,5 +1,5 @@
 
-[![Travis](https://img.shields.io/badge/ZPhoto-1.4.2-yellowgreen)](https://github.com/zippo88888888/ZPhoto)
+[![Travis](https://img.shields.io/badge/ZPhoto-1.4.3-yellowgreen)](https://github.com/zippo88888888/ZPhoto)
 [![Travis](https://img.shields.io/badge/API-18%2B-green.svg)](https://github.com/zippo88888888/ZPhoto)
 [![Travis](https://img.shields.io/badge/Apache-2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
@@ -33,7 +33,20 @@ Step 0. 添加依赖
 
 gradle
 ```
-implementation 'com.github.zp:zphoto_lib:1.4.2'
+implementation 'com.github.zp:zphoto_lib:1.4.3'
+
+
+// 如果报错，加上
+android {
+    ...
+    
+    // Kotlin Parcelable 支持
+    androidExtensions {
+       experimental = true
+    }
+}
+
+
 ```
 
 maven
@@ -41,21 +54,22 @@ maven
 <dependency>
 	<groupId>com.github.zp</groupId>
 	<artifactId>zphoto_lib</artifactId>
-	<version>1.4.2</version>
+	<version>1.4.3</version>
+	<type>pom</type>
 </dependency>
 ```
 
-或 aar --> [点击下载](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib-1.4.2.aar)
+或 aar --> [点击下载](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib_1.4.3.aar)
 
 **↓↓↓不要忘记权限↓↓↓**
-``` xml
+```xml
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 <uses-permission android:name="android.permission.CAMERA" />
 ```
 
 Step 1.  新建图片加载，继承自ZImageLoaderListener，实现自己的图片加载方式（以Glide为例）
-``` kotlin
+```kotlin
 class MyImageLoaderListener : ZImageLoaderListener {
 
     override fun loadImg(imageView: ImageView, file: File) {
@@ -70,9 +84,6 @@ class MyImageLoaderListener : ZImageLoaderListener {
         loadImg(res, imageView)
     }
 
-    /**
-     * 加载 网络 路径图片
-     */
     private fun loadImg(url: String, pic: ImageView, defaultPic: Int = 0) {
         var defaultPic = defaultPic
         if (defaultPic <= 0) {
@@ -81,13 +92,10 @@ class MyImageLoaderListener : ZImageLoaderListener {
         Glide.with(pic.context).load(url).asBitmap()
                 .placeholder(defaultPic)
                 .error(defaultPic)
-                .dontAnimate() // 可以防止图片变形
+                .dontAnimate() 
                 .into(pic)
     }
 
-    /**
-     * 加载 资源文件 路径图片
-     */
     private fun loadImg(resID: Int, pic: ImageView) {
         Glide.with(pic.context)
                 .load(resID)
@@ -95,16 +103,10 @@ class MyImageLoaderListener : ZImageLoaderListener {
                 .into(pic)
     }
 
-    /**
-     * 加载 file 图片
-     */
     private fun loadImg(file: File, pic: ImageView) {
         loadGifImg(file, pic)
     }
 
-    /**
-     * 加载Gif图
-     */
     private fun loadGifImg(file: File, pic: ImageView) {
         val load = Glide.with(pic.context).load(file)
         if (checkGif(file.path)) {
@@ -123,25 +125,25 @@ class MyImageLoaderListener : ZImageLoaderListener {
 }
 ```
 Step 2. 在Application中初始化
-``` kotlin
+```kotlin
 ZPhotoHelp.getInstance().init(this, MyImageLoaderListener())
 ```
 Step 3. Activity or Fragment 配置 实现 ZImageResultListener 接口，用于数据接收
-``` kotlin
+```kotlin
 
   // 图片选择成功
   override fun selectSuccess(list: ArrayList<ZPhotoDetail>?) {
-        ZLog.e("选中的数量：${list?.size}")
+        Log.e(TAG, "选中的数量：${list?.size}")
     }
 
    // 图片选择失败
     override fun selectFailure() {
-        ZToaster.makeText("不能够获取图片信息", ZToaster.C)
+        Log.e(TAG, "不能够获取图片信息")
     }
     
     // 用户取消
     override fun selectCancel() {
-        ZToaster.makeTextS("用户取消")
+        Toast.makeText(this, "用户取消", Toast.LENGTH_SHORT).show()
     }
 
   // 权限处理
@@ -157,8 +159,8 @@ Step 3. Activity or Fragment 配置 实现 ZImageResultListener 接口，用于�
 
 
 ```
-Step 4. 配置 FileProvider [详情戳我](http://yifeng.studio/2017/05/03/android-7-0-compat-fileprovider)
-``` xml
+Step 4. 配置 [FileProvider](http://yifeng.studio/2017/05/03/android-7-0-compat-fileprovider)
+```xml
 
 <!-- 新建paths文件，如果已有，修改即可  -->
    <paths>
@@ -182,7 +184,7 @@ Step 4. 配置 FileProvider [详情戳我](http://yifeng.studio/2017/05/03/andro
         </provider>  
         
 ```
-``` kotlin
+```kotlin
 
     // 配置ZPhotoConfiguration，里面包含了是否显示gif，视频等属性
     private fun getConfig() = ZPhotoConfiguration().apply {
@@ -193,7 +195,7 @@ Step 4. 配置 FileProvider [详情戳我](http://yifeng.studio/2017/05/03/andro
     
 ```
 Step 5. 使用
-``` kotlin
+```kotlin
       // 去相册
       main_photoBtn.setOnClickListener {
             ZPhotoHelp.getInstance()
@@ -211,7 +213,7 @@ Step 5. 使用
         
 ```
 Step 6. 释放资源
-``` kotlin
+```kotlin
     
     // 及时释放
     override fun onDestroy() {
@@ -225,14 +227,14 @@ Step 6. 释放资源
 
 ## 图片压缩
 Step 1. 新建图片压缩，继承自ZImageCompress，实现压缩方法（以Luban为例）
-``` kotlin
+```kotlin
  class MyImageCompress : ZImageCompress() {
 
     private var dialog: ProgressDialog? = null
 
     override fun onPreExecute() {
         super.onPreExecute()
-        dialog = ProgressDialog(softReference?.get()).run {
+        dialog = ProgressDialog(getContext()).run {
             setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER)
             setMessage("图片处理中")
             setCancelable(false)
@@ -242,16 +244,16 @@ Step 1. 新建图片压缩，继承自ZImageCompress，实现压缩方法（以L
     }
 
     override fun doingCompressImage(arrayList: ArrayList<ZPhotoDetail>?): ArrayList<ZPhotoDetail>? {
-        if (arrayList == null || softReference?.get() == null) {
+        if (arrayList == null || getContext() == null) {
             return ArrayList()
         }
 
         val list = ArrayList<File>()
         arrayList.forEach { list.add(File(it.path)) }
 
-        val outDir = ZFile.getPathForPath(ZFile.PHOTO)
+        val outDir = ZPhotoUtil.getDefaultPath()
 
-        val compactList = Luban.with(softReference?.get())
+        val compactList = Luban.with(getContext())
             .load(list)
             .ignoreBy(50)       // 小于50K不压缩
             .setTargetDir(outDir)    // 压缩后图片的路径
@@ -263,7 +265,7 @@ Step 1. 新建图片压缩，继承自ZImageCompress，实现压缩方法（以L
 
         arrayList.indices.forEach {
             val path = compactList[it].path
-            val size = ZFile.getFileOrFilesSize(path)
+            val size = ZPhotoUtil.getDefaultFileSize(path)
             Log.e("压缩图片", "原图大小：${arrayList[it].size}M <<<===>>>处理后的大小：${size}M")
             arrayList[it].path = path
             arrayList[it].parentPath = ""
@@ -306,6 +308,8 @@ ZPhoto_Toolbar_TitleStyle
 zphoto_baseColor 
 <!--  标题文字颜色 -->
 zphoto_tool_bar_txt_color 
+<!-- 自定义选中的 drawable -->
+zphoto_checkbox_my_selector
 
 ```
 
@@ -318,9 +322,15 @@ zphoto_tool_bar_txt_color
 <string name="zphoto_pic_size_tip">图片最大可选取 %1$d M</string>
 <string name="zphoto_pic_count_tip">图片最多可选 %1$d 张</string>	
 
-<!-- 自定义的 %1$d 占位符必须要 -->
+```
+
+```xml
+
+<!-- 重写即可完成自定义的样式 -->
+
+<!-- 自定义图片数量选择的提示语句 %1$d 占位符必须要 -->
 <string name="zphoto_pic_count_tip">bilibili( ゜- ゜)つロ 干杯 亲 图片最多能选 %1$d 张  bilibili( ゜- ゜)つロ 干杯</string>
-...
+
 ```
 
 ## Android X

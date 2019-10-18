@@ -1,6 +1,5 @@
 package com.zp.zphoto_lib.util
 
-/** @hide */
 object ZPhotoUtil {
 
     /**
@@ -16,5 +15,8 @@ object ZPhotoUtil {
         this.toString()
     }
 
+    fun getDefaultPath() = ZFile.getPathForPath(ZFile.PHOTO)
+
+    fun getDefaultFileSize(path: String) = ZFile.getFileOrFilesSize(path)
 
 }

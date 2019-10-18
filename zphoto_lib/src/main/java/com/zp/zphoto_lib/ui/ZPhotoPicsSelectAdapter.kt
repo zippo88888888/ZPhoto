@@ -23,7 +23,7 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
     // 记录当前box选中的下标
     private var selectedArray = SparseBooleanArray()
 
-    var zPhotoSelectListener: ZPhotoSelectListener? = null
+    var zPhotoSelectListener: ((Int) -> Unit)? = null
 
     private val config by lazy {
         ZPhotoHelp.getInstance().getConfiguration()
@@ -48,6 +48,7 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
                     diyBox.setBackgroundResource(R.drawable.zphoto_checkbox_my_selector)
                 }
                 ZPHOTO_BOX_STYLE_NUM -> {
+                    ZLog.e("Please do not use \"ZPHOTO_BOX_STYLE_NUM\" style")
                     diyBox.visibility = View.VISIBLE
                     box.visibility = View.GONE
                     diyBox.isSelected = selectedArray[position]
@@ -133,7 +134,7 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
             if (selectedMap.contains(item.path)) { // 包含删除
                 selectedMap.remove(item.path)
                 selectedArray.put(position, !selectedArray[position])
-                zPhotoSelectListener?.selected(selectedMap.size)
+                zPhotoSelectListener?.invoke(selectedMap.size)
                 if (box !is CheckBox) {
                     box.isSelected = false
                     if (config.selectedBoxStyle == ZPHOTO_BOX_STYLE_NUM) {
@@ -167,7 +168,7 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
                     }
                     selectedMap[item.path] = item
                     selectedArray.put(position, !selectedArray[position])
-                    zPhotoSelectListener?.selected(selectedMap.size)
+                    zPhotoSelectListener?.invoke(selectedMap.size)
                 }
             } else {
                 // 判断图片大小
@@ -191,7 +192,7 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
                     }
                     selectedMap[item.path] = item
                     selectedArray.put(position, !selectedArray[position])
-                    zPhotoSelectListener?.selected(selectedMap.size)
+                    zPhotoSelectListener?.invoke(selectedMap.size)
                 }
             }
         }
@@ -214,7 +215,4 @@ class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) :
         return Pair(picCount, videoCount)
     }
 
-    interface ZPhotoSelectListener {
-        fun selected(selectedSize: Int)
-    }
 }
