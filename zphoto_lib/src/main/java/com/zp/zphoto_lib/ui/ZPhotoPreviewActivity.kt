@@ -18,7 +18,7 @@ import com.zp.zphoto_lib.util.ZLog
 import com.zp.zphoto_lib.util.ZToaster
 import kotlinx.android.synthetic.main.activity_zphoto_preview.*
 
-class ZPhotoPreviewActivity : BaseZPhotoActivity(), ViewPager.OnPageChangeListener, Toolbar.OnMenuItemClickListener {
+internal class ZPhotoPreviewActivity : BaseZPhotoActivity(), ViewPager.OnPageChangeListener, Toolbar.OnMenuItemClickListener {
 
     private var previewAdapter: ZPhotoPreviewAdapter? = null
     // 当前已选中的数据

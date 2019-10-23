@@ -1,4 +1,4 @@
-package com.zp.zphoto.sample
+package com.zp.zphoto.sample.sample
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide

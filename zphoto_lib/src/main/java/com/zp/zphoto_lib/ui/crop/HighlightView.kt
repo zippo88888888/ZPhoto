@@ -9,7 +9,7 @@ import android.view.View
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.content.getColorById
 
-class HighlightView(context: View) {
+internal class HighlightView(context: View) {
 
     companion object {
         const val GROW_NONE = 1 shl 0

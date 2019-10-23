@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/fragment_to_cameraBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="去相机" />
+
+        <Button
+            android:id="@+id/fragment_to_photoBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="去相册" />
+
+        <TextView
+            android:id="@+id/fragment_resultTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            tools:text="我是选择的结果"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
+

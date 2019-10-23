@@ -11,7 +11,7 @@ import com.zp.zphoto_lib.content.ZPhotoFolder
 import com.zp.zphoto_lib.content.forEach
 import java.io.File
 
-class ZPhotoDirSelectAdapter(context: Context, layoutID: Int) : BaseZPhotoAdapter<ZPhotoFolder>(context, layoutID) {
+internal class ZPhotoDirSelectAdapter(context: Context, layoutID: Int) : BaseZPhotoAdapter<ZPhotoFolder>(context, layoutID) {
 
     private val stateArray by lazy {
         SparseBooleanArray()

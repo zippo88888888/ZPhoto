@@ -124,7 +124,7 @@ class MyImageLoaderListener : ZImageLoaderListener {
     }
 }
 ```
-Step 2. 在Application中初始化
+Step 2. 在Application中或Activity中初始化
 ```kotlin
 ZPhotoHelp.getInstance().init(this, MyImageLoaderListener())
 ```

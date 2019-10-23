@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import java.util.ArrayList
 
-class CropImageView : ImageViewTouchBase {
+internal class CropImageView : ImageViewTouchBase {
 
     internal var highlightViews = ArrayList<HighlightView>()
     internal var motionHighlightView: HighlightView? = null

@@ -1,4 +1,4 @@
-package com.zp.zphoto.sample
+package com.zp.zphoto.sample.sample
 
 import android.app.ProgressDialog
 import android.text.TextUtils

@@ -1,4 +1,4 @@
-package com.zp.zphoto.sample
+package com.zp.zphoto.sample.sample
 
 import android.content.Context
 import android.content.Intent
@@ -13,7 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.zp.zphoto.R
-import com.zp.zphoto.sample.java_sample.JavaMainActivity
+import com.zp.zphoto.sample.sample.java_sample.JavaMainActivity
 import com.zp.zphoto_lib.common.BaseZPhotoAdapter
 import com.zp.zphoto_lib.common.BaseZPhotoHolder
 import com.zp.zphoto_lib.common.ZPhotoHelp
@@ -40,20 +40,34 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
         main_picSizeCV.setValue(ZPHOTO_DEFAULT_MAX_PIC_SIZE)
         main_videoCountCV.setValue(ZPHOTO_DEFAULT_MAX_VIDEO_SELECT)
         main_videoSizeCV.setValue(ZPHOTO_DEFAULT_MAX_VIDEO_SIZE)
-
+        main_allSelectBox.setOnClickListener {
+            main_videoTPTxt.visibility =
+                if (main_allSelectBox.isChecked && main_videoBox.isChecked) View.VISIBLE else View.GONE
+        }
+        main_videoBox.setOnClickListener {
+            main_videoTPTxt.visibility =
+                if (main_allSelectBox.isChecked && main_videoBox.isChecked) View.VISIBLE else View.GONE
+        }
         main_styleGroup.setOnCheckedChangeListener { _, checkedId ->
             config.selectedBoxStyle =  when (checkedId) {
                 R.id.main_styleTwoRadio -> ZPHOTO_BOX_STYLE_DIY
-                R.id.main_styleThreeRadio -> ZPHOTO_BOX_STYLE_NUM
+//                R.id.main_styleThreeRadio -> ZPHOTO_BOX_STYLE_NUM
                 else -> ZPHOTO_BOX_STYLE_DEFAULT
             }
         }
 
-        mainAdapter = MainApdater(this, com.zp.zphoto_lib.R.layout.item_zphoto_select_pic)
+        mainAdapter = MainApdater(
+            this,
+            com.zp.zphoto_lib.R.layout.item_zphoto_select_pic
+        )
         main_recyclerView.apply {
             layoutManager = GridLayoutManager(this@MainActivity, 3)
             isNestedScrollingEnabled = false
             adapter = mainAdapter
+        }
+
+        main_fragmentBtn.setOnClickListener {
+            startActivity(Intent(this, SampleFragmentActivity::class.java))
         }
 
         main_javaUserBtn.setOnClickListener {

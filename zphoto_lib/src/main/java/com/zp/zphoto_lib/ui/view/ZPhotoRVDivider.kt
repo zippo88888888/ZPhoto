@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.zp.zphoto_lib.R
 
-class ZPhotoRVDivider : RecyclerView.ItemDecoration {
+internal class ZPhotoRVDivider : RecyclerView.ItemDecoration {
 
     private var paint: Paint? = null
     private var leftPadding = 0

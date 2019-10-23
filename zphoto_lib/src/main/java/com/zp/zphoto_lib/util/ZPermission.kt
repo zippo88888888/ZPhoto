@@ -14,15 +14,10 @@ import java.util.ArrayList
 
 internal object ZPermission {
 
-    /** SD卡权限 对应requestCode  */
-    const val WRITE_EXTERNAL_CODE = 0x101
-    /** 相机权限 对应requestCode  */
-    const val CAMEAR_CODE = 0x201
-
     /** 读写SD卡权限  */
-    const val WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE
+    internal const val WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE
     /** 相机权限  */
-    const val CAMERA = Manifest.permission.CAMERA
+    internal const val CAMERA = Manifest.permission.CAMERA
 
     /**
      * 判断是否申请过权限

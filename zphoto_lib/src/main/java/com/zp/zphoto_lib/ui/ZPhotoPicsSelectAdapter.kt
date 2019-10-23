@@ -16,7 +16,7 @@ import com.zp.zphoto_lib.util.ZPhotoUtil
 import com.zp.zphoto_lib.util.ZToaster
 import java.io.File
 
-class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) : BaseZPhotoAdapter<ZPhotoDetail>(context, layoutID) {
+internal class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCount: Int) : BaseZPhotoAdapter<ZPhotoDetail>(context, layoutID) {
 
     // 保存已选择的图片数据
     private var selectedMap = ArrayMap<String, ZPhotoDetail>()

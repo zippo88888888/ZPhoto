@@ -17,7 +17,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.util.concurrent.CountDownLatch
 
-class CropImageActivity : MonitoredActivity() {
+internal class CropImageActivity : MonitoredActivity() {
 
     private val SIZE_DEFAULT = 2048
     private val SIZE_LIMIT = 4096

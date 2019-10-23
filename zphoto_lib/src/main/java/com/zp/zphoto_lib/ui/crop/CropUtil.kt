@@ -11,7 +11,7 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import java.io.*
 
-class CropUtil {
+internal class CropUtil {
 
     companion object {
 

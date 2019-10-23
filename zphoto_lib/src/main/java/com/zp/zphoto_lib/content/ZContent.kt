@@ -32,6 +32,11 @@ const val Z_ALL_DATA_KEY = "ZPhotoAllDate"
 const val Z_ALL_VIDEO_KEY = "ZPhotoAllVideo"
 const val ZPHOTO_SHOW_CAMEAR = "显示拍照"
 
+/** SD卡权限 对应requestCode  */
+const val ZPHOTO_WRITE_EXTERNAL_CODE = 0x101
+/** 相机权限 对应requestCode  */
+const val ZPHOTO_CAMEAR_CODE = 0x201
+
 const val ZPHOTO_SELECT_PIC_BACK_CODE = 9000
 /** 调用相机 */
 const val ZPHOTO_TO_CAMEAR_REQUEST_CODE = 9001

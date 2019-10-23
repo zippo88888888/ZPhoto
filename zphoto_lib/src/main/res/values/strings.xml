@@ -2,6 +2,7 @@
     <string name="zphoto_app_name">zphoto_lib</string>
     <string name="zphoto_down">确定</string>
     <string name="zphoto_loadding">读取中</string>
+    <string name="zphoto_a_f_error">activityOrFragment is not Activity or Fragment</string>
     <string name="zphoto_imageCompressErrorMsg">ZPhotoConfiguration.needCompress is true,
         but ZImageCompressListener is null ! You need setting ZImageCompressListener</string>
     <string name="zphoto_imageClippingErrorMsg">ZPhotoConfiguration.needClipping is true,

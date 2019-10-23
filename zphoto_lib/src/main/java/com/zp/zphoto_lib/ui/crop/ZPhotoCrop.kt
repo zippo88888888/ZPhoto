@@ -12,7 +12,7 @@ import com.zp.zphoto_lib.content.ZPHOTO_CROP_REQUEST_CODE
 import com.zp.zphoto_lib.content.ZPHOTO_PICK_REQUEST_CODE
 import com.zp.zphoto_lib.util.ZToaster
 
-class ZPhotoCrop(source: Uri, destination: Uri) {
+internal class ZPhotoCrop(source: Uri, destination: Uri) {
 
     private var cropIntent = Intent()
 

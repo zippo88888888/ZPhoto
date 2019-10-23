@@ -115,7 +115,7 @@ class ZPhotoHelp {
             this.cameraPath = uri
             activity.startActivityForResult(getCameraIntent(activity, uri), ZPHOTO_TO_CAMEAR_REQUEST_CODE)
         } else {
-            ZPermission.requestPermission(activity, ZPermission.CAMEAR_CODE, *noPermissionArray)
+            ZPermission.requestPermission(activity, ZPHOTO_CAMEAR_CODE, *noPermissionArray)
         }
     }
 
@@ -134,7 +134,7 @@ class ZPhotoHelp {
             this.cameraPath = uri
             fragment.startActivityForResult(getCameraIntent(fragment.activity!!, uri), ZPHOTO_TO_CAMEAR_REQUEST_CODE)
         } else {
-            ZPermission.requestPermission(fragment, ZPermission.CAMEAR_CODE, *noPermissionArray)
+            ZPermission.requestPermission(fragment, ZPHOTO_CAMEAR_CODE, *noPermissionArray)
         }
     }
 
@@ -158,7 +158,7 @@ class ZPhotoHelp {
         val context = when (activityOrFragment) {
             is Activity -> activityOrFragment
             is Fragment -> activityOrFragment.activity
-            else -> throw IllegalArgumentException("activityOrFragment is not Activity or Fragment")
+            else -> throw IllegalArgumentException(getStringById(R.string.zphoto_a_f_error))
         }
         val config = getConfiguration()
         when (requestCode) {
@@ -230,7 +230,7 @@ class ZPhotoHelp {
         if (resultCode == Activity.RESULT_OK) {
             if (data != null) {
                 val cropUri = ZPhotoCrop.getOutput(data)
-                needCropDataArray!![cropIndex].apply {
+                needCropDataArray?.get(cropIndex)?.apply {
                     path = cropUri.path ?: path
                     name = path.substring(path.lastIndexOf("/") + 1, path.length)
                     size = ZFile.getFileOrFilesSize(path)
@@ -310,13 +310,13 @@ class ZPhotoHelp {
     @JvmOverloads
     fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray,
                                    activityOrFragment: Any, outUri :String? = null) {
-        if (requestCode == ZPermission.CAMEAR_CODE) {
+        if (requestCode == ZPHOTO_CAMEAR_CODE) {
             val noPermissionArray = ZPermission.onPermissionsResult(permissions, grantResults)
             if (noPermissionArray.isNullOrEmpty()) {
                 when (activityOrFragment) {
                     is Activity -> toCamera(activityOrFragment, outUri)
                     is Fragment -> toCamera(activityOrFragment, outUri)
-                    else -> throw java.lang.IllegalArgumentException("activityOrFragment is not Activity or Fragment")
+                    else -> throw IllegalArgumentException(getStringById(R.string.zphoto_a_f_error))
                 }
             } else {
                 ZToaster.makeTextS("权限获取失败")

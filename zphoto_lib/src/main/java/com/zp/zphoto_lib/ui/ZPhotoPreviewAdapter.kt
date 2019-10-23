@@ -13,7 +13,7 @@ import com.zp.zphoto_lib.content.ZPhotoDetail
 import com.zp.zphoto_lib.ui.view.ZPhotoVideoPlayer
 import java.io.File
 
-class ZPhotoPreviewAdapter(
+internal class ZPhotoPreviewAdapter(
     private var context: Context,
     private var list: ArrayList<ZPhotoDetail>?
 ) : PagerAdapter() {

@@ -13,7 +13,7 @@ import com.zp.zphoto_lib.content.dip2px
 import com.zp.zphoto_lib.content.getColorById
 import com.zp.zphoto_lib.content.getTextValue
 
-class ZLoadDialog(context: Context, private var title: String? = getTextValue(R.string.zphoto_loadding)) : AlertDialog(context) {
+internal class ZLoadDialog(context: Context, private var title: String? = getTextValue(R.string.zphoto_loadding)) : AlertDialog(context) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

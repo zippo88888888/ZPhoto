@@ -1,4 +1,4 @@
-package com.zp.zphoto.sample.java_sample;
+package com.zp.zphoto.sample.sample.java_sample;
 
 import android.content.Intent;
 import android.os.Bundle;

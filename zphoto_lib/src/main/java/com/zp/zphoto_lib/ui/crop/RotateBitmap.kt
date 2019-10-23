@@ -3,7 +3,7 @@ package com.zp.zphoto_lib.ui.crop
 import android.graphics.Bitmap
 import android.graphics.Matrix
 
-class RotateBitmap(bitmap: Bitmap?, rotation: Int) {
+internal class RotateBitmap(bitmap: Bitmap?, rotation: Int) {
 
     var bitmap: Bitmap? = null
     var rotation = 0

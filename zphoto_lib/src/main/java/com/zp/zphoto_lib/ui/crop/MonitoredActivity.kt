@@ -4,7 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import java.util.ArrayList
 
-abstract class MonitoredActivity : Activity() {
+internal abstract class MonitoredActivity : Activity() {
 
     private val listeners = ArrayList<LifeCycleListener>()
 

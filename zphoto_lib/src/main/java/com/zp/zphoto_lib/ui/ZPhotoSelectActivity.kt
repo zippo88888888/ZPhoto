@@ -23,7 +23,7 @@ import com.zp.zphoto_lib.util.ZPhotoImageAnsy
 import com.zp.zphoto_lib.util.ZToaster
 import kotlinx.android.synthetic.main.activity_zphoto_select.*
 
-class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListener {
+internal class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListener {
 
     private var zPhotoPicsSelectAdapter: ZPhotoPicsSelectAdapter? = null
     private var zPhotoDirSelectAdapter: ZPhotoDirSelectAdapter? = null
@@ -50,7 +50,7 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
         if (noPermissionArray.isNullOrEmpty()) {
             initAll()
         } else {
-            ZPermission.requestPermission(this, ZPermission.WRITE_EXTERNAL_CODE, *noPermissionArray)
+            ZPermission.requestPermission(this, ZPHOTO_WRITE_EXTERNAL_CODE, *noPermissionArray)
         }
     }
 
@@ -69,8 +69,8 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
         val spanCount = 3
         zPhotoPicsSelectAdapter = ZPhotoPicsSelectAdapter(this, R.layout.item_zphoto_select_pic, spanCount)
         zPhotoPicsSelectAdapter?.onItemClickListener = {_, position ->
-            val item = zPhotoPicsSelectAdapter?.getItem(position)
-            if (item!!.name == ZPHOTO_SHOW_CAMEAR) { // 拍照
+            val item = zPhotoPicsSelectAdapter!!.getItem(position)
+            if (item.name == ZPHOTO_SHOW_CAMEAR) { // 拍照
                 ZPhotoHelp.getInstance().toCamera(this)
             } else {
                 val config = ZPhotoHelp.getInstance().getConfiguration()
@@ -213,7 +213,7 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            ZPermission.WRITE_EXTERNAL_CODE -> {
+            ZPHOTO_WRITE_EXTERNAL_CODE -> {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     initAll()
                 } else {
@@ -221,7 +221,7 @@ class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemClickListen
                     finish()
                 }
             }
-            ZPermission.CAMEAR_CODE ->
+            ZPHOTO_CAMEAR_CODE ->
                 ZPhotoHelp.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults, this)
         }
 

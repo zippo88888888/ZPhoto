@@ -9,7 +9,7 @@ import android.util.AttributeSet
 import android.view.KeyEvent
 import android.widget.ImageView
 
-abstract class ImageViewTouchBase : ImageView {
+internal abstract class ImageViewTouchBase : ImageView {
 
     private val SCALE_RATE = 1.25f
 
