@@ -64,6 +64,7 @@
             android:id="@+id/zphoto_select_dirRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="50dp"
             android:background="@color/white" />
 
     </android.support.v4.widget.NestedScrollView>
@@ -74,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
-        android:background=" #65000000 " >
+        android:background="@color/zphoto_gray" >
 
         <TextView
             android:id="@+id/zphoto_select_changePicTxt"

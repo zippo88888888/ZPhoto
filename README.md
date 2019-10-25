@@ -1,5 +1,5 @@
 
-[![Travis](https://img.shields.io/badge/ZPhoto-1.4.3-yellowgreen)](https://github.com/zippo88888888/ZPhoto)
+[![Travis](https://img.shields.io/badge/ZPhoto-1.4.4-yellowgreen)](https://github.com/zippo88888888/ZPhoto)
 [![Travis](https://img.shields.io/badge/API-18%2B-green.svg)](https://github.com/zippo88888888/ZPhoto)
 [![Travis](https://img.shields.io/badge/Apache-2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
@@ -33,7 +33,7 @@ Step 0. 添加依赖
 
 gradle
 ```
-implementation 'com.github.zp:zphoto_lib:1.4.3'
+implementation 'com.github.zp:zphoto_lib:1.4.4'
 
 
 // 如果报错，加上
@@ -54,12 +54,12 @@ maven
 <dependency>
 	<groupId>com.github.zp</groupId>
 	<artifactId>zphoto_lib</artifactId>
-	<version>1.4.3</version>
+	<version>1.4.4</version>
 	<type>pom</type>
 </dependency>
 ```
 
-或 aar --> [点击下载](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib_1.4.3.aar)
+或 aar --> [点击下载](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib_1.4.4.aar)
 
 **↓↓↓不要忘记权限↓↓↓**
 ```xml

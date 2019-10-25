@@ -143,15 +143,15 @@ internal class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemCl
             adapter = zPhotoDirSelectAdapter
         }
 
-        val height = getDisplay()[1]
+//        val height = getDisplay()[1]
         // 初始化底部
         bottomBehavior = BottomSheetBehavior.from(zphoto_select_nestedScrollView)
         bottomBehavior?.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                // 1 张开 0 关闭
-                val changeY = height + (zphoto_select_bottomLayout.height) *
+                // 1 张开 0 关闭 三星 Note10+动画问题，现去掉，后续优化
+                /*val changeY = height + (zphoto_select_bottomLayout.height) *
                         slideOffset - zphoto_select_bottomLayout.height
-                zphoto_select_bottomLayout.y = changeY
+                zphoto_select_bottomLayout.y = changeY*/
             }
             override fun onStateChanged(bottomSheet: View, newState: Int) = Unit
             /*when (newState) {
