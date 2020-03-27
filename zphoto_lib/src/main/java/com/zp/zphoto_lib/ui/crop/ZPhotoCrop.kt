@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
+import androidx.fragment.app.Fragment
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.common.ZPhotoHelp
 import com.zp.zphoto_lib.content.ZPHOTO_CROP_REQUEST_CODE
@@ -91,7 +92,7 @@ internal class ZPhotoCrop(source: Uri, destination: Uri) {
          * @param fragment    Fragment to receive result
          * @param requestCode requestCode for result
          */
-        fun pickImage(fragment: android.support.v4.app.Fragment, requestCode: Int) {
+        fun pickImage(fragment: Fragment, requestCode: Int) {
             try {
                 fragment.startActivityForResult(getImagePicker(), requestCode)
             } catch (e: ActivityNotFoundException) {
@@ -176,7 +177,7 @@ internal class ZPhotoCrop(source: Uri, destination: Uri) {
      * @param context  Context
      * @param fragment Fragment to receive result
      */
-    fun start(context: Context, fragment: android.support.v4.app.Fragment) {
+    fun start(context: Context, fragment: Fragment) {
         start(context, fragment, ZPHOTO_CROP_REQUEST_CODE)
     }
 
@@ -187,7 +188,7 @@ internal class ZPhotoCrop(source: Uri, destination: Uri) {
      * @param fragment    Fragment to receive result
      * @param requestCode requestCode for result
      */
-    private fun start(context: Context, fragment: android.support.v4.app.Fragment, requestCode: Int) {
+    private fun start(context: Context, fragment: Fragment, requestCode: Int) {
         fragment.startActivityForResult(getIntent(context), requestCode)
     }
 

@@ -1,11 +1,12 @@
 package com.zp.zphoto_lib.ui
 
 import android.content.Context
-import android.support.v4.util.ArrayMap
+import android.os.Build
 import android.util.SparseBooleanArray
 import android.view.Gravity
 import android.view.View
 import android.widget.*
+import androidx.collection.ArrayMap
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.common.BaseZPhotoAdapter
 import com.zp.zphoto_lib.common.BaseZPhotoHolder
@@ -91,7 +92,13 @@ internal class ZPhotoPicsSelectAdapter(context: Context, layoutID: Int, spanCoun
                 cameraLayout.layoutParams = layoutParams
             } else {
                 cameraLayout.visibility = View.GONE
-                ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(pic, File(item.path))
+                val file = File(item.path)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(pic, item.uri, file)
+                } else {
+                    ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(pic, file)
+                }
+
             }
 
             box.setOnClickListener {

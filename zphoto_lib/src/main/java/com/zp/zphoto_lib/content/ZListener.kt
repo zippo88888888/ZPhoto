@@ -1,5 +1,6 @@
 package com.zp.zphoto_lib.content
 
+import android.net.Uri
 import android.widget.ImageView
 import java.io.File
 import java.util.*
@@ -19,6 +20,7 @@ interface ZImageResultListener {
  */
 interface ZImageLoaderListener {
     fun loadImg(imageView: ImageView, file: File)
+    fun loadImg(imageView: ImageView, uri: Uri?, file: File)
     fun loadImg(imageView: ImageView, path: String)
     fun loadImg(imageView: ImageView, res: Int)
 }

@@ -2,12 +2,12 @@ package com.zp.zphoto_lib.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.view.ViewPager
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.widget.Toolbar
+import androidx.viewpager.widget.ViewPager
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.common.BaseZPhotoActivity
 import com.zp.zphoto_lib.common.ZPhotoHelp

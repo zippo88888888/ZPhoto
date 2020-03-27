@@ -3,8 +3,6 @@ package com.zp.zphoto.sample.sample
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.GridLayoutManager
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -12,6 +10,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import com.zp.zphoto.R
 import com.zp.zphoto.sample.sample.java_sample.JavaMainActivity
 import com.zp.zphoto_lib.common.BaseZPhotoAdapter

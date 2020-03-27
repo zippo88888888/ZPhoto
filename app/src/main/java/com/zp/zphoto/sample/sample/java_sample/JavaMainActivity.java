@@ -2,11 +2,13 @@ package com.zp.zphoto.sample.sample.java_sample;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.zp.zphoto.R;
 import com.zp.zphoto_lib.common.ZPhotoHelp;
 import com.zp.zphoto_lib.content.ZImageResultListener;

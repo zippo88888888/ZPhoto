@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp" />
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/zphoto_toolBarHeight"
@@ -32,7 +32,7 @@
             android:textColor="@color/zphoto_tool_bar_txt_color"
             tools:text="I am Title" />
 
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
 
 </LinearLayout>

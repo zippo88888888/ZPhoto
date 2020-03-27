@@ -1,7 +1,11 @@
 package com.zp.zphoto_lib.util
 
+import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
+import android.icu.lang.UCharacter.GraphemeClusterBreak.L
+import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.os.Message
 import android.provider.MediaStore
@@ -59,7 +63,15 @@ internal class ZPhotoImageAnsy(
             }
             for ((k, v) in data) {
                 // 添加到文件夹数据
-                dirs.add(ZPhotoFolder(k, v[0].path, k.substring(k.lastIndexOf("/") + 1, k.length), v))
+                dirs.add(
+                    ZPhotoFolder(
+                        k,
+                        v[0].path,
+                        v[0].uri,
+                        k.substring(k.lastIndexOf("/") + 1, k.length),
+                        v
+                    )
+                )
                 // 添加到所有数据
                 allList.addAll(v)
             }
@@ -67,11 +79,21 @@ internal class ZPhotoImageAnsy(
             dirs.sortByDescending { it.childs[0].date_modified }
             if (!videoList.isNullOrEmpty()) {
                 // 文件夹添加视频
-                dirs.add(0, ZPhotoFolder(Z_ALL_VIDEO_KEY, videoList[0].path, "全部视频", videoList))
+                dirs.add(
+                    0,
+                    ZPhotoFolder(
+                        Z_ALL_VIDEO_KEY,
+                        videoList[0].path,
+                        videoList[0].uri,
+                        "全部视频",
+                        videoList
+                    )
+                )
             }
             // 所有排序
             allList.sortByDescending { it.date_modified }
             val allFirstPath = allList[0].path
+            val allFirstUri = allList[0].uri
             // 将所有数据 添加 到文件夹数据
 
             // 是否要显示拍照图片
@@ -80,7 +102,7 @@ internal class ZPhotoImageAnsy(
                 allList.add(0, ZPhotoDetail("", ZPHOTO_SHOW_CAMEAR, 0.0,
                     false, false, 0, "", 0L))
             }
-            dirs.add(0, ZPhotoFolder(Z_ALL_DATA_KEY, allFirstPath, "所有图片", allList))
+            dirs.add(0, ZPhotoFolder(Z_ALL_DATA_KEY, allFirstPath, allFirstUri, "所有图片", allList))
 
             handler?.sendMessage(Message().apply {
                 obj = arrayOf(dirs, allList)
@@ -139,6 +161,7 @@ internal class ZPhotoImageAnsy(
 
                 if (cursor != null) {
                     while (cursor.moveToNext()) {
+                        val id = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media._ID))
                         // 图片的路径
                         val path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
                         // 图片的大小
@@ -148,6 +171,10 @@ internal class ZPhotoImageAnsy(
                         // 最后修改时间
                         val date_modified = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media.DATE_MODIFIED))
 
+                        var uri: Uri? = null
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+                        }
                         if (displayName.isNullOrEmpty()) {
                             displayName = path.substring(path.lastIndexOf("/") + 1, path.length)
                         }
@@ -159,7 +186,8 @@ internal class ZPhotoImageAnsy(
                                 ZFile.formetFileSize(size),
                                 checkGif(path), false, 0,
                                 "",
-                                date_modified
+                                date_modified,
+                                uri
                             )
                         )
 
@@ -176,7 +204,8 @@ internal class ZPhotoImageAnsy(
                                     ZFile.formetFileSize(size),
                                     checkGif(path), false,0,
                                     "",
-                                    date_modified
+                                    date_modified,
+                                    uri
                                 )
                             )
                             continue
@@ -189,7 +218,8 @@ internal class ZPhotoImageAnsy(
                                     ZFile.formetFileSize(size),
                                     checkGif(path),false,0,
                                     "",
-                                    date_modified
+                                    date_modified,
+                                    uri
                                 )
                             )
                             this[dirPath] = data
@@ -207,6 +237,7 @@ internal class ZPhotoImageAnsy(
             var cursor: Cursor? = null
             try {
                 val projection = arrayOf(
+                    MediaStore.Video.Media._ID,
                     MediaStore.Video.Media.DATA,
                     MediaStore.Video.Media.DISPLAY_NAME,
                     MediaStore.Video.Media.DURATION,
@@ -223,6 +254,8 @@ internal class ZPhotoImageAnsy(
                 )
                 if (cursor != null) {
                     while (cursor.moveToNext()) {
+                        val id = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media._ID))
+
                         var displayName = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME))
                         // 大小
                         val size = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.SIZE))
@@ -232,6 +265,12 @@ internal class ZPhotoImageAnsy(
                         val date = cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.DATE_MODIFIED))
                         // 时长
                         val duration = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.DURATION))
+
+                        var uri: Uri? = null
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            uri = ContentUris.withAppendedId(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id)
+                        }
+
                         if (displayName.isNullOrEmpty()) {
                             displayName = path.substring(path.lastIndexOf("/") + 1, path.length)
                         }
@@ -239,7 +278,7 @@ internal class ZPhotoImageAnsy(
                             ZPhotoDetail(
                                 path, displayName,
                                 ZFile.formetFileSize(size),
-                                false, true, duration, "", date
+                                false, true, duration, "", date, uri
                             )
                         )
                     }

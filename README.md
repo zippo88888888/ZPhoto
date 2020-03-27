@@ -1,5 +1,5 @@
 
-[![Travis](https://img.shields.io/badge/ZPhoto-1.4.4-yellowgreen)](https://github.com/zippo88888888/ZPhoto)
+[![Travis](https://img.shields.io/badge/ZPhoto-1.5.0-yellowgreen)](https://github.com/zippo88888888/ZPhoto)
 [![Travis](https://img.shields.io/badge/API-18%2B-green.svg)](https://github.com/zippo88888888/ZPhoto)
 [![Travis](https://img.shields.io/badge/Apache-2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
@@ -11,29 +11,33 @@
 [JiaoZiVideoPlayer](https://github.com/lipangit/JiaoZiVideoPlayer)
 
 
-## 本库特点
+# 本库特点
 
-1. **基于android-crop修改后的图片剪裁外无其他第三方库[查看lib gradle配置](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/build.gradle)**；
-2. 支持视频、图片、GIF查看，图片裁剪，压缩；
-3. 支持图片、视频 --->>> 单选、多选&&数量、大小限制；
-4. 支持样式自定义；
-5. Kotlin编码，100%兼容Java；
+##### 1. **基于android-crop修改后的图片剪裁外无其他第三方库[gradle配置](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/build.gradle)**；
+##### 2. 支持视频、图片、GIF查看，图片裁剪，压缩；
+##### 3. 支持图片、视频 --->>> { 单选、多选 } && { 数量、大小限制 }；
+##### 4. 支持样式自定义；
+##### 5. 适配AndroidX AndroidQ && Kotlin编码，100%兼容Java；
 
 
-## 截图
+### 截图
 <div align="center">
 <img src = "app/src/main/assets/ys1.jpg" width=268 >
 <img src = "app/src/main/assets/ys2.jpg" width=268 >
 <img src = "app/src/main/assets/ys3.jpg" width=268 >
 </div>
 
-## 使用（[Java调用](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/java/com/zp/zphoto/sample/java_sample/JavaMainActivity.java)）
+# 使用（[Java调用](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/java/com/zp/zphoto/sample/sample/java_sample/JavaMainActivity.java)）
 
-Step 0. 添加依赖
+#### Step 0. 添加依赖（非AndroidX版本已停止更新，请尽快切换至AndroidX 版本）
 
 gradle
 ```
-implementation 'com.github.zp:zphoto_lib:1.4.4'
+// Android X 版本
+implementation 'com.github.zp:zphoto_lib:1.5.0'
+
+// 非Android X 版本
+implementation 'com.github.zp:zphoto_lib:1.4.4' 
 
 
 // 如果报错，加上
@@ -54,12 +58,14 @@ maven
 <dependency>
 	<groupId>com.github.zp</groupId>
 	<artifactId>zphoto_lib</artifactId>
-	<version>1.4.4</version>
+	<version>1.5.0</version>
 	<type>pom</type>
 </dependency>
 ```
 
-或 aar --> [点击下载](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib_1.4.4.aar)
+或 aar --> [AndroidX版本](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib_1.5.0.aar) 
+&nbsp;&nbsp;[非AndroidX版本](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib_1.4.4.aar)
+
 
 **↓↓↓不要忘记权限↓↓↓**
 ```xml
@@ -68,67 +74,39 @@ maven
 <uses-permission android:name="android.permission.CAMERA" />
 ```
 
-Step 1.  新建图片加载，继承自ZImageLoaderListener，实现自己的图片加载方式（以Glide为例）
+#### Step 1.  新建图片加载，继承自ZImageLoaderListener，实现自己的图片加载方式
 ```kotlin
 class MyImageLoaderListener : ZImageLoaderListener {
 
     override fun loadImg(imageView: ImageView, file: File) {
-        loadImg(file, imageView)
+        ImageLoad.loadImage(file, imageView)
+    }
+
+    // Android Q会调用此方法
+    override fun loadImg(imageView: ImageView, uri: Uri?, file: File) {
+        if (uri == null) {
+            loadImg(imageView, file)
+        } else {
+            ImageLoad.loadImage(uri, imageView)
+        }
     }
 
     override fun loadImg(imageView: ImageView, path: String) {
-        loadImg(path, imageView, 0)
+        ImageLoad.loadImage(path, imageView)
     }
 
     override fun loadImg(imageView: ImageView, res: Int) {
-        loadImg(res, imageView)
+        ImageLoad.loadImage(res, imageView)
     }
 
-    private fun loadImg(url: String, pic: ImageView, defaultPic: Int = 0) {
-        var defaultPic = defaultPic
-        if (defaultPic <= 0) {
-            defaultPic = R.drawable.loading_pic
-        }
-        Glide.with(pic.context).load(url).asBitmap()
-                .placeholder(defaultPic)
-                .error(defaultPic)
-                .dontAnimate() 
-                .into(pic)
-    }
-
-    private fun loadImg(resID: Int, pic: ImageView) {
-        Glide.with(pic.context)
-                .load(resID)
-                .dontAnimate()
-                .into(pic)
-    }
-
-    private fun loadImg(file: File, pic: ImageView) {
-        loadGifImg(file, pic)
-    }
-
-    private fun loadGifImg(file: File, pic: ImageView) {
-        val load = Glide.with(pic.context).load(file)
-        if (checkGif(file.path)) {
-            load.asGif()
-                .placeholder(R.drawable.loading_pic)
-                .error(R.drawable.loading_pic_error)
-                .into(pic)
-        } else {
-            load.asBitmap()
-                .placeholder(R.drawable.loading_pic)
-                .error(R.drawable.loading_pic_error)
-                .dontAnimate()
-                .into(pic)
-        }
-    }
+    
 }
 ```
-Step 2. 在Application中或Activity中初始化
+#### Step 2. 在Application中或Activity中初始化
 ```kotlin
 ZPhotoHelp.getInstance().init(this, MyImageLoaderListener())
 ```
-Step 3. Activity or Fragment 配置 实现 ZImageResultListener 接口，用于数据接收
+#### Step 3. Activity or Fragment 配置 实现 ZImageResultListener 接口，用于数据接收
 ```kotlin
 
   // 图片选择成功
@@ -159,7 +137,7 @@ Step 3. Activity or Fragment 配置 实现 ZImageResultListener 接口，用于�
 
 
 ```
-Step 4. 配置 [FileProvider](http://yifeng.studio/2017/05/03/android-7-0-compat-fileprovider)
+#### Step 4. 配置 [FileProvider](https://developer.android.com/reference/android/support/v4/content/FileProvider)
 ```xml
 
 <!-- 新建paths文件，如果已有，修改即可  -->
@@ -194,7 +172,7 @@ Step 4. 配置 [FileProvider](http://yifeng.studio/2017/05/03/android-7-0-compat
     }
     
 ```
-Step 5. 使用
+#### Step 5. 使用
 ```kotlin
       // 去相册
       main_photoBtn.setOnClickListener {
@@ -212,7 +190,7 @@ Step 5. 使用
         }
         
 ```
-Step 6. 释放资源
+#### Step 6. 释放资源
 ```kotlin
     
     // 及时释放
@@ -226,7 +204,7 @@ Step 6. 释放资源
 **由于本库没有引用其他压缩库，但是已经将方法暴露出去了，所以压缩需要自己实现**
 
 ## 图片压缩
-Step 1. 新建图片压缩，继承自ZImageCompress，实现压缩方法（以Luban为例）
+#### 1. 新建图片压缩，继承自ZImageCompress，实现压缩方法（以Luban为例）
 ```kotlin
  class MyImageCompress : ZImageCompress() {
 
@@ -281,7 +259,7 @@ Step 1. 新建图片压缩，继承自ZImageCompress，实现压缩方法（以L
     }
 }
 ```
-Step 2. 使用
+#### 2. 使用
 ```kotlin
         ZPhotoHelp.getInstance()
                 .setZImageResultListener(this)
@@ -333,17 +311,6 @@ zphoto_checkbox_my_selector
 
 ```
 
-## Android X
-```gradel
-# 在gradle.properties 文件中添加以下配置，自动适配Android X 
-
-android.useAndroidX=true
-android.enableJetifier=true
-
-# android.enableJetifier=true 表示将依赖包也迁移到androidx。如果取值为false,
-# 表示不迁移依赖包到androidx，但在使用其他依赖包中的内容时可能会出现问题
-
-```
 
 搞定^_^ 如果觉得可以 star 一下哦
 

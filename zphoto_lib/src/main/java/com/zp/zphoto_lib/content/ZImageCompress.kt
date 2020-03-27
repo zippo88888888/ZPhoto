@@ -3,7 +3,7 @@ package com.zp.zphoto_lib.content
 import android.content.Context
 import android.os.Handler
 import android.os.Message
-import android.support.annotation.Nullable
+import androidx.annotation.Nullable
 import java.lang.ref.SoftReference
 import java.util.*
 

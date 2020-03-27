@@ -1,7 +1,7 @@
 package com.zp.zphoto.sample.sample
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.zp.zphoto.R
 
 class SampleFragmentActivity : AppCompatActivity() {

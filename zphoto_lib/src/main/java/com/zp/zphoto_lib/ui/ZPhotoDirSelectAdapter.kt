@@ -1,6 +1,7 @@
 package com.zp.zphoto_lib.ui
 
 import android.content.Context
+import android.os.Build
 import android.util.SparseBooleanArray
 import android.widget.ImageView
 import com.zp.zphoto_lib.R
@@ -22,7 +23,12 @@ internal class ZPhotoDirSelectAdapter(context: Context, layoutID: Int) : BaseZPh
             setTextValue(R.id.item_zphoto_dialog_selectNameTxt, item.folderName)
             setTextValue(R.id.item_zphoto_dialog_selectcountTxt, "${item.childs.size}张")
             getView<ImageView>(R.id.item_zphoto_dialog_selectPic).apply {
-                ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(this, File(item.firstImagePath))
+                val file = File(item.firstImagePath)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(this, item.firstImageUri, file)
+                } else {
+                    ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(this, file)
+                }
             }
             setVisibility(R.id.item_zphoto_dialog_selectCheckPic, stateArray[position])
         }

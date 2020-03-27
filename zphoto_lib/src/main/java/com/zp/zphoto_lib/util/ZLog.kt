@@ -12,6 +12,22 @@ internal object ZLog {
     private const val E = 3
     private const val V = 4
 
+    fun i(msg: Any) {
+        i(TAG, msg)
+    }
+
+    fun d(msg: Any) {
+        d(TAG, msg)
+    }
+
+    fun e(msg: Any) {
+        e(TAG, msg)
+    }
+
+    fun v(msg: Any) {
+        v(TAG, msg)
+    }
+
     fun i(tag: String, message: Any) {
         log(I, tag, message)
     }
@@ -26,22 +42,6 @@ internal object ZLog {
 
     fun v(tag: String, message: Any) {
         log(V, tag, message)
-    }
-
-    fun i(msg: Any) {
-        log(I, TAG, msg)
-    }
-
-    fun d(msg: Any) {
-        log(D, TAG, msg)
-    }
-
-    fun e(msg: Any) {
-        log(E, TAG, msg)
-    }
-
-    fun v(msg: Any) {
-        log(V, TAG, msg)
     }
 
     private fun log(type: Int, TAG: String, msg: Any) {

@@ -146,7 +146,7 @@ class ZPhotoSuperVideoPlayer : MediaPlayer.OnBufferingUpdateListener, MediaPlaye
                 if (surfaceHolder != null) {
                     mediaPlayer?.setDisplay(surfaceHolder)
                 }
-                mediaPlayer?.setDataSource(moviePlayerOption?.context, getVideoUri())
+                mediaPlayer?.setDataSource(moviePlayerOption!!.context!!, getVideoUri()!!)
                 mediaPlayer?.prepareAsync()
                 mediaPlayer?.isLooping = isLooping
             } catch (e: Exception) {

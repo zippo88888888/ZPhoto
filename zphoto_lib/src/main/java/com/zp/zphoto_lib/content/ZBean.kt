@@ -1,5 +1,6 @@
 package com.zp.zphoto_lib.content
 
+import android.net.Uri
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
@@ -15,6 +16,7 @@ import kotlinx.android.parcel.Parcelize
 data class ZPhotoFolder(
         var dirPath: String,
         var firstImagePath: String,
+        var firstImageUri: Uri?,
         var folderName: String,
         var childs: ArrayList<ZPhotoDetail>
 ) : Parcelable
@@ -29,6 +31,7 @@ data class ZPhotoFolder(
  * @param duration              视频时长
  * @param parentPath            父类路径
  * @param date_modified         最后修改时间
+ * @param uri                   Uri
  */
 @Parcelize
 data class ZPhotoDetail(
@@ -39,5 +42,6 @@ data class ZPhotoDetail(
         var isVideo: Boolean,
         var duration: Int,
         var parentPath: String,
-        var date_modified: Long
+        var date_modified: Long,
+        var uri: Uri? = null
 ) : Parcelable

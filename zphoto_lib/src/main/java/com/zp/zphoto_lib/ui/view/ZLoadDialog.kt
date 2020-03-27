@@ -2,12 +2,12 @@ package com.zp.zphoto_lib.ui.view
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.content.dip2px
 import com.zp.zphoto_lib.content.getColorById

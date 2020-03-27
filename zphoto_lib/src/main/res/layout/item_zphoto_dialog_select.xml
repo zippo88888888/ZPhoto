@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/zphoto_default_divider_padding"
     android:gravity="center">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:clickable="true"
@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"  />
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
     <RelativeLayout
         android:layout_width="match_parent"

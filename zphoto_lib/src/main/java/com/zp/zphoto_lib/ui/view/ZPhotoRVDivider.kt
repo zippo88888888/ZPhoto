@@ -4,10 +4,10 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.zp.zphoto_lib.R
 
 internal class ZPhotoRVDivider : RecyclerView.ItemDecoration {
@@ -135,7 +135,7 @@ internal class ZPhotoRVDivider : RecyclerView.ItemDecoration {
                 left.toFloat() + leftPadding,
                 top.toFloat(),
                 right.toFloat() - rightPadding,
-                bottom.toFloat(), paint
+                bottom.toFloat(), paint!!
             )
         }
     }

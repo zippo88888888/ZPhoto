@@ -7,15 +7,13 @@ import android.graphics.Point
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.annotation.RequiresApi
-import android.support.v4.content.ContextCompat
-import android.support.v4.util.ArrayMap
-import android.support.v7.app.AppCompatActivity
 import android.util.SparseArray
 import android.util.SparseBooleanArray
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.collection.ArrayMap
+import androidx.core.content.ContextCompat
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.common.ZPhotoManager
 import com.zp.zphoto_lib.util.ZLog

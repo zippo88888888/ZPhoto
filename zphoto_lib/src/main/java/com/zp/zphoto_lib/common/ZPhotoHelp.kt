@@ -7,8 +7,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.support.v4.app.Fragment
-import android.support.v4.content.FileProvider
+import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import com.zp.zphoto_lib.R
 import com.zp.zphoto_lib.content.*
 import com.zp.zphoto_lib.ui.ZPhotoSelectActivity
