@@ -150,9 +150,8 @@ ZPhotoHelp.getInstance().init(this, MyImageLoaderListener())
     
 
     <!-- 在AndroidMainfest  -->
-    <!-- AndroidX 中 name 为 androidx.core.content.FileProvider -->
      <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
