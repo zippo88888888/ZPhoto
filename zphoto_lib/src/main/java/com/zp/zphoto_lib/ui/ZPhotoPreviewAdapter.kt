@@ -1,6 +1,7 @@
 package com.zp.zphoto_lib.ui
 
 import android.content.Context
+import android.os.Build
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
@@ -48,21 +49,33 @@ internal class ZPhotoPreviewAdapter(
             "", "", 0.0,
             false, false, 0, "", 0L
         )
-
+        val file = File(item.path)
         if (item.isVideo) {
             val player = rootLayout.findViewById<ZPhotoVideoPlayer>(R.id.zphoto_preview_player)
             val playerPic = rootLayout.findViewById<ImageView>(R.id.zphoto_preview_playPic)
             val pic = rootLayout.findViewById<ImageView>(R.id.zphoto_preview_pic)
-            ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(pic, File(item.path))
-            player.videoPath = item.path
-            player.size_type = ZPhotoVideoPlayer.CENTER_CROP_MODE
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(pic, item.uri, file)
+            } else {
+                ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(pic, file)
+            }
+            player.apply {
+                videoPath = item.path
+                videoUri = item.uri
+                size_type = ZPhotoVideoPlayer.CENTER_CROP_MODE
+            }
             playerPic.setOnClickListener {
                 player.play()
                 playerPic.visibility = View.GONE
                 pic.visibility = View.GONE
             }
         } else {
-            ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(rootLayout as ImageView, File(item.path))
+            val pic = rootLayout as ImageView
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(pic, item.uri, file)
+            } else {
+                ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(pic, file)
+            }
         }
 
         return rootLayout

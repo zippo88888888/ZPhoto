@@ -51,7 +51,7 @@ internal class ZPhotoCrop(source: Uri, destination: Uri) {
          *
          * @param result Output Image URI
          */
-        fun getOutput(result: Intent): Uri {
+        fun getOutput(result: Intent): Uri? {
             return result.getParcelableExtra(MediaStore.EXTRA_OUTPUT)
         }
 

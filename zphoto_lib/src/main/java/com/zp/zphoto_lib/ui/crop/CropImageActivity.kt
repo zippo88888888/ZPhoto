@@ -98,8 +98,10 @@ internal class CropImageActivity : MonitoredActivity() {
                 option.inSampleSize = sampleSize
                 rotateBitmap = RotateBitmap(BitmapFactory.decodeStream(inputStream, null, option), exifRotation)
             } catch (e: IOException) {
+                e.printStackTrace()
                 setResultException(e)
             } catch (e: OutOfMemoryError) {
+                e.printStackTrace()
                 setResultException(e)
             } finally {
                 CropUtil.closeSilently(inputStream)

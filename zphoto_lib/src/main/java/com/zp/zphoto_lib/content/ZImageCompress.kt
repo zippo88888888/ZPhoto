@@ -6,6 +6,7 @@ import android.os.Message
 import androidx.annotation.Nullable
 import java.lang.ref.SoftReference
 import java.util.*
+import kotlin.concurrent.thread
 
 open class ZImageCompress {
 
@@ -25,13 +26,13 @@ open class ZImageCompress {
             handler = CompressHandler(this)
         }
         onPreExecute()
-        Thread {
+        thread {
             val list = doingCompressImage(arrayList)
             handler?.sendMessage(Message().apply {
                 obj = list
                 what = 0
             })
-        }.start()
+        }
     }
 
     private var handler: CompressHandler? = null
@@ -57,7 +58,6 @@ open class ZImageCompress {
         handler?.removeMessages(0)
         handler?.removeCallbacksAndMessages(null)
         handler = null
-        softReference?.clear()
         listener?.invoke(list)
     }
 

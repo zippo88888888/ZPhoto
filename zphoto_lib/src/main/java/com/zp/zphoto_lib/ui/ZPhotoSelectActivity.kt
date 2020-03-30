@@ -71,7 +71,13 @@ internal class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemCl
         zPhotoPicsSelectAdapter?.onItemClickListener = {_, position ->
             val item = zPhotoPicsSelectAdapter!!.getItem(position)
             if (item.name == ZPHOTO_SHOW_CAMEAR) { // 拍照
-                ZPhotoHelp.getInstance().toCamera(this)
+                val size = zPhotoPicsSelectAdapter?.getSelectedData()?.size ?: 0
+                val maxSize = ZPhotoHelp.getInstance().getConfiguration().maxPicSelect
+                if (size >= maxSize) {
+                    ZToaster.makeTextS(getTipStr(R.string.zphoto_pic_count_tip, maxSize))
+                } else {
+                    ZPhotoHelp.getInstance().toCamera(this)
+                }
             } else {
                 val config = ZPhotoHelp.getInstance().getConfiguration()
                 // 判断第0个
@@ -142,7 +148,7 @@ internal class ZPhotoSelectActivity : BaseZPhotoActivity(), Toolbar.OnMenuItemCl
             isNestedScrollingEnabled = false
             adapter = zPhotoDirSelectAdapter
         }
-
+        zphoto_select_bottomLayout.setOnClickListener {  }
 //        val height = getDisplay()[1]
         // 初始化底部
         bottomBehavior = BottomSheetBehavior.from(zphoto_select_nestedScrollView)

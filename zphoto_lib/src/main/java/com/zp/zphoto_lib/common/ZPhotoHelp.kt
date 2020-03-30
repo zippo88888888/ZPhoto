@@ -19,8 +19,21 @@ import java.lang.NullPointerException
 
 class ZPhotoHelp {
 
-    internal var cameraPath = ""
-    private var needCropDataArray: ArrayList<ZPhotoDetail>? = null
+    // 用户拍照的路径，始终为沙盒目录
+    private var cameraPath = ""
+
+    // 用户设置的拍照路径、名称
+    internal var cameraOutPath: String? = ""
+    internal var cameraOutName: String? = ""
+
+    // 需要剪裁的数据
+    private val needCropDataArray by lazy {
+        ArrayList<ZPhotoDetail>()
+    }
+    // 剪裁后的数据
+    private val afterCropDataArray by lazy {
+        ArrayList<String>()
+    }
     private var cropIndex = 0
 
     private object BUILDER {
@@ -89,6 +102,7 @@ class ZPhotoHelp {
      * 去相册
      */
     fun toPhoto(activity: Activity) {
+        clearArray()
         activity.jumpActivity(ZPhotoSelectActivity::class.java)
     }
 
@@ -96,6 +110,7 @@ class ZPhotoHelp {
      * 去相册
      */
     fun toPhoto(fragment: Fragment) {
+        clearArray()
         fragment.activity?.let {
             toPhoto(it)
         }
@@ -103,17 +118,20 @@ class ZPhotoHelp {
 
     /**
      * 去相机
-     * @param outUri    拍照后保存的路径，空为默认值
+     * @param outPath String?       拍照后保存的路径，空为默认值
+     * @param outName String?       拍照后保存的名称
      */
     @JvmOverloads
-    fun toCamera(activity: Activity, outUri: String? = null) {
+    fun toCamera(activity: Activity, outPath: String? = null, outName: String? = null) {
+        clearArray()
         val noPermissionArray = ZPermission.checkPermission(activity, ZPermission.CAMERA, ZPermission.WRITE_EXTERNAL_STORAGE)
         if (noPermissionArray.isNullOrEmpty()) {
-            val uri = if (outUri.isNullOrEmpty()) {
+            /*val path = if (outPath.isNullOrEmpty()) {
                 ZFile.getPathForPath(ZFile.PHOTO) + ZFile.getFileName(".jpg")
-            } else outUri
-            this.cameraPath = uri
-            activity.startActivityForResult(getCameraIntent(activity, uri), ZPHOTO_TO_CAMEAR_REQUEST_CODE)
+            } else outPath
+            this.cameraPath = path*/
+            getCameraPath(outPath, outName)
+            activity.startActivityForResult(getCameraIntent(activity, cameraPath), ZPHOTO_TO_CAMEAR_REQUEST_CODE)
         } else {
             ZPermission.requestPermission(activity, ZPHOTO_CAMEAR_CODE, *noPermissionArray)
         }
@@ -121,21 +139,53 @@ class ZPhotoHelp {
 
     /**
      * 去相机
-     * @param outUri    拍照后保存的路径，空为默认值
+     * @param outPath String?       拍照后保存的路径，空为默认值
+     * @param outName String?       拍照后保存的名称
      */
     @JvmOverloads
-    fun toCamera(fragment: Fragment, outUri: String? = null) {
+    fun toCamera(fragment: Fragment, outPath: String? = null, outName: String? = null) {
+        clearArray()
         val noPermissionArray =
-            ZPermission.checkPermission(fragment.activity!!, ZPermission.CAMERA, ZPermission.WRITE_EXTERNAL_STORAGE)
+            ZPermission.checkPermission(
+                fragment.activity!!,
+                ZPermission.CAMERA,
+                ZPermission.WRITE_EXTERNAL_STORAGE
+            )
         if (noPermissionArray.isNullOrEmpty()) {
-            val uri = if (outUri.isNullOrEmpty()) {
+            /*val path = if (outPath.isNullOrEmpty()) {
                 ZFile.getPathForPath(ZFile.PHOTO) + ZFile.getFileName(".jpg")
-            } else outUri
-            this.cameraPath = uri
-            fragment.startActivityForResult(getCameraIntent(fragment.activity!!, uri), ZPHOTO_TO_CAMEAR_REQUEST_CODE)
+            } else outPath
+            this.cameraPath = path*/
+            getCameraPath(outPath, outName)
+            fragment.startActivityForResult(
+                getCameraIntent(fragment.activity!!, cameraPath),
+                ZPHOTO_TO_CAMEAR_REQUEST_CODE
+            )
         } else {
             ZPermission.requestPermission(fragment, ZPHOTO_CAMEAR_CODE, *noPermissionArray)
         }
+    }
+
+    private fun getCameraPath(outPath: String?, outName: String?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            this.cameraPath = ZFile.getPathForPath(ZFile.PHOTO) + ZFile.getFileName(".jpg")
+        } else {
+            val path = if (outPath.isNullOrEmpty()) {
+                ZFile.getPathForPath(ZFile.PHOTO) + ZFile.getFileName(".jpg")
+            } else outPath + outName
+            this.cameraPath = path
+        }
+        this.cameraOutPath = outPath
+        this.cameraOutName = outName
+    }
+
+    private fun clearArray() {
+        needCropDataArray.clear()
+        afterCropDataArray.clear()
+        cropIndex = 0
+        cameraPath = ""
+        cameraOutPath = ""
+        cameraOutName = ""
     }
 
     /**
@@ -145,10 +195,12 @@ class ZPhotoHelp {
         resultListener = null
         configuration = null
         imageCompress = null
-        needCropDataArray?.clear()
-        needCropDataArray = null
+        needCropDataArray.clear()
+        afterCropDataArray.clear()
         cropIndex = 0
         cameraPath = ""
+        cameraOutPath = ""
+        cameraOutName = ""
     }
 
     /**
@@ -165,9 +217,10 @@ class ZPhotoHelp {
             ZPHOTO_SELECT_PIC_BACK_CODE -> { // 从ZPhotoSelectActivity 确定跳转过来的
 
                 val pics = data?.getParcelableArrayListExtra<ZPhotoDetail>("selectData")
-                val configuration = ZPhotoHelp.getInstance().getConfiguration()
+                val configuration = getInstance().getConfiguration()
                 if (configuration.needCrop) { // 剪裁
-                    needCropDataArray = pics
+//                    needCropDataArray = pics
+                    pics?.let { needCropDataArray.addAll(it) }
                     cropIndex = 0
                     cropPic(context!!)
                 } else { // 压缩
@@ -179,6 +232,19 @@ class ZPhotoHelp {
                 if (resultCode == Activity.RESULT_CANCELED) {
                     getZImageResultListener()?.selectCancel()
                     return
+                }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    if (!cameraOutPath.isNullOrEmpty()) {
+                        // 需要将 沙盒里的拍照图片 复制到 公共目录
+                        val outFolderPath = cameraOutPath!!.substring(cameraOutPath!!.lastIndexOf("/") + 1)
+                        ZFile.saveDataInPublicFolderByQ(
+                            context!!,
+                            cameraPath,
+                            outFolderPath,
+                            outFileName = cameraOutName
+                        )
+                    }
                 }
 
                 val resultFile = File(cameraPath)
@@ -205,12 +271,14 @@ class ZPhotoHelp {
                             false,
                             0,
                             "",
-                            System.currentTimeMillis()
+                            System.currentTimeMillis(),
+                            uri
                         )
                     )
                 }
                 if (config.needCrop) { // 剪裁
-                    needCropDataArray = datas
+//                    needCropDataArray = datas
+                    datas?.let { needCropDataArray.addAll(it) }
                     cropIndex = 0
                     cropPic(context!!)
                 } else { // 压缩图片
@@ -230,8 +298,8 @@ class ZPhotoHelp {
         if (resultCode == Activity.RESULT_OK) {
             if (data != null) {
                 val cropUri = ZPhotoCrop.getOutput(data)
-                needCropDataArray?.get(cropIndex)?.apply {
-                    path = cropUri.path ?: path
+                needCropDataArray[cropIndex].apply {
+                    path = cropUri?.path ?: path
                     name = path.substring(path.lastIndexOf("/") + 1, path.length)
                     size = ZFile.getFileOrFilesSize(path)
                 }
@@ -239,7 +307,7 @@ class ZPhotoHelp {
         } else {
             ZLog.i("用户不想剪裁该图片，继续")
         }
-        if (cropIndex < needCropDataArray!!.size - 1) {
+        if (cropIndex < needCropDataArray.size - 1) {
             cropIndex++
             cropPic(context)
         } else {
@@ -251,22 +319,34 @@ class ZPhotoHelp {
      * 剪裁图片
      */
     private fun cropPic(activity: Activity) {
-        val outPath = getConfiguration().cropUri + "crop_" +
-                ZFile.getFileName(".jpg")
-        val outUri = Uri.fromFile(File(outPath))
-        val item = needCropDataArray!![cropIndex]
+        val item = needCropDataArray[cropIndex]
         if (item.isVideo || item.isGif) { // 视频，获取GIF不剪裁
             ZLog.e("不支持剪裁的类型--->>>${item.path}")
-            if (cropIndex < needCropDataArray!!.size - 1) {
+            if (cropIndex < needCropDataArray.size - 1) {
                 cropIndex ++
                 cropPic(activity)
             } else {
                 compressPic(activity, needCropDataArray)
             }
-
         } else {
             val inputPath = item.path
-            ZPhotoCrop.of(Uri.fromFile(File(inputPath)), outUri).asSquare().start(activity)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                // 先使用沙盒 ， 后再复制到 指定路径
+                val outPath = ZFile.getPathForPath(ZFile.CROP) + "crop_" +
+                        ZFile.getFileName(".jpg")
+                val outUri = Uri.fromFile(File(outPath))
+                afterCropDataArray.add(outPath)
+                ZPhotoCrop.of(item.uri!!, outUri).asSquare().start(activity)
+            } else {
+                val outCropFolderPath = getConfiguration().cropFolderPath
+                val outPath = if (outCropFolderPath.isEmpty()) {
+                    ZFile.getPathForPath(ZFile.CROP) + "crop_" + ZFile.getFileName(".jpg")
+                } else {
+                    outCropFolderPath + "crop_" + ZFile.getFileName(".jpg")
+                }
+                val outUri = Uri.fromFile(File(outPath))
+                ZPhotoCrop.of(Uri.fromFile(File(inputPath)), outUri).asSquare().start(activity)
+            }
         }
     }
 
@@ -274,6 +354,8 @@ class ZPhotoHelp {
      * 压缩图片
      */
     private fun compressPic(activity: Activity, datas: ArrayList<ZPhotoDetail>?) {
+        // 从沙盒复制到指定位置
+        ZFile.saveCropData(activity, afterCropDataArray)
         if (getConfiguration().needCompress) { // 压缩图片
             val imageCompress = getZImageCompress() ?: throw NullPointerException(
                 getStringById(R.string.zphoto_imageCompressErrorMsg)

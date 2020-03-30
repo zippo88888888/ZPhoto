@@ -1,5 +1,5 @@
 
-[![Travis](https://img.shields.io/badge/ZPhoto-1.5.0-yellowgreen)](https://github.com/zippo88888888/ZPhoto)
+[![Travis](https://img.shields.io/badge/ZPhoto-1.5.1-yellowgreen)](https://github.com/zippo88888888/ZPhoto)
 [![Travis](https://img.shields.io/badge/API-18%2B-green.svg)](https://github.com/zippo88888888/ZPhoto)
 [![Travis](https://img.shields.io/badge/Apache-2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
@@ -34,7 +34,7 @@
 gradle
 ```
 // Android X 版本
-implementation 'com.github.zp:zphoto_lib:1.5.0'
+implementation 'com.github.zp:zphoto_lib:1.5.1'
 
 // 非Android X 版本
 implementation 'com.github.zp:zphoto_lib:1.4.4' 
@@ -58,12 +58,12 @@ maven
 <dependency>
 	<groupId>com.github.zp</groupId>
 	<artifactId>zphoto_lib</artifactId>
-	<version>1.5.0</version>
+	<version>1.5.1</version>
 	<type>pom</type>
 </dependency>
 ```
 
-或 aar --> [AndroidX版本](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib_1.5.0.aar) 
+或 aar --> [AndroidX版本](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib_1.5.1.aar) 
 &nbsp;&nbsp;[非AndroidX版本](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib_1.4.4.aar)
 
 
@@ -207,43 +207,57 @@ ZPhotoHelp.getInstance().init(this, MyImageLoaderListener())
 ```kotlin
  class MyImageCompress : ZImageCompress() {
 
-    private var dialog: ProgressDialog? = null
-
     override fun onPreExecute() {
         super.onPreExecute()
-        dialog = ProgressDialog(getContext()).run {
-            setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER)
-            setMessage("图片处理中")
-            setCancelable(false)
-            this
-        }
-        dialog?.show()
+        Log.i("ZPhotoLib", "onPreExecute")
     }
 
+    /**
+     * 这里仅供参考，具体以自己的业务逻辑为主
+     */
     override fun doingCompressImage(arrayList: ArrayList<ZPhotoDetail>?): ArrayList<ZPhotoDetail>? {
         if (arrayList == null || getContext() == null) {
             return ArrayList()
         }
 
-        val list = ArrayList<File>()
-        arrayList.forEach { list.add(File(it.path)) }
+        // 输出路径  Android Q ---> 这里是沙盒里面的，如果要放在外部，需要将沙盒里面的 复制 到 外部路径
+        val outDir = ZPhotoUtil.getCompressPath()
 
-        val outDir = ZPhotoUtil.getDefaultPath()
+        val builder = Luban.with(getContext())
 
-        val compactList = Luban.with(getContext())
-            .load(list)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) { // Android Q 先复制到沙盒目录在进行操作
+            val list = ArrayList<File>()
+            arrayList.forEach {
+                val newFile = File(outDir + it.name)
+                val isSuccess = copyFile(getContext(), it.uri!!, newFile)
+                if (isSuccess) {
+                    Log.i("ZPhotoLib", "图片复制到沙盒目录成功")
+                    list.add(newFile)
+                } else {
+                    list.add(File(it.path))
+                }
+            }
+            builder.load(list)
+        } else {
+            val list = ArrayList<File>()
+            arrayList.forEach { list.add(File(it.path)) }
+            builder.load(list)
+        }
+
+        val compactList = builder
             .ignoreBy(50)       // 小于50K不压缩
             .setTargetDir(outDir)    // 压缩后图片的路径
-            .filter { filePath ->   // 设置压缩条件 gif、视频 不压缩
-                !(TextUtils.isEmpty(filePath) ||
-                        filePath.toLowerCase().endsWith(".$GIF") ||
-                        filePath.toLowerCase().endsWith(".$MP4"))
+            .filter {
+                // 设置压缩条件 gif、视频 不压缩
+                !(TextUtils.isEmpty(it) ||
+                        it.toLowerCase().endsWith(".$GIF") ||
+                        it.toLowerCase().endsWith(".$MP4"))
             }.get()
 
         arrayList.indices.forEach {
             val path = compactList[it].path
             val size = ZPhotoUtil.getDefaultFileSize(path)
-            Log.e("压缩图片", "原图大小：${arrayList[it].size}M <<<===>>>处理后的大小：${size}M")
+            Log.e("ZPhotoLib", "原图大小：${arrayList[it].size}M <<<===>>>Luban处理后的大小：${size}M")
             arrayList[it].path = path
             arrayList[it].parentPath = ""
             arrayList[it].size = size
@@ -254,7 +268,47 @@ ZPhotoHelp.getInstance().init(this, MyImageLoaderListener())
 
     override fun onPostExecute(list: ArrayList<ZPhotoDetail>?) {
         super.onPostExecute(list)
-        dialog?.dismiss()
+        Log.i("ZPhotoLib", "onPostExecute")
+    }
+
+    /**
+     * 将SD卡上的文件复制到沙盒目录
+     * @param uri           原文件
+     * @param targetFile    沙盒目录的文件
+     */
+    private fun copyFile(context: Context?, uri: Uri, targetFile: File): Boolean {
+        var success = false
+        // 新建文件输入流并对它进行缓冲
+        val input = context?.contentResolver?.openInputStream(uri)
+        val inBuff = BufferedInputStream(input)
+        // 新建文件输出流并对它进行缓冲
+        val output = FileOutputStream(targetFile)
+        val outBuff = BufferedOutputStream(output)
+        try {
+            // 缓冲数组
+            val b = ByteArray(1024 * 5)
+            while (true) {
+                val len = inBuff.read(b)
+                if (len == -1) {
+                    break
+                } else {
+                    outBuff.write(b, 0, len)
+                }
+            }
+            // 刷新此缓冲的输出流
+            outBuff.flush()
+            success = true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            success = false
+        } finally {
+            //关闭流
+            inBuff.close()
+            outBuff.close()
+            output.close()
+            input?.close()
+            return success
+        }
     }
 }
 ```

@@ -4,7 +4,8 @@ import android.content.Context
 import android.graphics.Matrix
 import android.graphics.SurfaceTexture
 import android.media.MediaPlayer
-import android.os.Handler
+import android.net.Uri
+import android.os.Build
 import android.util.AttributeSet
 import android.view.Surface
 import android.view.TextureView
@@ -15,6 +16,7 @@ class ZPhotoVideoPlayer : TextureView, TextureView.SurfaceTextureListener {
     private var player: MediaPlayer? = null
 
     var videoPath = ""
+    var videoUri: Uri? = null
 
     private var videoWidth = 0
     private var videoHeight = 0
@@ -108,7 +110,7 @@ class ZPhotoVideoPlayer : TextureView, TextureView.SurfaceTextureListener {
      */
     fun play() {
         if (player == null) return
-        if (videoPath.isEmpty()) {
+        if (videoPath.isEmpty() || videoUri == null) {
             ZLog.e("视频播放地址不能为空")
             return
         }
@@ -121,7 +123,11 @@ class ZPhotoVideoPlayer : TextureView, TextureView.SurfaceTextureListener {
                 player?.start()
             } else {
                 player?.reset()
-                player?.setDataSource(videoPath)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    player?.setDataSource(context, videoUri!!)
+                } else {
+                    player?.setDataSource(videoPath)
+                }
                 player?.prepare()
                 player?.start()
             }

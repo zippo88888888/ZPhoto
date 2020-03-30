@@ -32,20 +32,15 @@ class ZPhotoConfiguration {
     var needCrop = false
 
     /**
-     * 剪裁 输出路径
+     * 剪裁 输出文件夹路径
+     * 不是绝对路径和相对路径  如：ZPhoto_crop
      */
-    var cropUri = ZFile.getPathForPath(ZFile.CROP)
+    var cropFolderPath = ""
 
     /**
      * 图片是否需要压缩
      */
     var needCompress = false
-
-    /**
-     * 图片压缩 输出路径
-     */
-    @Deprecated("由于压缩为自己实现，现废弃")
-    var compressUri = ZFile.getPathForPath(ZFile.COMPRESS)
 
     /**
      * 设置是否显示视频
@@ -94,10 +89,9 @@ class ZPhotoConfiguration {
         private var minPicSize = ZPHOTO_DEFAULT_MIN_PIC_SIZE
         private var showGif = false
         private var needCrop = false
-        private var cropUri = ZFile.getPathForPath(ZFile.CROP)
+        private var cropFolderPath = ""
 
         private var needCompress = false
-        private var compressUri = ZFile.getPathForPath(ZFile.COMPRESS)
 
         private var showVideo = false
         private var maxVideoSelect = ZPHOTO_DEFAULT_MAX_VIDEO_SELECT
@@ -134,18 +128,13 @@ class ZPhotoConfiguration {
             return this
         }
 
-        fun clippingUri(cropUri: String): Builder {
-            this.cropUri = cropUri
+        fun cropFolderPath(cropFolderPath: String): Builder {
+            this.cropFolderPath = cropFolderPath
             return this
         }
 
         fun needCompress(needCompress: Boolean): Builder {
             this.needCompress = needCompress
-            return this
-        }
-
-        fun compressUri(compressUri: String): Builder {
-            this.compressUri = compressUri
             return this
         }
 
@@ -200,9 +189,8 @@ class ZPhotoConfiguration {
             this.minPicSize = this@Builder.minPicSize
             this.showGif = this@Builder.showGif
             this.needCrop = this@Builder.needCrop
-            this.cropUri = this@Builder.cropUri
+            this.cropFolderPath = this@Builder.cropFolderPath
             this.needCompress = this@Builder.needCompress
-            this.compressUri = this@Builder.compressUri
             this.showVideo = this@Builder.showVideo
             this.maxVideoSelect = this@Builder.maxVideoSelect
             this.maxVideoSize = this@Builder.maxVideoSize

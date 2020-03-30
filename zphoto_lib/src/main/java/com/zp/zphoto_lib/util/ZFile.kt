@@ -1,9 +1,14 @@
 package com.zp.zphoto_lib.util
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.ContentValues
 import android.content.Context
+import android.os.Build
+import android.provider.MediaStore
 import com.zp.zphoto_lib.common.ZPhotoHelp
 import com.zp.zphoto_lib.content.getAppContext
-import java.io.File
+import java.io.*
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -207,4 +212,91 @@ internal object ZFile {
         }
     }
 
+    /**
+     * 将 沙盒 的 数据 保存到指定位置
+     */
+    fun saveCropData(activity: Activity, afterCropDataArray: ArrayList<String>?) {
+        val cropFolderPath = ZPhotoHelp.getInstance().getConfiguration().cropFolderPath
+        if (afterCropDataArray?.isNullOrEmpty() == true) {
+            ZLog.i("不是Android Q 或 未剪裁 无数据，不进行任何操作")
+            return
+        }
+        if (cropFolderPath.isEmpty()) {
+            ZLog.e("ZPhotoConfiguration.cropFolderPath 是空的，不执行将沙盒的剪裁图片保存到指定位置")
+            return
+        }
+        afterCropDataArray.forEach {
+            saveDataInPublicFolderByQ(activity, it, cropFolderPath)
+        }
+    }
+
+    /**
+     * 将 沙盒中的 文件 保存到公共目录
+     * @param activity Activity
+     * @param path String               沙盒文件
+     * @param outFolderPath String      保存到外部的文件夹名称 如：abc，最终会变成 DCIM/abc
+     * @param outFileName String        保存到外部的文件名称
+     * @param mimeType String           文件类型
+     */
+    fun saveDataInPublicFolderByQ(
+        activity: Activity,
+        path: String,
+        outFolderPath: String,
+        outFileName: String? = null,
+        mimeType: String = "image/jpeg"
+    ) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // 需要保存的名字
+            val displayName =
+                if (outFileName.isNullOrEmpty()) path.substring(path.lastIndexOf("/") + 1) else outFileName
+            val values = ContentValues()
+            values.put(MediaStore.Files.FileColumns.DISPLAY_NAME, displayName)
+            // MediaStore对应类型名
+            values.put(MediaStore.Files.FileColumns.MIME_TYPE, mimeType)
+            values.put(MediaStore.Files.FileColumns.TITLE, displayName)
+            // 公共目录下目录名
+            values.put(
+                MediaStore.Images.Media.RELATIVE_PATH,
+                "Download/${outFolderPath}"
+            )
+            // 内部存储的Download路径
+            val external = MediaStore.Downloads.EXTERNAL_CONTENT_URI
+            val resolver = activity.contentResolver
+            // 使用ContentResolver创建需要操作的文件
+            val insertUri = resolver.insert(external, values)
+            var ist: InputStream? = null
+            var ost: OutputStream? = null
+            try {
+                ist = FileInputStream(File(path))
+                if (insertUri != null) {
+                    ost = resolver.openOutputStream(insertUri)
+                }
+                if (ost != null) {
+                    val buffer = ByteArray(4096)
+                    while (true) {
+                        val byteCount = ist.read(buffer)
+                        if (byteCount != -1) {
+                            ost.write(buffer, 0, byteCount)
+                        } else {
+                            break
+                        }
+                    }
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+                ZLog.e("$path 保存到 Download/${outFolderPath} 失败")
+            } finally {
+                ZLog.i("$path 保存到 Download/${outFolderPath} 成功")
+                try {
+                    ist?.close()
+                    ost?.close()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        } else {
+            ZLog.e("非Android Q不执行")
+        }
+    }
 }
+

@@ -2,6 +2,7 @@ package com.zp.zphoto.sample.sample
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -161,7 +162,12 @@ class MainActivity : AppCompatActivity(), ZImageResultListener {
                     layoutParams = FrameLayout.LayoutParams(wh, wh).apply {
                         gravity = Gravity.CENTER
                     }
-                    ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(this, File(item.path))
+                    val file = File(item.path)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(pic, item.uri, file)
+                    } else {
+                        ZPhotoHelp.getInstance().getImageLoaderListener().loadImg(pic, file)
+                    }
                 }
             }
         }

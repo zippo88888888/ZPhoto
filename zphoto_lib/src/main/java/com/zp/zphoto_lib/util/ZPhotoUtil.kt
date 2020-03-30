@@ -15,7 +15,7 @@ object ZPhotoUtil {
         this.toString()
     }
 
-    fun getDefaultPath() = ZFile.getPathForPath(ZFile.PHOTO)
+    fun getCompressPath() = ZFile.getPathForPath(ZFile.COMPRESS)
 
     fun getDefaultFileSize(path: String) = ZFile.getFileOrFilesSize(path)
 
