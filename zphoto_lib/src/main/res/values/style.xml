@@ -7,7 +7,7 @@
         <item name="colorAccent">@color/zphoto_baseColor</item>
         <item name="colorPrimaryDark">@color/zphoto_baseColor</item>
         <item name="colorPrimary">@color/zphoto_baseColor</item>
-        <item name="actionMenuTextColor">@color/white</item>
+        <item name="actionMenuTextColor">@color/zphoto_white</item>
     </style>
 
     <style name="ZPhoto_AppTheme_Lib" parent="ZPhoto_BaseTheme">
@@ -19,14 +19,14 @@
     <!-- toolbar 白色菜单样式 -->
     <style name="ZPhoto_ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <!-- 控制menu (设置ifRoom or always)在toobar上的字体颜色 -->
-        <item name="actionMenuTextColor">@color/white</item>
+        <item name="actionMenuTextColor">@color/zphoto_white</item>
         <!-- 控制返回，点点点，以及menu里面的item字体颜色 -->
-        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorPrimary">@color/zphoto_white</item>
     </style>
 
     <style name="ZPhoto_ToolbarBlackTheme" parent="ZPhoto_ToolbarTheme">
         <!-- 控制返回，点点点，以及menu里面的item字体颜色 -->
-        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorPrimary">@color/zphoto_black</item>
     </style>
 
     <style name="ZPhoto_ToolbarPopupTheme" parent="@style/ThemeOverlay.AppCompat.Light">

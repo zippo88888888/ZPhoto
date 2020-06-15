@@ -5,7 +5,10 @@ import android.net.Uri
 import android.os.Build
 import android.text.TextUtils
 import android.util.Log
-import com.zp.zphoto_lib.content.*
+import com.zp.zphoto_lib.content.GIF
+import com.zp.zphoto_lib.content.MP4
+import com.zp.zphoto_lib.content.ZImageCompress
+import com.zp.zphoto_lib.content.ZPhotoDetail
 import com.zp.zphoto_lib.util.ZPhotoUtil
 import top.zibin.luban.Luban
 import java.io.BufferedInputStream
@@ -121,5 +124,13 @@ class MyImageCompress : ZImageCompress() {
             input?.close()
             return success
         }
+    }
+
+    private fun checkGif(url: String) = try {
+        val gif = url.substring(url.lastIndexOf(".") + 1, url.length)
+        "gif" == gif
+    } catch (e: Exception) {
+        e.printStackTrace()
+        false
     }
 }

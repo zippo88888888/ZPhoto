@@ -19,7 +19,7 @@ internal class HighlightView(context: View) {
         const val GROW_BOTTOM_EDGE = 1 shl 4
         const val MOVE = 1 shl 5
 
-        private val DEFAULT_HIGHLIGHT_COLOR = getColorById(R.color.white)
+        private val DEFAULT_HIGHLIGHT_COLOR = getColorById(R.color.zphoto_white)
         private const val HANDLE_RADIUS_DP = 12f
         private const val OUTLINE_DP = 1f
     }

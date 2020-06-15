@@ -304,7 +304,7 @@ internal class ZPhotoImageAnsy(
                 val obj = msg.obj as Array<Any>
                 val dirs = obj[0] as ArrayList<ZPhotoFolder>
                 val allList = obj[1] as ArrayList<ZPhotoDetail>
-                ansy.dialog!!.dismiss()
+                ansy.dialog?.dismiss()
                 ansy.listener.invoke(dirs, allList)
             }
         }

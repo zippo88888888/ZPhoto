@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:textColor="@color/black"
+                android:textColor="@color/zphoto_black"
                 android:textSize="14sp"
                 tools:text="我是相册名"/>
 

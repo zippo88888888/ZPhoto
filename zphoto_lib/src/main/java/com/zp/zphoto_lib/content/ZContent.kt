@@ -108,7 +108,7 @@ internal fun getAppContext() = ZPhotoManager.getInstance().getApplicationContext
 
 internal fun getToolBarHeight() = getAppContext().resources.getDimension(R.dimen.zphoto_toolBarHeight).toInt()
 
-fun Activity.setStatusBarTransparent() {
+internal fun Activity.setStatusBarTransparent() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         val decorView = window.decorView
         val option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -117,11 +117,11 @@ fun Activity.setStatusBarTransparent() {
     }
 }
 
-fun Context.getStatusBarHeight() = resources.getDimensionPixelSize(
+internal fun Context.getStatusBarHeight() = resources.getDimensionPixelSize(
     resources.getIdentifier("status_bar_height", "dimen", "android")
 )
 
-fun Context.getDisplay() = IntArray(2).apply {
+internal fun Context.getDisplay() = IntArray(2).apply {
     val manager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
     val point = Point()
     manager.defaultDisplay.getSize(point)
@@ -129,19 +129,19 @@ fun Context.getDisplay() = IntArray(2).apply {
     this[1] = point.y
 }
 
-fun dip2pxF(dpValue: Float) = dpValue * getAppContext().resources.displayMetrics.density + 0.5f
-fun dip2px(dpValue: Float) = dip2pxF(dpValue).toInt()
-fun px2dipF(pxValue: Float) = pxValue / getAppContext().resources.displayMetrics.density + 0.5f
-fun px2dip(pxValue: Float) = px2dipF(pxValue).toInt()
+internal fun dip2pxF(dpValue: Float) = dpValue * getAppContext().resources.displayMetrics.density + 0.5f
+internal fun dip2px(dpValue: Float) = dip2pxF(dpValue).toInt()
+internal fun px2dipF(pxValue: Float) = pxValue / getAppContext().resources.displayMetrics.density + 0.5f
+internal fun px2dip(pxValue: Float) = px2dipF(pxValue).toInt()
 
-fun getColorById(colorID: Int) = ContextCompat.getColor(getAppContext(), colorID)
-fun getDimenById(dimenID: Int) = getAppContext().resources.getDimension(dimenID)
-fun getStringById(stringID: Int) = getAppContext().resources.getString(stringID)
+internal fun getColorById(colorID: Int) = ContextCompat.getColor(getAppContext(), colorID)
+internal fun getDimenById(dimenID: Int) = getAppContext().resources.getDimension(dimenID)
+internal fun getStringById(stringID: Int) = getAppContext().resources.getString(stringID)
 
-fun getTipStr(strRes: Int, value: Int) = String.format(getStringById(strRes), value)
+internal fun getTipStr(strRes: Int, value: Int) = String.format(getStringById(strRes), value)
 
 
-fun getTextValue(any: Any) = try {
+internal fun getTextValue(any: Any) = try {
     when (any) {
         is Int -> getStringById(any)
         is String -> any
@@ -151,7 +151,7 @@ fun getTextValue(any: Any) = try {
     any.toString()
 }!!
 
-fun checkGif(url: String) = try {
+internal fun checkGif(url: String) = try {
     val gif = url.substring(url.lastIndexOf(".") + 1, url.length)
     "gif" == gif
 } catch (e: Exception) {

@@ -44,7 +44,7 @@ internal class ZLoadDialog(context: Context, private var title: String? = getTex
             gravity = Gravity.CENTER
             setPadding(0, padding, 0, 0)
             textSize = 13f
-            setTextColor(getColorById(R.color.black))
+            setTextColor(getColorById(R.color.zphoto_black))
             text = if (title.isNullOrEmpty()) getTextValue(R.string.zphoto_loadding) else title
             this
         }

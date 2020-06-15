@@ -48,7 +48,7 @@ internal class ZToaster(con: Context) : Toast(con) {
             str: Any,
             location: Int = T,
             bgColor: Int = R.color.zphoto_red,
-            textColor: Int = R.color.white,
+            textColor: Int = R.color.zphoto_white,
             duration: Int = SHORT
         ) {
             checkToast()
