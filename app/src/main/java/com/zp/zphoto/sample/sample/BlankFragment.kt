@@ -69,8 +69,8 @@ class BlankFragment : Fragment(), ZImageResultListener {
     }
 
     private fun getConfig() = config.apply {
-        allSelect = true
-        showVideo = true
+        needCrop = true
+        needCompress = true
         authority = "com.zp.zphoto.FileProvider"
     }
 

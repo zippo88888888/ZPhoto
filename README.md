@@ -1,5 +1,5 @@
 
-[![Travis](https://img.shields.io/badge/ZPhoto-1.5.2-yellowgreen)](https://github.com/zippo88888888/ZPhoto)
+[![Travis](https://img.shields.io/badge/ZPhoto-1.5.3-yellowgreen)](https://github.com/zippo88888888/ZPhoto)
 [![Travis](https://img.shields.io/badge/API-18%2B-green.svg)](https://github.com/zippo88888888/ZPhoto)
 [![Travis](https://img.shields.io/badge/Apache-2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
@@ -34,7 +34,7 @@
 gradle
 ```
 // Android X 版本
-implementation 'com.github.zp:zphoto_lib:1.5.2'
+implementation 'com.github.zp:zphoto_lib:1.5.3'
 
 // 非Android X 版本
 implementation 'com.github.zp:zphoto_lib:1.4.4' 
@@ -58,12 +58,12 @@ maven
 <dependency>
 	<groupId>com.github.zp</groupId>
 	<artifactId>zphoto_lib</artifactId>
-	<version>1.5.2</version>
+	<version>1.5.3</version>
 	<type>pom</type>
 </dependency>
 ```
 
-或 aar --> [AndroidX版本](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib_1.5.2.aar) 
+或 aar --> [AndroidX版本](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib_1.5.3.aar) 
 &nbsp;&nbsp;[非AndroidX版本](https://github.com/zippo88888888/ZPhoto/blob/master/app/src/main/assets/zphoto_lib_1.4.4.aar)
 
 

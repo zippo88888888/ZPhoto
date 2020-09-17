@@ -1,6 +1,5 @@
 package com.zp.zphoto_lib.content
 
-import com.zp.zphoto_lib.util.ZFile
 
 /**
  * 配置信息
@@ -32,8 +31,9 @@ class ZPhotoConfiguration {
     var needCrop = false
 
     /**
-     * 剪裁 输出文件夹路径
-     * 不是绝对路径和相对路径  如：ZPhoto_crop
+     * 剪裁 自定义输出文件夹路径
+     * 对于Android Q及以上版本：不是绝对路径和相对路径，只是文件夹名称  如：ZPhoto_crop
+     * 其他版本应当为 ---> SD卡根目录/Photo/剪裁文件夹/ （结尾必须带/）
      */
     var cropFolderPath = ""
 
