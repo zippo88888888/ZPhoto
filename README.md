@@ -11,7 +11,7 @@
 [JiaoZiVideoPlayer](https://github.com/lipangit/JiaoZiVideoPlayer)
 
 
-# 本库特点
+# ~~本库特点（肝不动了，停止维护）~~  推荐使用 [PictureSelector](https://github.com/LuckSiege/PictureSelector)
 
 ##### 1. **基于android-crop修改后的图片剪裁外无其他第三方库[gradle配置](https://github.com/zippo88888888/ZPhoto/blob/master/zphoto_lib/build.gradle)**；
 ##### 2. 支持视频、图片、GIF查看，图片裁剪，压缩；
